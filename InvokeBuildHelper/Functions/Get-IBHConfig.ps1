@@ -1,11 +1,12 @@
 <#
     .SYNOPSIS
-        .
+        Get the build configuration.
 
     .DESCRIPTION
-        .
+        Return the build configuration object with default and calculated
+        configuration properties.
 #>
-function Get-BuildConfig
+function Get-IBHConfig
 {
     [CmdletBinding()]
     param
@@ -20,6 +21,10 @@ function Get-BuildConfig
         BuildRoot           = $BuildRoot
         ModuleName          = Get-BuildModuleName -BuildRoot $BuildRoot
         ScriptAnalyzerRules = Get-ScriptAnalyzerRule
+
+        Verify = [PSCustomObject] @{
+             InvokeBuildHelperVersion = $true
+        }
     }
 
     return $config

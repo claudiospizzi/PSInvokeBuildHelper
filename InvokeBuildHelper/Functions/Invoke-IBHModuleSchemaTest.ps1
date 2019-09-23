@@ -1,13 +1,13 @@
 <#
     .SYNOPSIS
-        Invoke the Script Analyzer tests.
+        Invoke the module schema tests.
 
     .DESCRIPTION
-        Invoke the Script Analyzer tests and show the result as Pester output.
-        For every issue a failed test will be shown. If a rule passes for all
-        files, one passing test will be shown.
+        Invoke tests based on Pester to verify if the module is valid. This
+        includes the meta files for VS Code, built system, git repo but also
+        module specific files.
 #>
-function Invoke-ScriptAnalyzerBuildTest
+function Invoke-IBHModuleSchemaTest
 {
     [CmdletBinding()]
     param
@@ -20,12 +20,7 @@ function Invoke-ScriptAnalyzerBuildTest
         # Name of the module.
         [Parameter(Mandatory = $true)]
         [System.String]
-        $ModuleName,
-
-        # Script analyzer rules to test.
-        [Parameter(Mandatory = $true)]
-        [System.Object[]]
-        $Rule
+        $ModuleName
     )
 
     # Create output folder
@@ -33,14 +28,13 @@ function Invoke-ScriptAnalyzerBuildTest
 
     $invokePesterSplat = @{
         Script       = @{
-            Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ScriptAnalyzer.Tests.ps1" | Select-Object -ExpandProperty 'Path'
+            Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ModuleSchema.Tests.ps1" | Select-Object -ExpandProperty 'Path'
             Parameters   = @{
                 BuildRoot    = $BuildRoot
                 ModuleName   = $ModuleName
-                Rule         = $Rule
             }
         }
-        OutputFile   = Join-Path -Path $BuildRoot -ChildPath 'out\TestResult.ScriptAnalyzer.xml'
+        OutputFile   = Join-Path -Path $BuildRoot -ChildPath 'out\TestResult.ModuleSchema.xml'
         OutputFormat = 'NUnitXml'
         PassThru     = $true
     }

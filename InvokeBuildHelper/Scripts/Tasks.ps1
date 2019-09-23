@@ -11,7 +11,7 @@
 #>
 
 # Load the build configuration
-$IBHConfig = Get-BuildConfig -BuildRoot $BuildRoot
+$IBHConfig = Get-IBHConfig -BuildRoot $BuildRoot
 
 # Synopsis: By default, bulid and test the module
 task . Build, Test
@@ -25,18 +25,18 @@ task Test Verify, Init, Pester, Schema, Analyze
 # Synopsis: Release the module to the repository and the gallery
 task Release Build, Test, Repository, Gallery
 
+# Synopsis: Verify the build system itself
 task Verify {
 
-    Write-Host "********* $($IBHConfig.Demo) *********"
+    if ($IBHConfig.Verify.InvokeBuildHelperVersion)
+    {
+        $psGalleryApi = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
 
-    # ToDo: Option to disable the verification via $IBHConfig.??Verify??
+        $expectedVersion = Invoke-RestMethod -Uri $psGalleryApi | Select-Object -Last 1 | ForEach-Object { $_.properties.version }
+        $actualVersion   = Get-Module -Name 'InvokeBuildHelper' | ForEach-Object { $_.Version.ToString() }
 
-    $psGalleryApi = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
-
-    $actualVersion   = Get-Module -Name 'InvokeBuildHelper' | ForEach-Object { $_.Version.ToString() }
-    $expectedVersion = Invoke-RestMethod -Uri $psGalleryApi | Select-Object -Last 1 | ForEach-Object { $_.properties.version }
-
-    assert ($expectedVersion -eq $actualVersion) "The InvokeBuildHelper module version $actualVersion is not current, please update to $expectedVersion!"
+        assert ($expectedVersion -eq $actualVersion) "The InvokeBuildHelper module version $actualVersion is not current, please update to $expectedVersion!"
+    }
 }
 
 # Synopsis: Ensure the required build environment is available
@@ -66,7 +66,7 @@ task Pester {
     $Host.UI.WriteLine()
 
     # Inovke the Pester unit tests
-    $result = Invoke-PesterUnitBuildTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+    $result = Invoke-IBHPesterUnitTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
 
     $Host.UI.WriteLine()
 
@@ -79,7 +79,7 @@ task Schema {
     $Host.UI.WriteLine()
 
     # Invoke the module schema tests
-    $result = Invoke-ModuleSchemaBuildTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+    $result = Invoke-IBHModuleSchemaTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
 
     $Host.UI.WriteLine()
 
@@ -92,19 +92,61 @@ task Analyze {
     $Host.UI.WriteLine()
 
     # Invoke the script analyzer, run all defined rules
-    $result = Invoke-ScriptAnalyzerBuildTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -Rule $IBHConfig.ScriptAnalyzerRules
+    $result = Invoke-IBHScriptAnalyzerTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -Rule $IBHConfig.ScriptAnalyzerRules
 
     $Host.UI.WriteLine()
 
     assert ($result.FailedCount -eq 0) "$($result.FailedCount) failure(s) in Script Analyzer tests"
 }
 
-# Synopsis:
+# Synopsis: Release the module to the source code repository
 task Repository {
 
+    $moduleVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+
+    $gitBranch = Get-IBHGitBranch
+    assert ($gitBranch -eq 'master') "Module is not ready to release, git branch should be on master but is $gitBranch!  (git checkout master)"
+
+    $gitBehindBy = Get-IBHGitBehindBy
+    assert ($gitBehindBy -eq 0) "Module is not ready to release, git branch is behind by $gitBehindBy!  (git pull)"
+
+    $gitAheadBy = Get-IBHGitAheadBy
+    assert ($gitAheadBy -eq 0) "Module is not ready to release, git branch is ahead by $gitAheadBy!  (git push)"
+
+    $gitLocalTag = Get-IBHGitLocalTag
+    assert ($gitLocalTag -eq $moduleVersion) "Module is not ready to release, tag $gitLocalTag does not match module version $moduleVersion!  (git tag $moduleVersion)"
+
+    $gitRemoteTag = Get-IBHGitRemoteTag -ModuleVersion $moduleVersion
+    assert ($gitRemoteTag -eq $moduleVersion) "Module is not ready to release, tag $moduleVersion does not exist on origin!  (git push --tag)"
+
+    $changeLogVersion = Get-IBHChangeLogVersion -BuildRoot $BuildRoot -ModuleVersion $ModuleVersion
+    assert ($changeLogVersion -eq $moduleVersion) "Module is not ready to release, change log does not contain the current version and date!"
+
+    Publish-IBHRepository -BuildRoot $BuildRoot -ModuleName $ModuleName
 }
 
-# Synopsis:
+# Synopsis: Release the module to the PowerShell Gallery
 task Gallery {
 
+    $moduleVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+
+    $gitBranch = Get-IBHGitBranch
+    assert ($gitBranch -eq 'master') "Module is not ready to release, git branch should be on master but is $gitBranch!  (git checkout master)"
+
+    $gitBehindBy = Get-IBHGitBehindBy
+    assert ($gitBehindBy -eq 0) "Module is not ready to release, git branch is behind by $gitBehindBy!  (git pull)"
+
+    $gitAheadBy = Get-IBHGitAheadBy
+    assert ($gitAheadBy -eq 0) "Module is not ready to release, git branch is ahead by $gitAheadBy!  (git push)"
+
+    $gitLocalTag = Get-IBHGitLocalTag
+    assert ($gitLocalTag -eq $moduleVersion) "Module is not ready to release, tag $gitLocalTag does not match module version $moduleVersion!  (git tag $moduleVersion)"
+
+    $gitRemoteTag = Get-IBHGitRemoteTag -ModuleVersion $moduleVersion
+    assert ($gitRemoteTag -eq $moduleVersion) "Module is not ready to release, tag $moduleVersion does not exist on origin!  (git push --tag)"
+
+    $changeLogVersion = Get-IBHChangeLogVersion -BuildRoot $BuildRoot -ModuleVersion $ModuleVersion
+    assert ($changeLogVersion -eq $moduleVersion) "Module is not ready to release, change log does not contain the current version and date!"
+
+    Publish-IBHGallery -BuildRoot $BuildRoot -ModuleName $ModuleName
 }

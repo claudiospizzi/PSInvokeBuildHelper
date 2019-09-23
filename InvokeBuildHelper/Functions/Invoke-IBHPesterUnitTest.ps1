@@ -6,7 +6,7 @@
         This function will invoke all Pester unit tests in the module itself to
         invoke the module unit tests.
 #>
-function Invoke-PesterUnitBuildTest
+function Invoke-IBHPesterUnitTest
 {
     [CmdletBinding()]
     param
