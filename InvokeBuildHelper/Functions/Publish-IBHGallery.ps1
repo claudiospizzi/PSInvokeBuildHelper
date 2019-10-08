@@ -58,7 +58,14 @@ function Publish-IBHGallery
         $GalleryToken = Use-VaultSecureString -TargetName $targetName
     }
 
-    $token = $GalleryToken | Unprotect-SecureString
+    try
+    {
+        $token = $GalleryToken | Unprotect-SecureString
 
-    Publish-Module -Path "$BuildRoot\$ModuleName" -Repository $GalleryName -NuGetApiKey $token -ReleaseNotes $releaseNotes
+        Publish-Module -Path "$BuildRoot\$ModuleName" -Repository $GalleryName -NuGetApiKey $token -ReleaseNotes $releaseNotes
+    }
+    finally
+    {
+        Remove-Variable -Name 'token' -Force
+    }
 }
