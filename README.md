@@ -19,23 +19,76 @@ ToDo.
 
 ### Build Tasks
 
-* ****  
-  
+ToDo: Build Task Image!!
 
-* ****  
-  
 
-* ****  
-  
 
-* ****  
-  
+* ****
 
-* ****  
-  
+* ****
 
-* ****  
-  
+* ****
+
+* **Approve**
+
+* **Repository**
+
+* **Gallery**
+
+
+
+### Configuration
+
+The following configuration is set by default or generated on the fly for the build system. An demo value is shown in this example for generated properties. Every configuration can be overwritten after importing the `InvokeBuildHelperTasks` in the `.build.ps1` scripts.
+
+```powershell
+# Path to the module root folder
+$IBHConfig.BuildRoot = 'C:\Workspace\GitHub\InvokeBuildHelper'
+
+# Name of the module to build
+$IBHConfig.ModuleName = 'InvokeBuildHelper'
+
+# Verify Task: Option to enable or disable the verification tests
+$IBHConfig.VerifyTask.Enabled = $true
+
+# Analyze Task: Rules to process by the PowerShell Script Analyzer
+$IBHConfig.AnalyzeTask.ScriptAnalyzerRules = Get-ScriptAnalyzerRule
+
+# Approve Task: Option to enable or disable the release approval tests
+$IBHConfig.ApproveTask.Enabled = $trues
+
+# Approve Task: Target branch for the release
+$IBHConfig.ApproveTask.BranchName = 'master'
+
+# Gallery Task: Option to enable or disable the release to the repository
+$IBHConfig.RepositoryTask.Enabled = $true
+
+# Repository Task: By default, the repository is a GitHub repo
+$IBHConfig.RepositoryTask.Type = 'GitHub'
+
+# Repository Task: The name of the user
+$IBHConfig.RepositoryTask.User = 'claudiospizzi'
+
+# Repository Task: The name of the repository
+$IBHConfig.RepositoryTask.Name = 'InvokeBuildHelper'
+
+# Repository Task: The secret token to access the GitHub api (if not specified, the
+# Credential vault will be searched for the token)
+$IBHConfig.RepositoryTask.Token = ''
+
+# Gallery Task: Option to enable or disable the release to the gallery
+$IBHConfig.GalleryTask.Enabled = $true
+
+# Gallery Task: Name of the PowerShell Gallery user, assume it's the same as GitHub
+$IBHConfig.GalleryTask.User = 'claudiospizzi'
+
+# Gallery Task: Name of the PowerShell Gallery repository
+$IBHConfig.GalleryTask.Name = 'PSGallery'
+
+# Gallery Task: The secret token to access the PowerShell Gallery (if not specified,
+# the Credential vault will be searched for the token)
+$IBHConfig.GalleryTask.Token = ''
+```
 
 ## Versions
 
