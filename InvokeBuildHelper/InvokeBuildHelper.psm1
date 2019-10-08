@@ -26,4 +26,4 @@ Split-Path -Path $PSCommandPath |
             ForEach-Object { . $_.FullName }
 
 # Create an alias to the build script
-Set-Alias -Name 'InvokeBuildHelperTask' -Value "$PSScriptRoot\Scripts\Tasks.ps1"
+Set-Alias -Name 'InvokeBuildHelperTasks' -Value "$PSScriptRoot\Scripts\InvokeBuildHelperTasks.ps1"
