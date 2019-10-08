@@ -76,6 +76,8 @@
         'Get-IBHGitBranch'
         'Get-IBHGitLocalTag'
         'Get-IBHGitRemoteTag'
+        'Get-IBHGitHubRepo'
+        'Get-IBHGitHubUser'
         'Get-IBHModuleVersion'
         'Get-IBHChangeLogVersion'
         'Get-IBHModuleReleaseNote'
