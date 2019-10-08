@@ -46,6 +46,7 @@
         'InvokeBuild'
         'Pester'
         'PSScriptAnalyzer'
+        'SecurityFever'
     )
 
     # Assemblies that must be loaded prior to importing this module
@@ -76,6 +77,8 @@
         'Get-IBHGitLocalTag'
         'Get-IBHGitRemoteTag'
         'Get-IBHModuleVersion'
+        'Get-IBHChangeLogVersion'
+        'Get-IBHModuleReleaseNote'
         'Invoke-IBHModuleSchemaTest'
         'Invoke-IBHPesterUnitTest'
         'Invoke-IBHScriptAnalyzerTest'
@@ -90,7 +93,7 @@
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
     AliasesToExport = @(
-        'InvokeBuildHelperTask'
+        'InvokeBuildHelperTasks'
     )
 
     # DSC resources to export from this module
