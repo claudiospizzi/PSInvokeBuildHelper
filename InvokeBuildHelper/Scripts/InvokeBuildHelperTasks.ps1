@@ -27,10 +27,6 @@ task Build Clean, Compile
 # Synopsis: Test the module with pester and script analyzer
 task Test Pester, Schema, Analyze
 
-
-
-
-
 # Synopsis: Verify the build system itself
 task Verify {
 
@@ -63,11 +59,13 @@ task Init {
 # Synopsis:
 task Clean {
 
+    throw 'Not implemented!'
 }
 
 # Synopsis:
 task Compile {
 
+    throw 'Not implemented!'
 }
 
 # Synopsis: Run all pester unit tests for the PowerShell module
@@ -145,7 +143,8 @@ task Repository Approve, {
 
     if ($IBHConfig.RepositoryTask.Enabled)
     {
-        Publish-IBHRepository -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -ModuleVersion $moduleVersion
+        throw 'Not implemented!'
+        Publish-IBHRepository -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -ModuleVersion $moduleVersion -Token $IBHConfig.RepositoryTask.Token
     }
     else
     {
@@ -158,10 +157,18 @@ task Gallery Approve, {
 
     if ($IBHConfig.GalleryTask.Enabled)
     {
-        $repositoryNames = Get-PSRepository | Select-Object -ExpandProperty 'Name'
-        assert ($repositoryNames -contains $IBHConfig.GalleryTask.Name) ('Module is not ready to release, PowerShell Repository {0} is not registered!  (Register-PSRepository -Name "{0}" ...)' -f $IBHConfig.GalleryTask.Name)
+        $galleryNames = Get-PSRepository | Select-Object -ExpandProperty 'Name'
+        assert ($galleryNames -contains $IBHConfig.GalleryTask.Name) ('Module is not ready to release, PowerShell Gallery {0} is not registered!  (Register-PSRepository -Name "{0}" ...)' -f $IBHConfig.GalleryTask.Name)
 
-        Publish-IBHGallery -BuildRoot $BuildRoot -ModuleName $ModuleName
+        $publishIBHGallerySplat = @{
+            BuildRoot     = $BuildRoot
+            ModuleName    = $ModuleName
+            ModuleVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+            GalleryUser   = $IBHConfig.GalleryTask.User
+            GalleryName   = $IBHConfig.GalleryTask.Name
+            GalleryToken  = $IBHConfig.GalleryTask.Token
+        }
+        Publish-IBHGallery @publishIBHGallerySplat
     }
     else
     {
