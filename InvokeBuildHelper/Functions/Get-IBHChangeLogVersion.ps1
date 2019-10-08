@@ -1,9 +1,11 @@
 <#
     .SYNOPSIS
-        .
+        Return the version within the change log.
 
     .DESCRIPTION
-        .
+        Check the CHANGELOG.md if it contains an entry with the desired version
+        and the current date in the following format:
+        ## 1.2.3 - 2019-10-09
 #>
 function Get-IBHChangeLogVersion
 {

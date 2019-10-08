@@ -1,9 +1,10 @@
 <#
     .SYNOPSIS
-        .
+        Check if the git repository is behind of the origin.
 
     .DESCRIPTION
-        .
+        Return the number of commits behind of the origin repository. It will
+        return 0, if we are not behind.
 #>
 function Get-IBHGitBehindBy
 {

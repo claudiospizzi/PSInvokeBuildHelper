@@ -1,9 +1,9 @@
 <#
     .SYNOPSIS
-        .
+        Return the current branch name.
 
     .DESCRIPTION
-        .
+        Use the git command to evaluate on which branch we are currently.
 #>
 function Get-IBHGitBranch
 {

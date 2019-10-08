@@ -1,27 +1,53 @@
-# function Get-IBHModuleReleaseNote
-# {
-#     $changelogFile = Join-Path -Path $PSScriptRoot -ChildPath 'CHANGELOG.md'
+<#
+    .SYNOPSIS
+        Extract all lines for the current version.
 
-#     $releaseNotes = @('Release Notes:')
+    .DESCRIPTION
+        Prepare a release notes statement with all entries in dhe CHANGELOG.md
+        file.
+#>
+function Get-IBHModuleReleaseNote
+{
+    [CmdletBinding()]
+    [OutputType([System.String])]
+    param
+    (
+        # Root path of the project.
+        [Parameter(Mandatory = $true)]
+        [System.String]
+        $BuildRoot,
 
-#     $isCurrentVersion = $false
+        # The version to check.
+        [Parameter(Mandatory = $true)]
+        [System.String]
+        $ModuleVersion
+    )
 
-#     foreach ($line in (Get-Content -Path $changelogFile))
-#     {
-#         if ($line -like "## $Version - ????-??-??")
-#         {
-#             $isCurrentVersion = $true
-#         }
-#         elseif ($line -like '## *')
-#         {
-#             $isCurrentVersion = $false
-#         }
+    $path    = Join-Path -Path $BuildRoot -ChildPath 'CHANGELOG.md'
+    $content = Get-Content -Path $path
 
-#         if ($isCurrentVersion -and ($line.StartsWith('* ') -or $line.StartsWith('- ')))
-#         {
-#             $releaseNotes += $line
-#         }
-#     }
+    $releaseNotes = [System.String[]] 'Release Notes:'
 
-#     Write-Output $releaseNotes
-# }
+    $isCurrentVersion = $false
+    foreach ($line in $content)
+    {
+        if ($line -like '## *')
+        {
+            $isCurrentVersion = $line -like "## $ModuleVersion - ????-??-??"
+        }
+        elseif ($isCurrentVersion)
+        {
+            if (-not [System.String]::IsNullOrWhiteSpace($line))
+            {
+                $releaseNotes += $line
+            }
+        }
+    }
+
+    if ($releaseNotes.Count -eq 1)
+    {
+        throw "Release notes not found in CHANGELOG.md for version $ModuleVersion"
+    }
+
+    Write-Output $releaseNotes
+}

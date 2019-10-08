@@ -1,9 +1,10 @@
 <#
     .SYNOPSIS
-        .
+        Check if the git repository is ahead of the origin.
 
     .DESCRIPTION
-        .
+        Return the number of commits ahead of the origin repository. It will
+        return 0, if we are not ahead.
 #>
 function Get-IBHGitAheadBy
 {

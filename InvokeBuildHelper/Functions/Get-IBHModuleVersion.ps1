@@ -1,9 +1,9 @@
 <#
     .SYNOPSIS
-        .
+        Get the module version.
 
     .DESCRIPTION
-        .
+        Extract the module version information from the root psd1 file.
 #>
 function Get-IBHModuleVersion
 {
