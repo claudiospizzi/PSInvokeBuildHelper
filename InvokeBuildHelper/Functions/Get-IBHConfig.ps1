@@ -37,14 +37,16 @@ function Get-IBHConfig
         RepositoryTask       = [PSCustomObject] @{
             Enabled              = $true
             Type                 = 'GitHub'
-            Name                 = Get-IBHGitHubRepoName
-            Token                = ''
+            User                 = Get-IBHGitHubUser
+            Name                 = Get-IBHGitHubRepo
+            Token                = [System.Security.SecureString]::new()
         }
 
         GalleryTask          = [PSCustomObject] @{
             Enabled              = $true
+            User                 = Get-IBHGitHubUser
             Name                 = 'PSGallery'
-            Token                = ''
+            Token                = [System.Security.SecureString]::new()
         }
     }
 
