@@ -17,47 +17,42 @@ param ()
 # Load the build configuration
 $IBHConfig = Get-IBHConfig -BuildRoot $BuildRoot
 
-# Synopsis: By default, bulid and test the module. This task should be used
-# during the development of the target module
+# Synopsis: The default task will verify, build and test the module. This task
+# is intended to be used during the development of the target module.
 task . Verify, Build, Test
 
 # Synopsis: Release the module to the repository and the gallery. This task is
-# used to publish a new module version
+# used to publish a new module version.
 task Release Verify, Build, Test, Repository, Gallery
 
-# Synopsis: Build the C# solutions
-task Build Clean, Compile
+# Synopsis: Build the C# solutions, if any exists. This includes clean, compile
+# and deploy.
+task Build Clean, Compile, Deploy
 
-# Synopsis: Test the module with pester and script analyzer
+# Synopsis: Test the module with pester and script analyzer. This includes
+# schema tests, module unit tests and script analyzer rules.
 task Test Pester, Schema, Analyze
 
-# Synopsis: Verify the build system itself
+# Synopsis: Verify the build system itself, like the InvokeBuild and
+# InvokeBuildHelper module version.
 task Verify {
 
     if ($IBHConfig.VerifyTask.Enabled)
     {
+        $invokeBuildModuleVersion = '5.5.3'
+
         $psGalleryApi = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
 
         $expectedVersion = Invoke-RestMethod -Uri $psGalleryApi | Select-Object -Last 1 | ForEach-Object { $_.properties.version }
         $actualVersion   = Get-Module -Name 'InvokeBuildHelper' | ForEach-Object { $_.Version.ToString() }
 
+        assert ((Get-Module -Name 'InvokeBuild').Version -ge $invokeBuildModuleVersion) "The InvokeBuild module version should be $invokeBuildModuleVersion or higher!"
         assert ($expectedVersion -eq $actualVersion) "The InvokeBuildHelper module version $actualVersion is not current, please update to $expectedVersion!"
     }
     else
     {
         Write-Warning 'Verify task is disabled, no meta tests before build!'
     }
-}
-
-# Synopsis: Ensure the required build environment is available
-task Init {
-
-    throw 'Not implemented!'
-
-    # $path = Join-Path -Path $IBHConfig.BuildRoot -ChildPath 'tst'
-    # New-Item -Path $path -ItemType 'Directory' | Out-Null
-
-    #irm -uri "" | Select-Object -Last 1 | ForEach-Object {$_.properties.version }
 }
 
 # Synopsis:
@@ -68,6 +63,12 @@ task Clean {
 
 # Synopsis:
 task Compile {
+
+    #throw 'Not implemented!'
+}
+
+# Synopsis:
+task Deploy {
 
     #throw 'Not implemented!'
 }
