@@ -28,7 +28,7 @@ function Invoke-IBHModuleSchemaTest
 
     $invokePesterSplat = @{
         Script       = @{
-            Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ModuleSchema.Tests.ps1" | Select-Object -ExpandProperty 'Path'
+            Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ModuleSchemaTests.ps1" | Select-Object -ExpandProperty 'Path'
             Parameters   = @{
                 BuildRoot    = $BuildRoot
                 ModuleName   = $ModuleName

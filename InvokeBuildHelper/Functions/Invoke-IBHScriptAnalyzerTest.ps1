@@ -33,7 +33,7 @@ function Invoke-IBHScriptAnalyzerTest
 
     $invokePesterSplat = @{
         Script       = @{
-            Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ScriptAnalyzer.Tests.ps1" | Select-Object -ExpandProperty 'Path'
+            Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ScriptAnalyzerTests.ps1" | Select-Object -ExpandProperty 'Path'
             Parameters   = @{
                 BuildRoot    = $BuildRoot
                 ModuleName   = $ModuleName
