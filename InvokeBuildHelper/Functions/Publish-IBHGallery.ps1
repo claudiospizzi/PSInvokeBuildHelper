@@ -1,9 +1,10 @@
 <#
     .SYNOPSIS
-        .
+        Publish the module to the PowerShell Gallery.
 
     .DESCRIPTION
-        .
+        Use the build-in Publish-Module command to publish a new module version
+        including the release notes.
 #>
 function Publish-IBHGallery
 {
