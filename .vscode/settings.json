@@ -1,16 +1,20 @@
 {
-    // Trim trailing whitespaces, but exclude for markdown
     "files.trimTrailingWhitespace": true,
     "[markdown]": {
         "files.trimTrailingWhitespace": false
     },
 
-    // PowerShell console behaviour
-    "powershell.debugging.createTemporaryIntegratedConsole": true,
-    // "powershell.integratedConsole.showOnStartup": true,
-    // "powershell.integratedConsole.focusConsoleOnExecute": false,
+    "files.exclude": {
+        "**/.git": true,
+        "out": true
+    },
 
-    // PowerShell code formatting
+    "search.exclude": {
+        "out": true
+    },
+
+    "powershell.debugging.createTemporaryIntegratedConsole": true,
+
     "powershell.codeFormatting.alignPropertyValuePairs": true,
     "powershell.codeFormatting.ignoreOneLineBlock": true,
     "powershell.codeFormatting.newLineAfterCloseBrace": true,
