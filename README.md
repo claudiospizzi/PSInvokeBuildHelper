@@ -55,7 +55,7 @@ $IBHConfig.VerifyTask.Enabled = $true
 $IBHConfig.AnalyzeTask.ScriptAnalyzerRules = Get-ScriptAnalyzerRule
 
 # Approve Task: Option to enable or disable the release approval tests
-$IBHConfig.ApproveTask.Enabled = $trues
+$IBHConfig.ApproveTask.Enabled = $true
 
 # Approve Task: Target branch for the release
 $IBHConfig.ApproveTask.BranchName = 'master'
