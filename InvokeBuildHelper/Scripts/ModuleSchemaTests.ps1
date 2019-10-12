@@ -60,7 +60,26 @@ Describe 'Module Schema' {
 
         It 'Should have a valid .vscode\launch.json' {
 
-            throw 'Not implemented'
+            # Arrange
+            $path = Join-Path -Path $BuildRoot -ChildPath '.vscode\launch.json'
+
+            # Act
+            $launch = Get-Content -Path $path | ConvertFrom-Json
+
+            # Assert
+            $launch.'version'                                              | Should -Be '0.2.0'
+            $launch.'configurations'[0].'name'                             | Should -Be 'PowerShell Interactive'
+            $launch.'configurations'[0].'type'                             | Should -Be 'PowerShell'
+            $launch.'configurations'[0].'request'                          | Should -Be 'launch'
+            $launch.'configurations'[0].'cwd'                              | Should -Be '${workspaceFolder}'
+            $launch.'configurations'[0].'createTemporaryIntegratedConsole' | Should -BeTrue
+            $launch.'configurations'[1].'name'                             | Should -Be 'PowerShell Debug Script'
+            $launch.'configurations'[1].'type'                             | Should -Be 'PowerShell'
+            $launch.'configurations'[1].'request'                          | Should -Be 'launch'
+            $launch.'configurations'[1].'script'                           | Should -Be '${workspaceFolder}\.debug.ps1'
+            $launch.'configurations'[1].'cwd'                              | Should -Be '${workspaceFolder}'
+            $launch.'configurations'[1].'createTemporaryIntegratedConsole' | Should -BeTrue
+
         }
 
         It 'Should have a valid .vscode\settings.json' {
