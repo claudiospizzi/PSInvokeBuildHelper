@@ -10,6 +10,10 @@
         https://github.com/claudiospizzi/InvokeBuildHelper
 #>
 
+[CmdletBinding()]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', '')]
+param ()
+
 # Load the build configuration
 $IBHConfig = Get-IBHConfig -BuildRoot $BuildRoot
 
@@ -59,13 +63,13 @@ task Init {
 # Synopsis:
 task Clean {
 
-    throw 'Not implemented!'
+    #throw 'Not implemented!'
 }
 
 # Synopsis:
 task Compile {
 
-    throw 'Not implemented!'
+    #throw 'Not implemented!'
 }
 
 # Synopsis: Run all pester unit tests for the PowerShell module
@@ -115,22 +119,22 @@ task Approve {
         $moduleVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
 
         $gitBranch = Get-IBHGitBranch
-        #assert ($gitBranch -eq $IBHConfig.ApproveTask.BranchName) ('Module is not ready to release, git branch should be on {0} but is {1}!  (git checkout {0})' -f $IBHConfig.ApproveTask.BranchName, $gitBranch)
+        assert ($gitBranch -eq $IBHConfig.ApproveTask.BranchName) ('Module is not ready to release, git branch should be on {0} but is {1}!  (git checkout {0})' -f $IBHConfig.ApproveTask.BranchName, $gitBranch)
 
         $gitBehindBy = Get-IBHGitBehindBy
-        #assert ($gitBehindBy -eq 0) ('Module is not ready to release, git branch is behind by {0}!  (git pull)' -f $gitBehindBy)
+        assert ($gitBehindBy -eq 0) ('Module is not ready to release, git branch is behind by {0}!  (git pull)' -f $gitBehindBy)
 
         $gitAheadBy = Get-IBHGitAheadBy
-        #assert ($gitAheadBy -eq 0) ('Module is not ready to release, git branch is ahead by {0}!  (git push)' -f $gitAheadBy)
+        assert ($gitAheadBy -eq 0) ('Module is not ready to release, git branch is ahead by {0}!  (git push)' -f $gitAheadBy)
 
         $gitLocalTag = Get-IBHGitLocalTag
-        # assert ($gitLocalTag -eq $moduleVersion) ('Module is not ready to release, tag {0} does not match module version {1}!  (git tag {1})' -f $gitLocalTag, $moduleVersion)
+        assert ($gitLocalTag -eq $moduleVersion) ('Module is not ready to release, tag {0} does not match module version {1}!  (git tag {1})' -f $gitLocalTag, $moduleVersion)
 
         $gitRemoteTag = Get-IBHGitRemoteTag -ModuleVersion $moduleVersion
-        # assert ($gitRemoteTag -eq $moduleVersion) ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)
+        assert ($gitRemoteTag -eq $moduleVersion) ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)
 
         $changeLogVersion = Get-IBHChangeLogVersion -BuildRoot $IBHConfig.BuildRoot -ModuleVersion $moduleVersion
-        # assert ($changeLogVersion -eq $moduleVersion) ('Module is not ready to release, CHANGELOG.md does not contain the current version and/or date!  (## {0} - {1:yyyy-MM-dd})' -f $moduleVersion, [DateTime]::Now)
+        assert ($changeLogVersion -eq $moduleVersion) ('Module is not ready to release, CHANGELOG.md does not contain the current version and/or date!  (## {0} - {1:yyyy-MM-dd})' -f $moduleVersion, [DateTime]::Now)
     }
     else
     {
@@ -144,7 +148,17 @@ task Repository Approve, {
     if ($IBHConfig.RepositoryTask.Enabled)
     {
         throw 'Not implemented!'
-        Publish-IBHRepository -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -ModuleVersion $moduleVersion -Token $IBHConfig.RepositoryTask.Token
+
+        $publishIBHRepository = @{
+            BuildRoot       = $BuildRoot
+            ModuleName      = $ModuleName
+            ModuleVersion   = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+            RepositoryType  = $IBHConfig.RepositoryTask.Type
+            RepositoryUser  = $IBHConfig.RepositoryTask.User
+            RepositoryName  = $IBHConfig.RepositoryTask.Name
+            RepositoryToken = $IBHConfig.RepositoryTask.Token
+        }
+        Publish-IBHRepository @publishIBHRepository
     }
     else
     {
