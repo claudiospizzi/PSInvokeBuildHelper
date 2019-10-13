@@ -1,0 +1,37 @@
+<#
+    .SYNOPSIS
+        Test if the module version exists as tag on the git origin repo.
+
+    .DESCRIPTION
+        Use the 'git ls-remote origin' command to get the desired tag on the
+        origin repo. If the module version is in the tag list, the command will
+        return $true, else $false is returned.
+
+    .OUTPUTS
+        System.Boolean.
+
+    .EXAMPLE
+        PS C:\> Test-IBHGitRemoteTag -ModuleVersion '1.0.0'
+        Test if the version 1.0.0 tag is on the git origin repo.
+
+    .LINK
+        https://github.com/claudiospizzi/InvokeBuildHelper
+#>
+function Test-IBHGitRemoteTag
+{
+    [CmdletBinding()]
+    [OutputType([System.Boolean])]
+    param
+    (
+        # The version to test.
+        [Parameter(Mandatory = $true)]
+        [System.String]
+        $ModuleVersion
+    )
+
+    $tag = git ls-remote origin "refs/tags/$ModuleVersion"
+
+    $result = $null -ne $tag -and $tag -match '^[0-9a-f]{40}\s*refs\/tags\/.*$'
+
+    return $result
+}

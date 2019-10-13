@@ -128,14 +128,14 @@ task Approve {
         $gitAheadBy = Get-IBHGitAheadBy
         assert ($gitAheadBy -eq 0) ('Module is not ready to release, git branch is ahead by {0}!  (git push)' -f $gitAheadBy)
 
-        $gitLocalTag = Get-IBHGitLocalTag
-        assert ($gitLocalTag -eq $moduleVersion) ('Module is not ready to release, tag {0} does not match module version {1}!  (git tag {1})' -f $gitLocalTag, $moduleVersion)
+        $gitLocalTag = Test-IBHGitLocalTag -ModuleVersion $moduleVersion
+        assert $gitLocalTag ('Module is not ready to release, tag {0} does not exist or is not on the last commit!  (git tag {1})' -f $moduleVersion)
 
-        $gitRemoteTag = Get-IBHGitRemoteTag -ModuleVersion $moduleVersion
-        assert ($gitRemoteTag -eq $moduleVersion) ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)
+        $gitRemoteTag = Test-IBHGitRemoteTag -ModuleVersion $moduleVersion
+        assert $gitRemoteTag ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)
 
-        $changeLogVersion = Get-IBHChangeLogVersion -BuildRoot $IBHConfig.BuildRoot -ModuleVersion $moduleVersion
-        assert ($changeLogVersion -eq $moduleVersion) ('Module is not ready to release, CHANGELOG.md does not contain the current version and/or date!  (## {0} - {1:yyyy-MM-dd})' -f $moduleVersion, [DateTime]::Now)
+        $changeLogVersion = Test-IBHChangeLogVersion -BuildRoot $IBHConfig.BuildRoot -ModuleVersion $moduleVersion -ReleaseDate [DateTime]::Now
+        assert $changeLogVersion ('Module is not ready to release, CHANGELOG.md does not contain the current version and/or date!  (## {0} - {1:yyyy-MM-dd})' -f $moduleVersion, [DateTime]::Now)
     }
     else
     {
