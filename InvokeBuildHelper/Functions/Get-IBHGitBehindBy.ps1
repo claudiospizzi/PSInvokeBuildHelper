@@ -1,10 +1,20 @@
 <#
     .SYNOPSIS
-        Check if the git repository is behind of the origin.
+        Check if the git local repo is behind of the origin repo.
 
     .DESCRIPTION
-        Return the number of commits behind of the origin repository. It will
-        return 0, if we are not behind.
+        Return the number of commits behind of the origin repo. It will return
+        0, if we are not behind.
+
+    .OUTPUTS
+        System.Int32
+
+    .EXAMPLE
+        PS C:\> Get-IBHGitBehindBy
+        Return the number of commits behind by the origin repo.
+
+    .LINK
+        https://github.com/claudiospizzi/InvokeBuildHelper
 #>
 function Get-IBHGitBehindBy
 {
