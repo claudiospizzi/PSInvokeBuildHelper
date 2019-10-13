@@ -29,6 +29,7 @@ function Test-IBHGitLocalTag
         $ModuleVersion
     )
 
+    # Returns the tag of the last commit
     $tag = git describe --tags
 
     return $tag -eq $ModuleVersion

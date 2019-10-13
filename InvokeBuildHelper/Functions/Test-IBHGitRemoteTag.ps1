@@ -29,6 +29,7 @@ function Test-IBHGitRemoteTag
         $ModuleVersion
     )
 
+    # Returns the entry of the remote tag or $null if it does not exists
     $tag = git ls-remote origin "refs/tags/$ModuleVersion"
 
     $result = $null -ne $tag -and $tag -match '^[0-9a-f]{40}\s*refs\/tags\/.*$'
