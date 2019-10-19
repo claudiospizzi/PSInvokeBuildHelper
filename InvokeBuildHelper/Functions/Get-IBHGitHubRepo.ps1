@@ -20,19 +20,43 @@ function Get-IBHGitHubRepo
 {
     [CmdletBinding()]
     [OutputType([System.String])]
-    param ()
+    param
+    (
+        # Root path of the git repo.
+        [Parameter(Mandatory = $false)]
+        [System.String]
+        $Path
+    )
 
-    $url = git config --get remote.origin.url
-
-    if ($url -match '^https:\/\/github\.com\/.*\/(?<repo>.*)\.git$')
+    try
     {
-        return $Matches['repo']
-    }
+        # Switch to the desired location, if specifed
+        if ($PSBoundParameters.ContainsKey('Path'))
+        {
+            $locationStackName = [System.Guid]::NewGuid().Guid
+            Push-Location -Path $Path -StackName $locationStackName
+        }
 
-    if ($url -match '^git@github\.com:.*\/(?<repo>.*)\.git$')
+        $url = git config --get remote.origin.url
+
+        if ($url -match '^https:\/\/github\.com\/.*\/(?<repo>.*)\.git$')
+        {
+            return $Matches['repo']
+        }
+
+        if ($url -match '^git@github\.com:.*\/(?<repo>.*)\.git$')
+        {
+            return $Matches['repo']
+        }
+
+        return ''
+    }
+    finally
     {
-        return $Matches['repo']
+        # Go back to the original location
+        if ($PSBoundParameters.ContainsKey('Path'))
+        {
+            Pop-Location -StackName $locationStackName
+        }
     }
-
-    return ''
 }

@@ -20,19 +20,43 @@ function Get-IBHGitBehindBy
 {
     [CmdletBinding()]
     [OutputType([System.Int32])]
-    param ()
+    param
+    (
+        # Root path of the git repo.
+        [Parameter(Mandatory = $false)]
+        [System.String]
+        $Path
+    )
 
-    $status = git -c core.quotepath=false -c color.status=false status -uno --short --branch
-    $status = $status -join "`n"
-
-    $behindBy = 0
-    if ($status -match '\[(?:ahead (?<ahead>\d+))?(?:, )?(?:behind (?<behind>\d+))?(?<gone>gone)?\]')
+    try
     {
-        if ($null -ne $Matches -and $Matches.Keys -contains 'behind')
+        # Switch to the desired location, if specifed
+        if ($PSBoundParameters.ContainsKey('Path'))
         {
-            $behindBy = [System.Int32] $Matches['behind']
+            $locationStackName = [System.Guid]::NewGuid().Guid
+            Push-Location -Path $Path -StackName $locationStackName
+        }
+
+        $status = git -c core.quotepath=false -c color.status=false status -uno --short --branch
+        $status = $status -join "`n"
+
+        $behindBy = 0
+        if ($status -match '\[(?:ahead (?<ahead>\d+))?(?:, )?(?:behind (?<behind>\d+))?(?<gone>gone)?\]')
+        {
+            if ($null -ne $Matches -and $Matches.Keys -contains 'behind')
+            {
+                $behindBy = [System.Int32] $Matches['behind']
+            }
+        }
+
+        return $behindBy
+    }
+    finally
+    {
+        # Go back to the original location
+        if ($PSBoundParameters.ContainsKey('Path'))
+        {
+            Pop-Location -StackName $locationStackName
         }
     }
-
-    return $behindBy
 }

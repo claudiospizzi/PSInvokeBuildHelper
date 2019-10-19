@@ -19,9 +19,33 @@ function Get-IBHGitBranch
 {
     [CmdletBinding()]
     [OutputType([System.String])]
-    param ()
+    param
+    (
+        # Root path of the git repo.
+        [Parameter(Mandatory = $false)]
+        [System.String]
+        $Path
+    )
 
-    $branch = git rev-parse --abbrev-ref HEAD
+    try
+    {
+        # Switch to the desired location, if specifed
+        if ($PSBoundParameters.ContainsKey('Path'))
+        {
+            $locationStackName = [System.Guid]::NewGuid().Guid
+            Push-Location -Path $Path -StackName $locationStackName
+        }
 
-    return $branch
+        $branch = git rev-parse --abbrev-ref HEAD
+
+        return $branch
+    }
+    finally
+    {
+        # Go back to the original location
+        if ($PSBoundParameters.ContainsKey('Path'))
+        {
+            Pop-Location -StackName $locationStackName
+        }
+    }
 }
