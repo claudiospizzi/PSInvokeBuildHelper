@@ -5,6 +5,16 @@
     .DESCRIPTION
         This function will invoke all Pester unit tests in the module itself to
         invoke the module unit tests.
+
+    .OUTPUTS
+        System.Management.Automation.PSCustomObject. Pester result object.
+
+    .EXAMPLE
+        PS C:\> Invoke-IBHPesterUnitTest -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleName 'InvokeBuildHelper' -OutputPath 'C:\TestResults'
+        Invoke the Pester unit tests for the InvokeBuildHelper module.
+
+    .LINK
+        https://github.com/claudiospizzi/InvokeBuildHelper
 #>
 function Invoke-IBHPesterUnitTest
 {
@@ -19,7 +29,12 @@ function Invoke-IBHPesterUnitTest
         # Name of the module.
         [Parameter(Mandatory = $true)]
         [System.String]
-        $ModuleName
+        $ModuleName,
+
+        # Output folder for the NUnitXml file.
+        [Parameter(Mandatory = $true)]
+        [System.String]
+        $OutputPath
     )
 
     # Create output folder
@@ -27,7 +42,7 @@ function Invoke-IBHPesterUnitTest
 
     $invokePesterSplat = @{
         Path         = Join-Path -Path $BuildRoot -ChildPath $ModuleName
-        OutputFile   = Join-Path -Path $BuildRoot -ChildPath 'out\TestResult.PetserUnit.xml'
+        OutputFile   = Join-Path -Path $OutputPath -ChildPath 'TestResult.PetserUnit.xml'
         OutputFormat = 'NUnitXml'
         PassThru     = $true
     }

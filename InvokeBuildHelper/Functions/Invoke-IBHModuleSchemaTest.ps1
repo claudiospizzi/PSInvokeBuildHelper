@@ -6,6 +6,16 @@
         Invoke tests based on Pester to verify if the module is valid. This
         includes the meta files for VS Code, built system, git repo but also
         module specific files.
+
+    .OUTPUTS
+        System.Management.Automation.PSCustomObject. Pester result object.
+
+    .EXAMPLE
+        PS C:\> Invoke-IBHModuleSchemaTest -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleName 'InvokeBuildHelper' -OutputPath 'C:\TestResults'
+        Invoke the schema tests for the InvokeBuildHelper module.
+
+    .LINK
+        https://github.com/claudiospizzi/InvokeBuildHelper
 #>
 function Invoke-IBHModuleSchemaTest
 {
@@ -20,11 +30,13 @@ function Invoke-IBHModuleSchemaTest
         # Name of the module.
         [Parameter(Mandatory = $true)]
         [System.String]
-        $ModuleName
-    )
+        $ModuleName,
 
-    # Create output folder
-    New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Out-Null
+        # Output folder for the NUnitXml file.
+        [Parameter(Mandatory = $true)]
+        [System.String]
+        $OutputPath
+    )
 
     $invokePesterSplat = @{
         Script       = @{
@@ -34,7 +46,7 @@ function Invoke-IBHModuleSchemaTest
                 ModuleName   = $ModuleName
             }
         }
-        OutputFile   = Join-Path -Path $BuildRoot -ChildPath 'out\TestResult.ModuleSchema.xml'
+        OutputFile   = Join-Path -Path $OutputPath -ChildPath 'TestResult.ModuleSchema.xml'
         OutputFormat = 'NUnitXml'
         PassThru     = $true
     }
