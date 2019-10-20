@@ -78,8 +78,11 @@ task Pester {
 
     $Host.UI.WriteLine()
 
+    # Create output folder
+    $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
+
     # Inovke the Pester unit tests
-    $result = Invoke-IBHPesterUnitTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+    $result = Invoke-IBHPesterUnitTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -OutputPath $outputPath
 
     $Host.UI.WriteLine()
 
@@ -91,8 +94,11 @@ task Schema {
 
     $Host.UI.WriteLine()
 
+    # Create output folder
+    $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
+
     # Invoke the module schema tests
-    $result = Invoke-IBHModuleSchemaTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+    $result = Invoke-IBHModuleSchemaTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -OutputPath $outputPath
 
     $Host.UI.WriteLine()
 
@@ -104,8 +110,11 @@ task Analyze {
 
     $Host.UI.WriteLine()
 
+    # Create output folder
+    $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
+
     # Invoke the script analyzer, run all defined rules
-    $result = Invoke-IBHScriptAnalyzerTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -Rule $IBHConfig.AnalyzeTask.ScriptAnalyzerRules
+    $result = Invoke-IBHScriptAnalyzerTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -Rule $IBHConfig.AnalyzeTask.ScriptAnalyzerRules -OutputPath $outputPath
 
     $Host.UI.WriteLine()
 
@@ -155,8 +164,8 @@ task Repository Approve, {
             ModuleName      = $ModuleName
             ModuleVersion   = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
             RepositoryType  = $IBHConfig.RepositoryTask.Type
-            RepositoryUser  = $IBHConfig.RepositoryTask.User
             RepositoryName  = $IBHConfig.RepositoryTask.Name
+            RepositoryUser  = $IBHConfig.RepositoryTask.User
             RepositoryToken = $IBHConfig.RepositoryTask.Token
         }
         Publish-IBHRepository @publishIBHRepository
