@@ -8,7 +8,7 @@
         return $true, else $false is returned.
 
     .OUTPUTS
-        System.Boolean
+        System.Boolean. The test result.
 
     .EXAMPLE
         PS C:\> Test-IBHGitRemoteTag -ModuleVersion '1.0.0'

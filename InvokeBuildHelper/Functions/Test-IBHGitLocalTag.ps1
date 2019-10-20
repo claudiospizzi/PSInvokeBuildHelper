@@ -7,7 +7,7 @@
         module version is in the tag list, $true will be retunred, else $false.
 
     .OUTPUTS
-        System.Boolean
+        System.Boolean. The test result.
 
     .EXAMPLE
         PS C:\> Test-IBHGitLocalTag -ModuleVersion '1.0.0'

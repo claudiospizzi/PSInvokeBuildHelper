@@ -8,11 +8,12 @@
         found, it will return $true. If not, $false is returned.
 
     .OUTPUTS
-        System.Boolean
+        System.Boolean. The test result.
 
     .EXAMPLE
-        PS C:\> Test-IBHChangeLogVersion -BuildRoot 'C:\Workspace\GitHub\InvokeBuildHelper' -ModuleVersion '1.0.0' -ReleaseDate [DateTime]::now()
-        Test if the version 1.0.0 with the release date of today is registered in the change log.
+        PS C:\> Test-IBHChangeLogVersion -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleVersion '1.0.0' -ReleaseDate [DateTime]::now()
+        Test if the version 1.0.0 with the release date of today is registered
+        in the change log.
 
     .LINK
         https://github.com/claudiospizzi/InvokeBuildHelper
