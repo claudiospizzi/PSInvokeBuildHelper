@@ -6,7 +6,7 @@
         Use the git command to evaluate which branch is currently checked out.
 
     .OUTPUTS
-        System.String
+        System.String. Git repo branch name.
 
     .EXAMPLE
         PS C:\> Get-IBHGitBranch

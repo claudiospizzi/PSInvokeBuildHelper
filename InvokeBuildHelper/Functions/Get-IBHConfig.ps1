@@ -7,7 +7,7 @@
         properties are calculated based on the module structure.
 
     .OUTPUTS
-        InvokeBuildHelper.Config
+        InvokeBuildHelper.Config. Invoke build helper configuration object.
 
     .EXAMPLE
         PS C:\> Get-IBHConfig -BuildRoot 'C:\GitHub\InvokeBuildHelper'

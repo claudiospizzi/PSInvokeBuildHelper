@@ -7,7 +7,7 @@
         if we are not ahead.
 
     .OUTPUTS
-        System.Int32
+        System.Int32. Number of commits ahead.
 
     .EXAMPLE
         PS C:\> Get-IBHGitAheadBy

@@ -7,7 +7,7 @@
         repository. If not, it will return an empty string.
 
     .OUTPUTS
-        System.String
+        System.String. GitHub repo user.
 
     .EXAMPLE
         PS C:\> Get-IBHGitHubRepo

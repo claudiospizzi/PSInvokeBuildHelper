@@ -7,7 +7,7 @@
         0, if we are not behind.
 
     .OUTPUTS
-        System.Int32
+        System.Int32. Number of commits behind.
 
     .EXAMPLE
         PS C:\> Get-IBHGitBehindBy
