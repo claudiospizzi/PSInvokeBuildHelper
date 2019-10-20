@@ -5,6 +5,16 @@
     .DESCRIPTION
         Prepare a release notes statement with all entries in dhe CHANGELOG.md
         file.
+
+    .OUTPUTS
+        System.String
+
+    .EXAMPLE
+        PS C:\> Get-IBHModuleReleaseNote -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleVersion '1.0.0'
+        Find the release notes for the version 1.0.0.
+
+    .LINK
+        https://github.com/claudiospizzi/InvokeBuildHelper
 #>
 function Get-IBHModuleReleaseNote
 {
