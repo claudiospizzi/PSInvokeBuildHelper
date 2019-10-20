@@ -6,7 +6,7 @@
         Extract the module version information from the root psd1 file.
 
     .OUTPUTS
-        System.String
+        System.String. Module version.
 
     .EXAMPLE
         PS C:\> Get-IBHModuleVersion -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleName 'InvokeBuildHelper'

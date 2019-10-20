@@ -7,7 +7,7 @@
         file.
 
     .OUTPUTS
-        System.String
+        System.String. Multi-line text release notes.
 
     .EXAMPLE
         PS C:\> Get-IBHModuleReleaseNote -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleVersion '1.0.0'
