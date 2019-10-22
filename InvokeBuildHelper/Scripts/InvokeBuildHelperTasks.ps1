@@ -162,8 +162,6 @@ task Repository Approve, {
 
     if ($IBHConfig.RepositoryTask.Enabled)
     {
-        throw 'Not implemented!'
-
         $publishIBHRepository = @{
             BuildRoot       = $BuildRoot
             ModuleName      = $ModuleName
