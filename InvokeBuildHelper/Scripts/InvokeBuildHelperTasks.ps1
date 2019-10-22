@@ -65,6 +65,8 @@ task Clean {
 task Compile {
 
     #throw 'Not implemented!'
+
+    # https://github.com/nightroman/Invoke-Build/wiki/Resolve-MSBuild
 }
 
 # Synopsis:
