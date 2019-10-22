@@ -4,7 +4,7 @@
 #>
 function Publish-IBHGitHubArtifact
 {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding()]
     param
     (
         # GitHub repo name.
