@@ -1,4 +1,10 @@
-#Requires -Modules InvokeBuildHelper
+
+# Import module
+Get-Module InvokeBuildHelper | Remove-Module
+Import-Module .\InvokeBuildHelper\InvokeBuildHelper.psd1
 
 # Import build tasks
-. InvokeBuildHelperTask
+. InvokeBuildHelperTasks
+
+# Build configuration
+$IBHConfig.VerifyTask.Enabled = $false
