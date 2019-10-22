@@ -163,8 +163,8 @@ task Repository Approve, {
     if ($IBHConfig.RepositoryTask.Enabled)
     {
         $publishIBHRepository = @{
-            BuildRoot       = $BuildRoot
-            ModuleName      = $ModuleName
+            BuildRoot       = $IBHConfig.BuildRoot
+            ModuleName      = $IBHConfig.ModuleName
             ModuleVersion   = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
             RepositoryType  = $IBHConfig.RepositoryTask.Type
             RepositoryName  = $IBHConfig.RepositoryTask.Name
@@ -188,8 +188,8 @@ task Gallery Approve, {
         assert ($galleryNames -contains $IBHConfig.GalleryTask.Name) ('Module is not ready to release, PowerShell Gallery {0} is not registered!  (Register-PSRepository -Name "{0}" ...)' -f $IBHConfig.GalleryTask.Name)
 
         $publishIBHGallerySplat = @{
-            BuildRoot     = $BuildRoot
-            ModuleName    = $ModuleName
+            BuildRoot     = $IBHConfig.BuildRoot
+            ModuleName    = $IBHConfig.ModuleName
             ModuleVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
             GalleryUser   = $IBHConfig.GalleryTask.User
             GalleryName   = $IBHConfig.GalleryTask.Name
