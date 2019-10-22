@@ -23,7 +23,7 @@ param
 
 Describe 'Module Schema' {
 
-    Context 'Files' {
+    Context 'File Structure' {
 
         $fileTestCases = @(
             @{ RelativePath = '.vscode\launch.json' }
@@ -56,7 +56,7 @@ Describe 'Module Schema' {
         }
     }
 
-    Context 'VS Code' {
+    Context 'VS Code Configuration' {
 
         It 'Should have a valid .vscode\launch.json' {
 
@@ -140,7 +140,7 @@ Describe 'Module Schema' {
         }
     }
 
-    Context 'Git' {
+    Context 'Git Configuration' {
 
         It 'Should have a valid .gitignore' {
 
@@ -153,5 +153,39 @@ Describe 'Module Schema' {
             # Assert
             $gitignore | Should -Contain '/out/'
         }
+    }
+
+    Context 'Module Loader' {
+
+        It 'Should load the module without any errors' {
+
+            # Arrange
+            $path = '{0}\{1}\{1}.psd1' -f $BuildRoot, $ModuleName
+
+            # Act & Assert
+            { Import-Module -Name $path -Force -ErrorAction Stop } | Should -Not -Throw
+        }
+    }
+
+    Context 'Module Definition' {
+
+
+        # Check no helper is published
+        # Check all functions are published
+        # Check no extra functions are published
+    }
+
+    Context 'Module Functions & Helpers' {
+
+        # Ensure function matches filename
+
+        # Ensure function help:
+        # - SYNOPSIS, DESCRIPTION, EXAMPLE
+        # - INPUT (if defined)
+        # - OUTPUT (if deinfed)
+        # - NOTES (Author, Repo, License)
+        # - LINK (to the repository, combine with git remote)
+        # - Parameter Help
+
     }
 }
