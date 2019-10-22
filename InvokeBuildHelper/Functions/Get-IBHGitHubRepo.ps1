@@ -39,7 +39,7 @@ function Get-IBHGitHubRepo
 
         $url = git config --get remote.origin.url
 
-        if ($url -match '^https:\/\/github\.com\/.*\/(?<repo>.*)\.git$')
+        if ($url -match '^https:\/\/github\.com\/.*\/(?<repo>.*)(\.git)?$')
         {
             return $Matches['repo']
         }

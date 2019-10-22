@@ -39,7 +39,7 @@ function Get-IBHGitHubUser
 
         $url = git config --get remote.origin.url
 
-        if ($url -match '^https:\/\/github\.com\/(?<user>.*)\/.*\.git$')
+        if ($url -match '^https:\/\/github\.com\/(?<user>.*)\/.*(\.git)?$')
         {
             return $Matches['user']
         }
