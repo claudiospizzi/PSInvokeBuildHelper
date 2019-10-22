@@ -8,9 +8,48 @@ Common build tasks for the Invoke-Build PowerShell module.
 
 ## Introduction
 
-ToDo.
+This module includes a script with common build tasks for a PowerShell module. A manifest module using script files is the main target. The module can include some C# .NET based libraries, they will be build with Release options before the build script runs. The core build script with all tasks can be found here:
+
+* [InvokeBuildHelper/Scripts/InvokeBuildHelperTasks.ps1](https://github.com/claudiospizzi/InvokeBuildHelper/blob/master/InvokeBuildHelper/Scripts/InvokeBuildHelperTasks.ps1)
+
 
 ## Features
+
+### Build Tasks
+
+* **Default (.)**
+    The default task will verify, build and test the module. This task is intended to be used during the development of the target module.
+
+* **Release**
+    Release the module to the repository and the gallery. This task is used to publish a new module version.
+* **Verify**
+    Verify the build system itself, like the InvokeBuild and InvokeBuildHelper module version.
+
+* **Build**
+    Build the C# solutions, if any exists. This includes clean, compile and deploy.
+* **Test**
+    Test the module with pester and script analyzer. This includes schema tests, module unit tests and script analyzer rules.
+* **Clean**
+
+* **Compile**
+
+* **Deploy**
+    
+
+* **Pester**
+
+* **Schema**
+
+* **Analyze**
+
+* **Approve**
+
+* **Repository**
+
+* **Gallery**
+
+
+
 
 ### Commands
 
@@ -18,6 +57,8 @@ ToDo.
   ...
 
 ### Build Tasks
+
+
 
 ToDo: Build Task Image!!
 
@@ -43,7 +84,7 @@ The following configuration is set by default or generated on the fly for the bu
 
 ```powershell
 # Path to the module root folder
-$IBHConfig.BuildRoot = 'C:\Workspace\GitHub\InvokeBuildHelper'
+$IBHConfig.BuildRoot = 'C:\GitHub\InvokeBuildHelper'
 
 # Name of the module to build
 $IBHConfig.ModuleName = 'InvokeBuildHelper'
