@@ -128,6 +128,9 @@ task Approve {
     {
         $moduleVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
 
+        $gitPendingFile = Get-IBHGitPendingFile
+        assert ($gitPendingFile -eq 0) ('Module is not ready to release, {0} pending file(s) are present in the repo!' -f $gitPendingFile)
+
         $gitBranch = Get-IBHGitBranch
         assert ($gitBranch -eq $IBHConfig.ApproveTask.BranchName) ('Module is not ready to release, git branch should be on {0} but is {1}!  (git checkout {0})' -f $IBHConfig.ApproveTask.BranchName, $gitBranch)
 
@@ -138,7 +141,7 @@ task Approve {
         assert ($gitAheadBy -eq 0) ('Module is not ready to release, git branch is ahead by {0}!  (git push)' -f $gitAheadBy)
 
         $gitLocalTag = Test-IBHGitLocalTag -ModuleVersion $moduleVersion
-        assert $gitLocalTag ('Module is not ready to release, tag {0} does not exist or is not on the last commit!  (git tag {1})' -f $moduleVersion)
+        assert $gitLocalTag ('Module is not ready to release, tag {0} does not exist or is not on the last commit!  (git tag {0})' -f $moduleVersion)
 
         $gitRemoteTag = Test-IBHGitRemoteTag -ModuleVersion $moduleVersion
         assert $gitRemoteTag ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)

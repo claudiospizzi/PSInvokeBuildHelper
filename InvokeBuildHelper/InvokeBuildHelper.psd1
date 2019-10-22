@@ -73,6 +73,7 @@
         'Get-IBHConfig'
         'Get-IBHGitAheadBy'
         'Get-IBHGitBehindBy'
+        'Get-IBHGitPendingFile'
         'Get-IBHGitBranch'
         'Get-IBHGitHubRepo'
         'Get-IBHGitHubUser'
