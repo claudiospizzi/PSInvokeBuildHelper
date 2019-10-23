@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Added: Schema test for the .debug.ps1 file
 * Added: Schema tests for the (helper) function files and export definitions
+* Changed: Move asserts from Gallery to Approve task
 
 ## 1.0.0 - 2019-10-23
 

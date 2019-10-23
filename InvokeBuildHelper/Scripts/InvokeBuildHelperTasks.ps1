@@ -152,6 +152,12 @@ task Approve {
 
         $gitRemoteTag = Test-IBHGitRemoteTag -ModuleVersion $moduleVersion
         assert $gitRemoteTag ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)
+
+        if ($IBHConfig.GalleryTask.Enabled)
+        {
+            $galleryNames = Get-PSRepository | Select-Object -ExpandProperty 'Name'
+            assert ($galleryNames -contains $IBHConfig.GalleryTask.Name) ('Module is not ready to release, PowerShell Gallery {0} is not registered!  (Register-PSRepository -Name "{0}" ...)' -f $IBHConfig.GalleryTask.Name)
+        }
     }
     else
     {
@@ -186,9 +192,6 @@ task Gallery Approve, {
 
     if ($IBHConfig.GalleryTask.Enabled)
     {
-        $galleryNames = Get-PSRepository | Select-Object -ExpandProperty 'Name'
-        assert ($galleryNames -contains $IBHConfig.GalleryTask.Name) ('Module is not ready to release, PowerShell Gallery {0} is not registered!  (Register-PSRepository -Name "{0}" ...)' -f $IBHConfig.GalleryTask.Name)
-
         $publishIBHGallerySplat = @{
             BuildRoot     = $IBHConfig.BuildRoot
             ModuleName    = $IBHConfig.ModuleName
