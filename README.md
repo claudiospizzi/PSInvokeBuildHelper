@@ -12,75 +12,75 @@ This module includes a script with common build tasks for a PowerShell module. A
 
 * [InvokeBuildHelper/Scripts/InvokeBuildHelperTasks.ps1](https://github.com/claudiospizzi/InvokeBuildHelper/blob/master/InvokeBuildHelper/Scripts/InvokeBuildHelperTasks.ps1)
 
-
 ## Features
 
+### Build Script
+
+Even the module exports multiple command with the *IBH* prefix, only the build
+script should be used. The following example of a `.build.ps1` script can be
+used, if the repository is hosted on GitHub and the module is published to the
+official PowerShell Gallery:
+
+```powershell
+# Import build tasks
+. InvokeBuildHelperTasks
+
+# Build configuration
+$IBHConfig.VerifyTask.Enabled   = $false
+$IBHConfig.RepositoryTask.Token = Use-VaultSecureString -TargetName 'GitHub Token'
+$IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell Gallery Key'
+```
+
 ### Build Tasks
 
-* **Default (.)**
+* **Default (.)**  
     The default task will verify, build and test the module. This task is intended to be used during the development of the target module.
 
-* **Release**
+* **Release**  
     Release the module to the repository and the gallery. This task is used to publish a new module version.
-* **Verify**
+
+* **Verify**  
     Verify the build system itself, like the InvokeBuild and InvokeBuildHelper module version.
 
-* **Build**
+* **Build**  
     Build the C# solutions, if any exists. This includes clean, compile and deploy.
-* **Test**
+
+* **Test**  
     Test the module with pester and script analyzer. This includes schema tests, module unit tests and script analyzer rules.
-* **Clean**
 
-* **Compile**
+* **Clean**  
+    Planned task for C# solution clean. (NOT IMPLEMENTED)
 
-* **Deploy**
-    
+* **Compile**  
+    Planned task for C# solution compile. (NOT IMPLEMENTED)
 
-* **Pester**
+* **Deploy**  
+    Planned task for C# solution deploy. (NOT IMPLEMENTED)
+  
+* **Pester**  
+    Run all pester unit tests for the PowerShell module.
 
-* **Schema**
+* **Schema**  
+    Test the PowerShell module schema.
 
-* **Analyze**
+* **Analyze**  
+    Invoke the script analyzer for the PowerShell module.
 
-* **Approve**
+* **Approve**  
+    Verify if the module is ready to be released.
 
-* **Repository**
+* **Repository**  
+    Release the module to the source code repository.
 
-* **Gallery**
-
-
-
-
-### Commands
-
-* **Register-BuildTask**  
-  ...
-
-### Build Tasks
-
-
-
-ToDo: Build Task Image!!
-
-
-
-* ****
-
-* ****
-
-* ****
-
-* **Approve**
-
-* **Repository**
-
-* **Gallery**
-
-
+* **Gallery**  
+    Release the module to the PowerShell Gallery.
 
 ### Configuration
 
-The following configuration is set by default or generated on the fly for the build system. An demo value is shown in this example for generated properties. Every configuration can be overwritten after importing the `InvokeBuildHelperTasks` in the `.build.ps1` scripts.
+The following configuration is set by default or generated on the fly for the
+build system. An demo value is shown in this example for generated properties.
+Every configuration can be overwritten after importing the build script
+`InvokeBuildHelperTasks` in the `.build.ps1` scripts.
 
 ```powershell
 # Path to the module root folder
@@ -101,7 +101,7 @@ $IBHConfig.ApproveTask.Enabled = $true
 # Approve Task: Target branch for the release
 $IBHConfig.ApproveTask.BranchName = 'master'
 
-# Gallery Task: Option to enable or disable the release to the repository
+# Repository Task: Option to enable or disable the release to the repository
 $IBHConfig.RepositoryTask.Enabled = $true
 
 # Repository Task: By default, the repository is a GitHub repo
@@ -143,7 +143,7 @@ if the PackageManagement and PowerShellGet modules are available:
 
 ```powershell
 # Download and install the module
-Install-Module -Name 'WindowsFever'
+Install-Module -Name 'InvokeBuildHelper'
 ```
 
 Alternatively, download the latest release from GitHub and install the module
@@ -152,7 +152,6 @@ manually on your local system:
 1. Download the latest release from GitHub as a ZIP file: [GitHub Releases]
 2. Extract the module and install it: [Installing a PowerShell Module]
 
-
 ## Requirements
 
 The following minimum requirements are necessary to use this module, or in other
@@ -160,7 +159,6 @@ words are used to test this module:
 
 * Windows PowerShell 5.1
 * Windows 10 (for the File Explorer Namespace functions)
-
 
 ## Contribute
 
