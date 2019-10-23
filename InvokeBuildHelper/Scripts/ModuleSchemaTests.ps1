@@ -25,7 +25,7 @@ Describe 'Module Schema' {
 
     Context 'File Structure' {
 
-        $fileTestCases = @(
+        $fileNames = @(
             @{ RelativePath = '.vscode\launch.json' }
             @{ RelativePath = '.vscode\settings.json' }
             @{ RelativePath = '.vscode\tasks.json' }
@@ -42,7 +42,7 @@ Describe 'Module Schema' {
             @{ RelativePath = 'README.md' }
         )
 
-        It 'Should have the file <RelativePath>' -TestCases $fileTestCases {
+        It 'Should have the file <RelativePath>' -TestCases $fileNames {
 
             param ($RelativePath)
 
@@ -170,13 +170,79 @@ Describe 'Module Schema' {
 
     Context 'Module Definition' {
 
+        # Get the name of all helper files
+        $helperFiles = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Helpers' |
+                           Get-ChildItem -Include '*.ps1' -File -Recurse |
+                               Sort-Object -Property 'BaseName' |
+                                   ForEach-Object { @{ Name = $_.BaseName } }
 
-        # Check no helper is published
-        # Check all functions are published
-        # Check no extra functions are published
+        # Get the name of all function files
+        $functionFiles = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' |
+                             Get-ChildItem -Include '*.ps1' -File -Recurse |
+                                 Sort-Object -Property 'BaseName' |
+                                     ForEach-Object { @{ Name = $_.BaseName } }
+
+        # Get the list of all exported functions
+        $functionExportNames = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                                   ForEach-Object { $_['FunctionsToExport'] } |
+                                       Sort-Object |
+                                           ForEach-Object { @{ Name = $_ } }
+
+        It 'Should not export helper functions <Name>' -TestCases $helperFiles {
+
+            param ($Name)
+
+            # Act
+            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                          ForEach-Object { $_['FunctionsToExport'] }
+
+            # Assert
+            $actual | Should -Not -Contain $Name
+        }
+
+        It 'Should export function <Name>' -TestCases $functionFiles {
+
+            param ($Name)
+
+            # Act
+            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                          ForEach-Object { $_['FunctionsToExport'] }
+
+            # Assert
+            $actual | Should -Contain $Name
+        }
+
+        It 'Should have the script file for the function <Name>' -TestCases $functionExportNames {
+
+            param ($Name)
+
+            # Act
+            $actual = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' |
+                          Get-ChildItem -Filter "$Name.ps1" -File -Recurse
+
+            # Assert
+            $actual.Count | Should -Be 1
+        }
     }
 
-    Context 'Module Functions & Helpers' {
+    Context 'Module Function' {
+
+
+        $scriptFiles = @()
+        $scriptFiles += Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Helpers' | Get-ChildItem -Include '*.ps1' -File -Recurse
+        $scriptFiles += Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' | Get-ChildItem -Include '*.ps1' -File -Recurse
+
+        foreach ($scriptFile in $scriptFiles)
+        {
+            Context $scriptFile.FullName.Replace("$BuildRoot\", 'File ') {
+
+                #
+            }
+        }
+
+
+        # Use AST / Parser
+        # [System.Management.Automation.Language.Parser]::ParseInput($MyInvocation.MyCommand.ScriptContents, [ref]$null, [ref]$null)
 
         # Ensure function matches filename
 
@@ -187,6 +253,5 @@ Describe 'Module Schema' {
         # - NOTES (Author, Repo, License)
         # - LINK (to the repository, combine with git remote)
         # - Parameter Help
-
     }
 }

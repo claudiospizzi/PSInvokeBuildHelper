@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
-* Added: Check for the .debug.ps1 file
+* Added: Schema test for the .debug.ps1 file
+* Added: Schema tests for the (helper) function files and export definitions
 
 ## 1.0.0 - 2019-10-23
 
