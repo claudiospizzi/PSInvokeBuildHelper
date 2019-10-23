@@ -6,7 +6,7 @@
         Use the git command to evaluate which branch is currently checked out.
 
     .OUTPUTS
-        System.String. Git repo branch name.
+        System.String. Git repository branch name.
 
     .EXAMPLE
         PS C:\> Get-IBHGitBranch
@@ -21,7 +21,7 @@ function Get-IBHGitBranch
     [OutputType([System.String])]
     param
     (
-        # Root path of the git repo.
+        # Root path of the git repository.
         [Parameter(Mandatory = $false)]
         [System.String]
         $Path

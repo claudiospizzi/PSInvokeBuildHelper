@@ -1,17 +1,17 @@
 <#
     .SYNOPSIS
-        Check if the git local repo is ahead of the origin repo.
+        Check if the git local repository is ahead of the origin repository.
 
     .DESCRIPTION
-        Return the number of commits ahead of the origin repo. It will return 0,
-        if we are not ahead.
+        Return the number of commits ahead of the origin repository. It will
+        return 0, if we are not ahead.
 
     .OUTPUTS
         System.Int32. Number of commits ahead.
 
     .EXAMPLE
         PS C:\> Get-IBHGitAheadBy
-        Return the number of commits ahead by the origin repo.
+        Return the number of commits ahead by the origin repository.
 
     .LINK
         https://github.com/claudiospizzi/InvokeBuildHelper
@@ -22,7 +22,7 @@ function Get-IBHGitAheadBy
     [OutputType([System.Int32])]
     param
     (
-        # Root path of the git repo.
+        # Root path of the git repository.
         [Parameter(Mandatory = $false)]
         [System.String]
         $Path

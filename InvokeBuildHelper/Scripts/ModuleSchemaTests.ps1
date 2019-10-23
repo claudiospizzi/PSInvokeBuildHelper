@@ -4,8 +4,8 @@
 
     .DESCRIPTION
         Invoke tests based on Pester to verify if the module is valid. This
-        includes the meta files for VS Code, built system, git repo but also
-        module specific files.
+        includes the meta files for VS Code, built system, git repository but
+        also module specific files.
 #>
 [CmdletBinding()]
 param

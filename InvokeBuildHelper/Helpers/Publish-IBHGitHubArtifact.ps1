@@ -7,15 +7,15 @@ function Publish-IBHGitHubArtifact
     [CmdletBinding()]
     param
     (
-        # GitHub repo user.
+        # GitHub repository user.
         [Parameter(Mandatory = $true)]
         [System.String]
-        $RepoUser,
+        $RepositoryUser,
 
-        # GitHub repo name.
+        # GitHub repository name.
         [Parameter(Mandatory = $true)]
         [System.String]
-        $RepoName,
+        $RepositoryName,
 
         # Authentication token.
         [Parameter(Mandatory = $true)]
@@ -50,7 +50,7 @@ function Publish-IBHGitHubArtifact
     # Upload artifact to GitHub
     $invokeRestMethodSplat = @{
         Method          = 'Post'
-        Uri             = "https://uploads.github.com/repos/$RepoUser/$RepoName/releases/$ReleaseId/assets?name=$Name"
+        Uri             = "https://uploads.github.com/repos/$RepositoryUser/$RepositoryName/releases/$ReleaseId/assets?name=$Name"
         Headers         = @{
             'Accept'        = 'application/vnd.github.v3+json'
             'Authorization' = "token $plainToken"

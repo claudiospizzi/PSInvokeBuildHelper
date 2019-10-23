@@ -1,17 +1,17 @@
 <#
     .SYNOPSIS
-        Check the GitHub repo for its name.
+        Check the GitHub repository for its name.
 
     .DESCRIPTION
-        This command will return the repo name if the current repo is a GitHub
-        repository. If not, it will return an empty string.
+        This command will return the repository name if the current repository
+        is a GitHub repository. If not, it will return an empty string.
 
     .OUTPUTS
-        System.String. GitHub repo name.
+        System.String. GitHub repository name.
 
     .EXAMPLE
         PS C:\> Get-IBHGitHubRepo
-        Get the repo name of a GitHub repo.
+        Get the repository name of a GitHub repository.
 
     .LINK
         https://github.com/claudiospizzi/InvokeBuildHelper
@@ -22,7 +22,7 @@ function Get-IBHGitHubRepo
     [OutputType([System.String])]
     param
     (
-        # Root path of the git repo.
+        # Root path of the git repository.
         [Parameter(Mandatory = $false)]
         [System.String]
         $Path

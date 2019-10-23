@@ -3,15 +3,15 @@
         Check the GitHub user for its name.
 
     .DESCRIPTION
-        This command will return the user name if the current repo is a GitHub
-        repository. If not, it will return an empty string.
+        This command will return the user name if the current repository is a
+        GitHub repository. If not, it will return an empty string.
 
     .OUTPUTS
-        System.String. GitHub repo user.
+        System.String. GitHub repository user.
 
     .EXAMPLE
         PS C:\> Get-IBHGitHubRepo
-        Get the user name of a GitHub repo.
+        Get the user name of a GitHub repository.
 
     .LINK
         https://github.com/claudiospizzi/InvokeBuildHelper
@@ -22,7 +22,7 @@ function Get-IBHGitHubUser
     [OutputType([System.String])]
     param
     (
-        # Root path of the git repo.
+        # Root path of the git repository.
         [Parameter(Mandatory = $false)]
         [System.String]
         $Path

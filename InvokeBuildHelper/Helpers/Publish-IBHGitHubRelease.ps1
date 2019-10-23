@@ -7,15 +7,15 @@ function Publish-IBHGitHubRelease
     [CmdletBinding()]
     param
     (
-        # GitHub repo user.
+        # GitHub repository user.
         [Parameter(Mandatory = $true)]
         [System.String]
-        $RepoUser,
+        $RepositoryUser,
 
-        # GitHub repo name.
+        # GitHub repository name.
         [Parameter(Mandatory = $true)]
         [System.String]
-        $RepoName,
+        $RepositoryName,
 
         # Authentication token.
         [Parameter(Mandatory = $true)]
@@ -50,7 +50,7 @@ function Publish-IBHGitHubRelease
     # Create GitHub release
     $invokeRestMethodSplat = @{
         Method  = 'Post'
-        Uri     = "https://api.github.com/repos/$RepoUser/$RepoName/releases"
+        Uri     = "https://api.github.com/repos/$RepositoryUser/$RepositoryName/releases"
         Headers = @{
             'Accept'        = 'application/vnd.github.v3+json'
             'Authorization' = "token $plainToken"

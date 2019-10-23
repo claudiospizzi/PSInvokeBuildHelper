@@ -1,10 +1,10 @@
 <#
     .SYNOPSIS
-        Check if the git local repo has pending files in index or working.
+        Test if the git local repository has pending files in index or working.
 
     .DESCRIPTION
         Return the number of files which are pending. Pending files are part of
-         the index but not commited yet or even untracked but not ignored.
+        the index but not commited yet or even untracked but not ignored.
 
     .OUTPUTS
         System.Int32. Number of pending files.
@@ -22,7 +22,7 @@ function Get-IBHGitPendingFile
     [OutputType([System.Int32])]
     param
     (
-        # Root path of the git repo.
+        # Root path of the git repository.
         [Parameter(Mandatory = $false)]
         [System.String]
         $Path

@@ -68,22 +68,22 @@ function Publish-IBHRepository
     Compress-Archive -Path "$BuildRoot\$ModuleName" -DestinationPath $artifactPath -Verbose:$VerbosePreference -Force
 
     $publishGitHubReleaseSplat = @{
-        RepoUser      = $RepositoryUser
-        RepoName      = $RepositoryName
-        Token         = $RepositoryToken
-        ModuleName    = $ModuleName
-        ModuleVersion = $ModuleVersion
-        ReleaseNote   = $releaseNotes
+        RepositoryUser = $RepositoryUser
+        RepositoryName = $RepositoryName
+        Token          = $RepositoryToken
+        ModuleName     = $ModuleName
+        ModuleVersion  = $ModuleVersion
+        ReleaseNote    = $releaseNotes
     }
     $release = Publish-IBHGitHubRelease @publishGitHubReleaseSplat
 
     $publishGitHubArtifactSplat = @{
-        RepoUser  = $RepositoryUser
-        RepoName  = $RepositoryName
-        Token     = $RepositoryToken
-        ReleaseId = $release.Id
-        Name      = $artifactName
-        Path      = $artifactPath
+        RepositoryUser = $RepositoryUser
+        RepositoryName = $RepositoryName
+        Token          = $RepositoryToken
+        ReleaseId      = $release.Id
+        Name           = $artifactName
+        Path           = $artifactPath
     }
     Publish-IBHGitHubArtifact @publishGitHubArtifactSplat | Out-Null
 }
