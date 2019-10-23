@@ -167,8 +167,8 @@ task Repository Approve, {
             ModuleName      = $IBHConfig.ModuleName
             ModuleVersion   = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
             RepositoryType  = $IBHConfig.RepositoryTask.Type
-            RepositoryName  = $IBHConfig.RepositoryTask.Name
             RepositoryUser  = $IBHConfig.RepositoryTask.User
+            RepositoryName  = $IBHConfig.RepositoryTask.Name
             RepositoryToken = $IBHConfig.RepositoryTask.Token
         }
         Publish-IBHRepository @publishIBHRepository
