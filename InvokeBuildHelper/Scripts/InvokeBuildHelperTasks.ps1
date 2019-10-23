@@ -27,7 +27,8 @@ task Release Verify, Build, Test, Repository, Gallery
 
 # Synopsis: Build the C# solutions, if any exists. This includes clean, compile
 # and deploy.
-task Build Clean, Compile, Deploy
+# task Build Clean, Compile, Deploy   (NOT IMPLEMENTED)
+task Build
 
 # Synopsis: Test the module with pester and script analyzer. This includes
 # schema tests, module unit tests and script analyzer rules.
@@ -58,21 +59,22 @@ task Verify {
 # Synopsis: Planned task for C# solution clean. (NOT IMPLEMENTED)
 task Clean {
 
-    #throw 'Not implemented!'
+    Write-Warning 'Clean task not implemented! This task is only required for modules containing a C# solution.'
 }
 
 # Synopsis: Planned task for C# solution compile. (NOT IMPLEMENTED)
 task Compile {
 
-    #throw 'Not implemented!'
+    Write-Warning 'Compile task not implemented! This task is only required for modules containing a C# solution.'
 
+    # MSBuild.exe
     # https://github.com/nightroman/Invoke-Build/wiki/Resolve-MSBuild
 }
 
 # Synopsis: Planned task for C# solution deploy. (NOT IMPLEMENTED)
 task Deploy {
 
-    #throw 'Not implemented!'
+    Write-Warning 'Deploy task not implemented! This task is only required for modules containing a C# solution.'
 }
 
 # Synopsis: Run all pester unit tests for the PowerShell module.
