@@ -55,13 +55,13 @@ task Verify {
     }
 }
 
-# Synopsis:
+# Synopsis: Planned task for C# solution clean. (NOT IMPLEMENTED)
 task Clean {
 
     #throw 'Not implemented!'
 }
 
-# Synopsis:
+# Synopsis: Planned task for C# solution compile. (NOT IMPLEMENTED)
 task Compile {
 
     #throw 'Not implemented!'
@@ -69,13 +69,13 @@ task Compile {
     # https://github.com/nightroman/Invoke-Build/wiki/Resolve-MSBuild
 }
 
-# Synopsis:
+# Synopsis: Planned task for C# solution deploy. (NOT IMPLEMENTED)
 task Deploy {
 
     #throw 'Not implemented!'
 }
 
-# Synopsis: Run all pester unit tests for the PowerShell module
+# Synopsis: Run all pester unit tests for the PowerShell module.
 task Pester {
 
     $Host.UI.WriteLine()
@@ -91,7 +91,7 @@ task Pester {
     assert ($result.FailedCount -eq 0) ('{0} failure(s) in Pester Unit tests' -f $result.FailedCount)
 }
 
-# Synopsis: Test the PowerShell module schema
+# Synopsis: Test the PowerShell module schema.
 task Schema {
 
     $Host.UI.WriteLine()
@@ -107,7 +107,7 @@ task Schema {
     assert ($result.FailedCount -eq 0) ('{0} failure(s) in Module Schema tests' -f $result.FailedCount)
 }
 
-# Synopsis: Invoke the script analyzer for the PowerShell module
+# Synopsis: Invoke the script analyzer for the PowerShell module.
 task Analyze {
 
     $Host.UI.WriteLine()
@@ -123,7 +123,7 @@ task Analyze {
     assert ($result.FailedCount -eq 0) ('{0} failure(s) in Script Analyzer tests' -f $result.FailedCount)
 }
 
-# Synopsis:
+# Synopsis: Verify if the module is ready to be released.
 task Approve {
 
     if ($IBHConfig.ApproveTask.Enabled)
@@ -157,7 +157,7 @@ task Approve {
     }
 }
 
-# Synopsis: Release the module to the source code repository
+# Synopsis: Release the module to the source code repository.
 task Repository Approve, {
 
     if ($IBHConfig.RepositoryTask.Enabled)
@@ -179,7 +179,7 @@ task Repository Approve, {
     }
 }
 
-# Synopsis: Release the module to the PowerShell Gallery
+# Synopsis: Release the module to the PowerShell Gallery.
 task Gallery Approve, {
 
     if ($IBHConfig.GalleryTask.Enabled)
