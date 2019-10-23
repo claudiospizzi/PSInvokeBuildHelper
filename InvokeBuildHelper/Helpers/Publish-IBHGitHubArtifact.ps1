@@ -39,13 +39,16 @@ function Publish-IBHGitHubArtifact
         [System.Net.ServicePointManager]::SecurityProtocol += [System.Net.SecurityProtocolType]::Tls12
     }
 
+    # Unprotect token
+    $plainToken = Unprotect-SecureString -SecureString $Token
+
     # Upload artifact to GitHub
     $invokeRestMethodSplat = @{
         Method          = 'Post'
         Uri             = "https://uploads.github.com/repos/$RepoName/releases/$ReleaseId/assets?name=$Name"
         Headers         = @{
             'Accept'        = 'application/vnd.github.v3+json'
-            'Authorization' = "token $Token"
+            'Authorization' = "token $plainToken"
             'Content-Type'  = 'application/zip'
         }
         InFile          = $Path

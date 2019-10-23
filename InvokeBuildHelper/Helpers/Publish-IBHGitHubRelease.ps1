@@ -39,13 +39,16 @@ function Publish-IBHGitHubRelease
         [System.Net.ServicePointManager]::SecurityProtocol += [System.Net.SecurityProtocolType]::Tls12
     }
 
+    # Unprotect token
+    $plainToken = Unprotect-SecureString -SecureString $Token
+
     # Create GitHub release
     $invokeRestMethodSplat = @{
         Method  = 'Post'
         Uri     = "https://api.github.com/repos/$RepoName/releases"
         Headers = @{
             'Accept'        = 'application/vnd.github.v3+json'
-            'Authorization' = "token $Token"
+            'Authorization' = "token $plainToken"
         }
         Body   = @{
             tag_name         = $ModuleVersion
