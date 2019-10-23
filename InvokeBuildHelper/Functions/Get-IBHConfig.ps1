@@ -60,6 +60,10 @@ function Get-IBHConfig
             Name                = 'PSGallery'
             Token               = [System.Security.SecureString]::new()
         }
+
+        LocalDebugTask      = [PSCustomObject] @{
+            ModulePath          = ($Env:PSModulePath -split ';') -like "$Home*" | Select-Object -First 1
+        }
     }
 
     return $config

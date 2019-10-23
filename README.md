@@ -75,6 +75,9 @@ $IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell 
 * **Gallery**  
     Release the module to the PowerShell Gallery.
 
+* **LocalDebug**  
+    Deploy a beta version as revision to the local module repository.
+
 ### Configuration
 
 The following configuration is set by default or generated on the fly for the
@@ -83,52 +86,53 @@ Every configuration can be overwritten after importing the build script
 `InvokeBuildHelperTasks` in the `.build.ps1` scripts.
 
 ```powershell
-# Path to the module root folder
+# Path to the module root folder (auto generated)
 $IBHConfig.BuildRoot = 'C:\GitHub\InvokeBuildHelper'
 
-# Name of the module to build
+# Name of the module to build (auto generated)
 $IBHConfig.ModuleName = 'InvokeBuildHelper'
 
-# Verify Task: Option to enable or disable the verification tests
+# Verify Task: Option to enable or disable the verification tests (default)
 $IBHConfig.VerifyTask.Enabled = $true
 
-# Analyze Task: Rules to process by the PowerShell Script Analyzer
+# Analyze Task: Rules to process by the PowerShell Script Analyzer (default)
 $IBHConfig.AnalyzeTask.ScriptAnalyzerRules = Get-ScriptAnalyzerRule
 
-# Approve Task: Option to enable or disable the release approval tests
+# Approve Task: Option to enable or disable the release approval tests (default)
 $IBHConfig.ApproveTask.Enabled = $true
 
-# Approve Task: Target branch for the release
+# Approve Task: Target branch for the release (default)
 $IBHConfig.ApproveTask.BranchName = 'master'
 
-# Repository Task: Option to enable or disable the release to the repository
+# Repository Task: Option to enable or disable the release to the repository (default)
 $IBHConfig.RepositoryTask.Enabled = $true
 
-# Repository Task: By default, the repository is a GitHub repo
+# Repository Task: By default, the repository is a GitHub repo (default)
 $IBHConfig.RepositoryTask.Type = 'GitHub'
 
-# Repository Task: The name of the user
+# Repository Task: The name of the user (auto generated)
 $IBHConfig.RepositoryTask.User = 'claudiospizzi'
 
-# Repository Task: The name of the repository
+# Repository Task: The name of the repository (auto generated)
 $IBHConfig.RepositoryTask.Name = 'InvokeBuildHelper'
 
-# Repository Task: The secret token to access the GitHub api (if not specified, the
-# Credential vault will be searched for the token)
+# Repository Task: The secret token to access the GitHub api (default)
 $IBHConfig.RepositoryTask.Token = ''
 
-# Gallery Task: Option to enable or disable the release to the gallery
+# Gallery Task: Option to enable or disable the release to the gallery (default)
 $IBHConfig.GalleryTask.Enabled = $true
 
-# Gallery Task: Name of the PowerShell Gallery user, assume it's the same as GitHub
+# Gallery Task: Name of the PowerShell Gallery user, assume it's the same as GitHub (auto generated)
 $IBHConfig.GalleryTask.User = 'claudiospizzi'
 
-# Gallery Task: Name of the PowerShell Gallery repository
+# Gallery Task: Name of the PowerShell Gallery repository (default)
 $IBHConfig.GalleryTask.Name = 'PSGallery'
 
-# Gallery Task: The secret token to access the PowerShell Gallery (if not specified,
-# the Credential vault will be searched for the token)
+# Gallery Task: The secret token to access the PowerShell Gallery (default)
 $IBHConfig.GalleryTask.Token = ''
+
+# Local Debug Task: The module path where the beta revision is deployed (auto generated)
+$IBHConfig.LocalDebug.ModulePath = 'C:\Users\ClaudioSpizzi\Documents\WindowsPowerShell\Modules'
 ```
 
 ## Versions

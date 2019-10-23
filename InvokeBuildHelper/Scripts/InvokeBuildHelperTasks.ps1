@@ -17,25 +17,20 @@ param ()
 # Load the build configuration
 $IBHConfig = Get-IBHConfig -BuildRoot $BuildRoot
 
-# Synopsis: The default task will verify, build and test the module. This task
-# is intended to be used during the development of the target module.
+# Synopsis: The default task will verify, build and test the module. This task is intended to be used during the development of the target module.
 task . Verify, Build, Test
 
-# Synopsis: Release the module to the repository and the gallery. This task is
-# used to publish a new module version.
+# Synopsis: Release the module to the repository and the gallery. This task is used to publish a new module version.
 task Release Verify, Build, Test, Repository, Gallery
 
-# Synopsis: Build the C# solutions, if any exists. This includes clean, compile
-# and deploy.
-# task Build Clean, Compile, Deploy   (NOT IMPLEMENTED)
+# Synopsis: Build the C# solutions, if any exists. This includes clean, compile and deploy.
+# task Build Clean, Compile, Deploy (NOT IMPLEMENTED)
 task Build
 
-# Synopsis: Test the module with pester and script analyzer. This includes
-# schema tests, module unit tests and script analyzer rules.
+# Synopsis: Test the module with pester and script analyzer. This includes schema tests, module unit tests and script analyzer rules.
 task Test Pester, Schema, Analyze
 
-# Synopsis: Verify the build system itself, like the InvokeBuild and
-# InvokeBuildHelper module version.
+# Synopsis: Verify the build system itself, like the InvokeBuild and InvokeBuildHelper module version.
 task Verify {
 
     if ($IBHConfig.VerifyTask.Enabled)
@@ -206,4 +201,35 @@ task Gallery Approve, {
     {
         Write-Warning 'Gallery task is disabled, no release to the gallery!'
     }
+}
+
+# Synopsis: Deploy a beta version as revision to the local module repository.
+task LocalDebug {
+
+    # Get the module version
+    $sourceVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+
+    # Get the latest installed module version
+    $targetVersion = Get-Module -Name $IBHConfig.ModuleName -ListAvailable |
+                         Sort-Object -Property 'Version' -Descending |
+                             Select-Object -ExpandProperty 'Version' -First 1
+
+    # Increase the revision by one
+    $targetVersion = [System.Version] ('{0}.{1}.{2}.{3}' -f $targetVersion.Major, $targetVersion.Minor, $targetVersion.Build, ($targetVersion.Revision + 1))
+
+    # Define the output path
+    $sourcePath = '{0}\{1}\*' -f $IBHConfig.BuildRoot, $IBHConfig.ModuleName
+    $targetPath = '{0}\{1}\{2}' -f $IBHConfig.LocalDebugTask.ModulePath, $IBHConfig.ModuleName, $targetVersion
+    $targetFile = '{0}\{1}.psd1' -f $targetPath, $IBHConfig.ModuleName
+
+    # Create the output folder
+    New-Item -Path $targetPath -ItemType 'Directory' -Force | Out-Null
+
+    # Deploy the module with recursive copy
+    Copy-Item -Path $sourcePath -Destination $targetPath -Recurse -Force
+
+    # Path the module definition
+    $definition = Get-Content -Path $targetFile
+    $definition = $definition -replace "ModuleVersion = '$sourceVersion'", "ModuleVersion = '$targetVersion'"
+    $definition | Set-Content -Path $targetFile -Encoding 'UTF8'
 }
