@@ -35,6 +35,7 @@ Describe 'Module Schema' {
             @{ RelativePath = "$ModuleName\$ModuleName.psd1" }
             @{ RelativePath = "$ModuleName\$ModuleName.psm1" }
             @{ RelativePath = '.build.ps1' }
+            @{ RelativePath = '.debug.ps1' }
             @{ RelativePath = '.gitignore' }
             @{ RelativePath = 'CHANGELOG.md' }
             @{ RelativePath = 'LICENSE' }
