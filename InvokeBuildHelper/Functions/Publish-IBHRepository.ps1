@@ -3,14 +3,16 @@
         Publish the module to the repository releases.
 
     .DESCRIPTION
-        .
+        Use REST API calls to the GitHub api to create a new release based on
+        the tag and upload the module ZIP as artifact.
 
     .OUTPUTS
         None. No output if successful or an exception in case of an error.
 
     .EXAMPLE
-        PS C:\> .
-        .
+        PS C:\> Publish-IBHRepository -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleName 'InvokeBuildHelper' -ModuleVersion '1.0.0' -RepositoryType = 'GitHub' -RepositoryUser = 'claudiospizzi' -RepositoryName = 'InvokeBuildHelper' -RepositoryToken = $token
+        Publish the module InvokeBuildHelper version 1.0.0 to the GitHub
+        releases.
 
     .LINK
         https://github.com/claudiospizzi/InvokeBuildHelper
