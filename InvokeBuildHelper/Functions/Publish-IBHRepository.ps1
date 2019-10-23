@@ -67,7 +67,23 @@ function Publish-IBHRepository
     # Create ZIP file
     Compress-Archive -Path "$BuildRoot\$ModuleName" -DestinationPath $artifactPath -Verbose:$VerbosePreference -Force
 
-    $release = Publish-IBHGitHubRelease -RepoName $RepositoryName -Token $RepositoryToken -ModuleName $ModuleName -ModuleVersion $ModuleVersion -ReleaseNote $releaseNotes
+    $publishGitHubReleaseSplat = @{
+        RepoUser      = $RepositoryUser
+        RepoName      = $RepositoryName
+        Token         = $RepositoryToken
+        ModuleName    = $ModuleName
+        ModuleVersion = $ModuleVersion
+        ReleaseNote   = $releaseNotes
+    }
+    $release = Publish-IBHGitHubRelease @publishGitHubReleaseSplat
 
-    Publish-IBHGitHubArtifact -RepoName $RepositoryName -Token $RepositoryToken -ReleaseId $release.Id -Name $artifactName -Path $artifactPath | Out-Null
+    $publishGitHubArtifactSplat = @{
+        RepoUser  = $RepositoryUser
+        RepoName  = $RepositoryName
+        Token     = $RepositoryToken
+        ReleaseId = $release.Id
+        Name      = $artifactName
+        Path      = $artifactPath
+    }
+    Publish-IBHGitHubArtifact @publishGitHubArtifactSplat | Out-Null
 }
