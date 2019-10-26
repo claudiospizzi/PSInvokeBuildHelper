@@ -4,7 +4,7 @@
 
 # InvokeBuildHelper PowerShell Module
 
-Common build tasks for the Invoke-Build PowerShell module.
+Common build tasks for the [Invoke-Build](https://github.com/nightroman/Invoke-Build) PowerShell module.
 
 ## Introduction
 
