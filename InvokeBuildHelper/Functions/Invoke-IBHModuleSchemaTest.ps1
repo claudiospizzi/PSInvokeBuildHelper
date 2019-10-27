@@ -32,6 +32,11 @@ function Invoke-IBHModuleSchemaTest
         [System.String]
         $ModuleName,
 
+        # List of text file extension.
+        [Parameter(Mandatory = $true)]
+        [System.String[]]
+        $TextFileExtension,
+
         # Output folder for the NUnitXml file.
         [Parameter(Mandatory = $true)]
         [System.String]
@@ -42,8 +47,9 @@ function Invoke-IBHModuleSchemaTest
         Script       = @{
             Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ModuleSchemaTests.ps1" | Select-Object -ExpandProperty 'Path'
             Parameters   = @{
-                BuildRoot    = $BuildRoot
-                ModuleName   = $ModuleName
+                BuildRoot         = $BuildRoot
+                ModuleName        = $ModuleName
+                TextFileExtension = $TextFileExtension
             }
         }
         OutputFile   = Join-Path -Path $OutputPath -ChildPath 'TestResult.ModuleSchema.xml'

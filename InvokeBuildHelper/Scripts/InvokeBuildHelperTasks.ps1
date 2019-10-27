@@ -97,7 +97,7 @@ task Schema {
     $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
 
     # Invoke the module schema tests
-    $result = Invoke-IBHModuleSchemaTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -OutputPath $outputPath
+    $result = Invoke-IBHModuleSchemaTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -TextFileExtension $IBHConfig.SchemaTask.TextFileExtension -OutputPath $outputPath
 
     $Host.UI.WriteLine()
 

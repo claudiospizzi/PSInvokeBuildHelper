@@ -95,6 +95,9 @@ $IBHConfig.ModuleName = 'InvokeBuildHelper'
 # Verify Task: Option to enable or disable the verification tests (default)
 $IBHConfig.VerifyTask.Enabled = $true
 
+# Schema Task: List of text file extension (default)
+$IBHConfig.SchemaTask.TextFileExtension = '.gitignore', '.gitattributes', '.ps1', '.psm1', '.psd1', '.ps1xml', '.txt', '.xml', '.cmd', '.json', '.md'
+
 # Analyze Task: Rules to process by the PowerShell Script Analyzer (default)
 $IBHConfig.AnalyzeTask.ScriptAnalyzerRules = Get-ScriptAnalyzerRule
 

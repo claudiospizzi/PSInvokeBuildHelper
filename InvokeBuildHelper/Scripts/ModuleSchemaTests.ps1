@@ -18,7 +18,12 @@ param
     # Name of the module.
     [Parameter(Mandatory = $true)]
     [System.String]
-    $ModuleName
+    $ModuleName,
+
+    # List of text file extension.
+    [Parameter(Mandatory = $true)]
+    [System.String[]]
+    $TextFileExtension
 )
 
 Describe 'Module Schema' {
@@ -54,6 +59,80 @@ Describe 'Module Schema' {
 
             # Assert
             $actual | Should -BeTrue
+        }
+
+        # Encoding (no Unicode, no UTF-8 BOM)
+    }
+
+    Context 'File Encoding & Formatting' {
+
+        $fileNames = Get-ChildItem -Path $BuildRoot -File -Recurse |
+                         Where-Object { $TextFileExtension -contains $_.Extension -and -not $_.FullName.StartsWith("$BuildRoot\out") } |
+                             ForEach-Object { @{ Path = $_.FullName; RelativePath = $_.FullName.Replace($BuildRoot, '') } }
+
+        It 'Should not use UTF-16 LE encoding for file <RelativePath>' -TestCases $fileNames {
+
+            param ($Path)
+
+            # Act
+            $zeroByteCount = @([System.IO.File]::ReadAllBytes($Path) -eq 0).Length
+
+            # Assert
+            $zeroByteCount | Should -Be 0 -Because 'the text file should not contain 0x00 bytes'
+        }
+
+        It 'Should not use BOM for UTF-8 encoding for file <RelativePath>' -TestCases $fileNames {
+
+            param ($Path)
+
+            # Act
+            $bytes = [System.IO.File]::ReadAllBytes($Path)
+            $isBOM = $bytes.Length -ge 3 -and $bytes[0] -eq 239 -and $bytes[1] -eq 187 -and $bytes[2] -eq 191
+
+            # Assert
+            $isBOM | Should -BeFalse -Because 'the text file should not contain the UTF-8 BOM header'
+        }
+
+        It 'Should use spaces for indentation (not tabs) for file <RelativePath>' -TestCases $fileNames {
+
+            param ($Path)
+
+            # Arrange
+            $failedLines = @()
+
+            # Act
+            $content = Get-Content -Path $Path
+            for ($i = 0; $i -lt $content.Count; $i++)
+            {
+                if ($content[$i] -match '^\s*\t')
+                {
+                    $failedLines += ($i + 1)
+                }
+            }
+
+            # Assert
+            $failedLines.Count | Should -Be 0 -Because "the line(s) $($failedLines -join ', ') should not contain a tab indentation"
+        }
+
+        It 'Should use no trailing spaces on lines for file <RelativePath>' -TestCases $fileNames.Where({ $_.RelativePath -ne '\README.md' }) {
+
+            param ($Path)
+
+            # Arrange
+            $failedLines = @()
+
+            # Act
+            $content = Get-Content -Path $Path
+            for ($i = 0; $i -lt $content.Count; $i++)
+            {
+                if ($content[$i] -match '\s+$')
+                {
+                    $failedLines += ($i + 1)
+                }
+            }
+
+            # Assert
+            $failedLines.Count | Should -Be 0 -Because "the line(s) $($failedLines -join ', ') should not contain trailing spaces"
         }
     }
 
@@ -254,4 +333,5 @@ Describe 'Module Schema' {
         # - LINK (to the repository, combine with git remote)
         # - Parameter Help
     }
+
 }
