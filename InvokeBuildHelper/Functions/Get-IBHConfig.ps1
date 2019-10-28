@@ -35,6 +35,8 @@ function Get-IBHConfig
 
         VerifyTask          = [PSCustomObject] @{
             Enabled             = $true
+            InvokeBuildVersion  = '5.5.5'
+            ModulePackageUrl    = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
         }
 
         SchemaTask          = [PSCustomObject] @{

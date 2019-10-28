@@ -95,6 +95,12 @@ $IBHConfig.ModuleName = 'InvokeBuildHelper'
 # Verify Task: Option to enable or disable the verification tests (default)
 $IBHConfig.VerifyTask.Enabled = $true
 
+# Verify Task: Minimum version of the InvokeBuild module (default)
+$IBHConfig.VerifyTask.InvokeBuildVersion = '5.5.5'
+
+# Verify Task: Url to the PowerShell Gallery to get the latest InvokeBuildHelper version (default)
+$IBHConfig.VerifyTask.ModulePackageUrl = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
+
 # Schema Task: List of text file extension (default)
 $IBHConfig.SchemaTask.TextFileExtension = '.gitignore', '.gitattributes', '.ps1', '.psm1', '.psd1', '.ps1xml', '.txt', '.xml', '.cmd', '.json', '.md'
 

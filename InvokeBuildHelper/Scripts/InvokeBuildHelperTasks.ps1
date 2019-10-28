@@ -35,15 +35,15 @@ task Verify {
 
     if ($IBHConfig.VerifyTask.Enabled)
     {
-        $invokeBuildModuleVersion = '5.5.3'
+        # Ensure the module dependency on InvokeBuild is ok
+        $ibActualVersion   = Get-Module -Name 'InvokeBuild' | Select-Object -ExpandProperty 'Version'
+        $ibRequiredVersion = [System.Version] $IBHConfig.VerifyTask.InvokeBuildVersion
+        assert ($ibActualVersion -ge $ibRequiredVersion) "The InvokeBuild module version $ibActualVersion is outdated, please update to $ibRequiredVersion or later!"
 
-        $psGalleryApi = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
-
-        $expectedVersion = Invoke-RestMethod -Uri $psGalleryApi | Select-Object -Last 1 | ForEach-Object { $_.properties.version }
-        $actualVersion   = Get-Module -Name 'InvokeBuildHelper' | ForEach-Object { $_.Version.ToString() }
-
-        assert ((Get-Module -Name 'InvokeBuild').Version -ge $invokeBuildModuleVersion) "The InvokeBuild module version should be $invokeBuildModuleVersion or higher!"
-        assert ($expectedVersion -eq $actualVersion) "The InvokeBuildHelper module version $actualVersion is not current, please update to $expectedVersion!"
+        # Ensure the module dependency on InvokeBuildHelper itself is ok
+        $ibhActualVersion   = Get-Module -Name 'InvokeBuildHelper' | Select-Object -ExpandProperty 'Version'
+        $ibhRequiredVersion = Invoke-RestMethod -Uri $IBHConfig.VerifyTask.ModulePackageUrl | Select-Object -Last 1 | ForEach-Object { [System.Version] $_.properties.version }
+        assert ($ibhActualVersion -ge $ibhRequiredVersion) "The InvokeBuildHelper module version $ibhActualVersion is outdated, please update to $ibhRequiredVersion or later!"
     }
     else
     {
