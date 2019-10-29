@@ -267,7 +267,7 @@ Describe 'Module Schema' {
                                        Sort-Object |
                                            ForEach-Object { @{ Name = $_ } }
 
-        It 'Should not export helper functions <Name>' -TestCases $helperFiles {
+        It 'Should not export helper functions <Name>' -TestCases $helperFiles -Skip:($helperFiles.Count -eq 0) {
 
             param ($Name)
 
@@ -279,7 +279,7 @@ Describe 'Module Schema' {
             $actual | Should -Not -Contain $Name
         }
 
-        It 'Should export function <Name>' -TestCases $functionFiles {
+        It 'Should export function <Name>' -TestCases $functionFiles -Skip:($functionFiles.Count -eq 0) {
 
             param ($Name)
 
@@ -291,7 +291,7 @@ Describe 'Module Schema' {
             $actual | Should -Contain $Name
         }
 
-        It 'Should have the script file for the function <Name>' -TestCases $functionExportNames {
+        It 'Should have the script file for the function <Name>' -TestCases $functionExportNames -Skip:($functionExportNames.Count -eq 0) {
 
             param ($Name)
 
