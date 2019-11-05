@@ -9,11 +9,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install Module Dependencies
-      run: |
-        Install-Module -Name 'Pester' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop
-        Install-Module -Name 'InvokeBuild' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop
-        Install-Module -Name 'InvokeBuildHelper' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop
-    - name: Run Build
-      run: |
-        Invoke-Build
+    - name: Install Pester Module
+      run: Install-Module -Name 'Pester' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+    - name: Install PSScriptAnalyzer Module
+      run: Install-Module -Name 'PSScriptAnalyzer' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+    - name: Install InvokeBuild Module
+      run: Install-Module -Name 'InvokeBuild' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+    - name: Install InvokeBuildHelper Module
+      run: Install-Module -Name 'InvokeBuildHelper' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+    - name: Build
+      run: Invoke-Build
