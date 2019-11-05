@@ -9,13 +9,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      
     - name: Install Pester Module
       run: Install-Module -Name 'Pester' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+      shell: powershell
+      
     - name: Install PSScriptAnalyzer Module
       run: Install-Module -Name 'PSScriptAnalyzer' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+      shell: powershell
+      
     - name: Install InvokeBuild Module
       run: Install-Module -Name 'InvokeBuild' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+      shell: powershell
+      
     - name: Install InvokeBuildHelper Module
       run: Install-Module -Name 'InvokeBuildHelper' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+      shell: powershell
+      
     - name: Build
       run: Invoke-Build
+      shell: powershell
