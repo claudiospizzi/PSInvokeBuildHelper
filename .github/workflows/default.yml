@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Module Dependencies
+      run: |
+        Install-Module -Name 'Pester' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop
+        Install-Module -Name 'InvokeBuild' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop
+        Install-Module -Name 'InvokeBuildHelper' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop
+    - name: Run Build
+      run: |
+        Invoke-Build
