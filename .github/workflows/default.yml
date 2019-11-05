@@ -35,5 +35,5 @@ jobs:
       shell: powershell
 
     - name: Build
-      run: Invoke-Build -Task
+      run: Invoke-Build
       shell: powershell
