@@ -9,23 +9,31 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      
-    - name: Install Pester Module
-      run: Install-Module -Name 'Pester' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+
+    - name: Install PowerShell Module posh-git
+      run: Install-Module -Name 'posh-git' -Repository 'PSGallery' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
       shell: powershell
-      
-    - name: Install PSScriptAnalyzer Module
-      run: Install-Module -Name 'PSScriptAnalyzer' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+
+    - name: Install PowerShell Module Pester
+      run: Install-Module -Name 'Pester' -Repository 'PSGallery' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
       shell: powershell
-      
-    - name: Install InvokeBuild Module
-      run: Install-Module -Name 'InvokeBuild' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+
+    - name: Install PowerShell Module PSScriptAnalyzer
+      run: Install-Module -Name 'PSScriptAnalyzer' -Repository 'PSGallery' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
       shell: powershell
-      
-    - name: Install InvokeBuildHelper Module
-      run: Install-Module -Name 'InvokeBuildHelper' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+
+    - name: Install PowerShell Module SecurityFever
+      run: Install-Module -Name 'SecurityFever' -Repository 'PSGallery' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
       shell: powershell
-      
+
+    - name: Install PowerShell Module InvokeBuild
+      run: Install-Module -Name 'InvokeBuild' -Repository 'PSGallery' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+      shell: powershell
+
+    - name: Install PowerShell Module InvokeBuildHelper
+      run: Install-Module -Name 'InvokeBuildHelper' -Repository 'PSGallery' -Force -SkipPublisherCheck -AllowClobber -ErrorAction Stop -Verbose
+      shell: powershell
+
     - name: Build
-      run: Invoke-Build
+      run: Invoke-Build -Task
       shell: powershell
