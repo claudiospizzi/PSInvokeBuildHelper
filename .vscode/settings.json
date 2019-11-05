@@ -6,11 +6,17 @@
 
     "files.exclude": {
         "**/.git": true,
-        "out": true
+        "out": true,
+        "**/.vs/": true,
+        "**/obj/": true,
+        "**/bin/": true
     },
 
     "search.exclude": {
-        "out": true
+        "out": true,
+        "**/.vs/": true,
+        "**/obj/": true,
+        "**/bin/": true
     },
 
     "powershell.debugging.createTemporaryIntegratedConsole": true,
