@@ -174,6 +174,9 @@ task Approve {
         $gitRemoteTag = Test-IBHGitRemoteTag -ModuleVersion $moduleVersion
         assert $gitRemoteTag ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)
 
+        $solutionVersion = Test-IBHSolutionVersion -BuildRoot $IBHConfig.BuildRoot -SolutionName $IBHConfig.SolutionName -ModuleVersion $moduleVersion
+        assert $solutionVersion ('Solution assembly info version does not match the module version {0}!' -f $moduleVersion)
+
         if ($IBHConfig.GalleryTask.Enabled)
         {
             $galleryNames = Get-PSRepository | Select-Object -ExpandProperty 'Name'
@@ -187,7 +190,7 @@ task Approve {
 }
 
 # Synopsis: Release the module to the source code repository.
-task Repository Approve, {
+task Repository Build, Approve, {
 
     if ($IBHConfig.RepositoryTask.Enabled)
     {
@@ -209,7 +212,7 @@ task Repository Approve, {
 }
 
 # Synopsis: Release the module to the PowerShell Gallery.
-task Gallery Approve, {
+task Gallery Build, Approve, {
 
     if ($IBHConfig.GalleryTask.Enabled)
     {

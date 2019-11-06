@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added: Schema tests for the (helper) function files and export definitions
 * Added: Schema tests for encoding, white space and indentation character
 * Added: Skip tests, if no functions or helpers are defined
+* Added: Approve test to verify the solutions version
 * Changed: Verify task now allows newer revisions for InvokeBuildHelper
 * Changed: Move asserts from Gallery to Approve task
 

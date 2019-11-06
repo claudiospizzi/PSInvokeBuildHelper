@@ -83,6 +83,7 @@
         'Test-IBHChangeLogVersion'
         'Test-IBHGitLocalTag'
         'Test-IBHGitRemoteTag'
+        'Test-IBHSolutionVersion'
         'Invoke-IBHModuleSchemaTest'
         'Invoke-IBHPesterUnitTest'
         'Invoke-IBHScriptAnalyzerTest'
