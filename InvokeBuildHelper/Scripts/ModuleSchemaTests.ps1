@@ -60,14 +60,16 @@ Describe 'Module Schema' {
             # Assert
             $actual | Should -BeTrue
         }
-
-        # Encoding (no Unicode, no UTF-8 BOM)
     }
 
     Context 'File Encoding & Formatting' {
 
         $fileNames = Get-ChildItem -Path $BuildRoot -File -Recurse |
-                         Where-Object { $TextFileExtension -contains $_.Extension -and -not $_.FullName.StartsWith("$BuildRoot\out") } |
+                         Where-Object { $TextFileExtension -contains $_.Extension -and
+                                        $_.FullName -notlike "$BuildRoot*\out\*" -and
+                                        $_.FullName -notlike "$BuildRoot*\bin\*" -and
+                                        $_.FullName -notlike "$BuildRoot*\obj\*" -and
+                                        $_.FullName -notlike "$BuildRoot\*\packages\*" } |
                              ForEach-Object { @{ Path = $_.FullName; RelativePath = $_.FullName.Replace($BuildRoot, '') } }
 
         It 'Should not use UTF-16 LE encoding for file <RelativePath>' -TestCases $fileNames {
@@ -172,10 +174,21 @@ Describe 'Module Schema' {
 
             # Assert
             $settings.'files.trimTrailingWhitespace'                          | Should -BeTrue
-            $settings.'[markdown]'.'files.trimTrailingWhitespace'             | Should -BeFalse
+            $settings.'[markdown]'.'files.trimTrailingWhitespace'             | Should -BeFals
             $settings.'files.exclude'.'**/.git'                               | Should -BeTrue
-            $settings.'files.exclude'.'out'                                   | Should -BeTrue
-            $settings.'search.exclude'.'out'                                  | Should -BeTrue
+            $settings.'files.exclude'.'**/.vs'                                | Should -BeTrue
+            $settings.'files.exclude'.'**/obj'                                | Should -BeTrue
+            $settings.'files.exclude'.'**/bin'                                | Should -BeTrue
+            $settings.'files.exclude'.'**/out'                                | Should -BeTrue
+            $settings.'files.exclude'.'**/packages'                           | Should -BeTrue
+            $settings.'files.exclude'.'**/*.user'                             | Should -BeTrue
+            $settings.'search.exclude'.'**/.git'                              | Should -BeTrue
+            $settings.'search.exclude'.'**/.vs'                               | Should -BeTrue
+            $settings.'search.exclude'.'**/obj'                               | Should -BeTrue
+            $settings.'search.exclude'.'**/bin'                               | Should -BeTrue
+            $settings.'search.exclude'.'**/out'                               | Should -BeTrue
+            $settings.'search.exclude'.'**/packages'                          | Should -BeTrue
+            $settings.'search.exclude'.'**/*.user'                            | Should -BeTrue
             $settings.'powershell.debugging.createTemporaryIntegratedConsole' | Should -BeTrue
             $settings.'powershell.codeFormatting.alignPropertyValuePairs'     | Should -BeTrue
             $settings.'powershell.codeFormatting.ignoreOneLineBlock'          | Should -BeTrue
@@ -231,7 +244,12 @@ Describe 'Module Schema' {
             $gitignore = Get-Content -Path $path
 
             # Assert
-            $gitignore | Should -Contain '/out/'
+            $gitignore | Should -Contain '**/Assemblies/*.dll'
+            $gitignore | Should -Contain '[Bb]in/'
+            $gitignore | Should -Contain '[Oo]bj/'
+            $gitignore | Should -Contain '[Oo]ut/'
+            $gitignore | Should -Contain '.vs/'
+            $gitignore | Should -Contain '**/packages/*'
         }
     }
 
