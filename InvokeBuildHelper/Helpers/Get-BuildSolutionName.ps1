@@ -18,10 +18,8 @@ function Get-BuildSolutionName
                       Where-Object { Test-Path -Path ('{0}\{1}.sln'-f $_.FullName, $_.Name) } |
                           Select-Object -ExpandProperty 'Name' -First 1
 
-    if ([System.String]::IsNullOrEmpty($solutionName))
+    if (-not [System.String]::IsNullOrEmpty($solutionName))
     {
-        throw 'Module name not found!'
+        Write-Output $solutionName
     }
-
-    return $solutionName
 }
