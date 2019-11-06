@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added: Approve test to verify the solutions version
 * Changed: Verify task now allows newer revisions for InvokeBuildHelper
 * Changed: Move asserts from Gallery to Approve task
+* Fixed: Fix regex on repo detection
 
 ## 1.0.0 - 2019-10-23
 
