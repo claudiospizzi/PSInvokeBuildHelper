@@ -72,27 +72,41 @@ task Verify {
 # Synopsis: Planned task for C# solution clean.
 task Clean {
 
-    # Get the MSBuild command
-    $msBuildCommand = Resolve-MSBuild
+    if (-not [System.String]::IsNullOrEmpty($IBHConfig.SolutionName))
+    {
+        $Host.UI.WriteLine()
 
-    # Define the solution name to compile
-    $solutionFile = '{0}\{1}\{1}.sln' -f $IBHConfig.BuildRoot, $IBHConfig.SolutionName
+        # Get the MSBuild command
+        $msBuildCommand = Resolve-MSBuild
 
-    # Invoke the release build
-    exec { & "$msBuildCommand" "$solutionFile" /p:Configuration=Release /t:Clean }
+        # Define the solution name to compile
+        $solutionFile = '{0}\{1}\{1}.sln' -f $IBHConfig.BuildRoot, $IBHConfig.SolutionName
+
+        # Invoke the release build
+        exec { & "$msBuildCommand" "$solutionFile" /p:Configuration=Release /t:Clean /v:minimal }
+
+        $Host.UI.WriteLine()
+    }
 }
 
 # Synopsis: Planned task for C# solution compile.
 task Compile {
 
-    # Get the MSBuild command
-    $msBuildCommand = Resolve-MSBuild
+    if (-not [System.String]::IsNullOrEmpty($IBHConfig.SolutionName))
+    {
+        $Host.UI.WriteLine()
 
-    # Define the solution name to compile
-    $solutionFile = '{0}\{1}\{1}.sln' -f $IBHConfig.BuildRoot, $IBHConfig.SolutionName
+        # Get the MSBuild command
+        $msBuildCommand = Resolve-MSBuild
 
-    # Invoke the release build
-    exec { & "$msBuildCommand" "$solutionFile" /p:Configuration=Release /t:Build }
+        # Define the solution name to compile
+        $solutionFile = '{0}\{1}\{1}.sln' -f $IBHConfig.BuildRoot, $IBHConfig.SolutionName
+
+        # Invoke the release build
+        exec { & "$msBuildCommand" "$solutionFile" /p:Configuration=Release /t:Build /v:minimal }
+
+        $Host.UI.WriteLine()
+    }
 }
 
 # Synopsis: Run all pester unit tests for the PowerShell module.
