@@ -27,3 +27,23 @@ Split-Path -Path $PSCommandPath |
 
 # Create an alias to the build script
 Set-Alias -Name 'InvokeBuildHelperTasks' -Value "$PSScriptRoot\Scripts\InvokeBuildHelperTasks.ps1"
+
+# Register the argument completer for the Invoke-Build command
+Register-ArgumentCompleter -CommandName 'Invoke-Build.ps1' -ParameterName 'Task' -ScriptBlock {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    if (Test-Path -Path '.\.build.ps1')
+    {
+        if (Select-String -Path '.\.build.ps1' -Pattern '\. InvokeBuildHelperTasks' -Quiet)
+        {
+            $match = Select-String -Path "$PSScriptRoot\Scripts\InvokeBuildHelperTasks.ps1" -Pattern '^task (?<taskname>[a-zA-Z]+)'
+            foreach ($capture in $match.Matches.Captures)
+            {
+                $taskName = $capture.Groups[1].Value
+                if ($taskName -like "$wordToComplete*")
+                {
+                    [System.Management.Automation.CompletionResult]::new($taskName, $taskName, 'ParameterValue', $taskName)
+                }
+            }
+        }
+    }
+}
