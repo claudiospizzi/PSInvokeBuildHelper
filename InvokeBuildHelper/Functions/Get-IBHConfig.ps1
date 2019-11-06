@@ -68,7 +68,7 @@ function Get-IBHConfig
             Token               = [System.Security.SecureString]::new()
         }
 
-        LocalDebugTask      = [PSCustomObject] @{
+        DeployTask          = [PSCustomObject] @{
             ModulePath          = ($Env:PSModulePath -split ';') -like "$Home*" | Select-Object -First 1
         }
     }

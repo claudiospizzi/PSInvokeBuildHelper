@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 * Added: Build tasks for C# .NET Framework class libraries
+* Added: New task Deploy added for deployment of a module to the local system
 * Added: Schema test for the .debug.ps1 file
 * Added: Schema tests for the (helper) function files and export definitions
 * Added: Schema tests for encoding, white space and indentation character

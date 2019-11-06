@@ -208,7 +208,7 @@ task Gallery Approve, {
 }
 
 # Synopsis: Deploy a beta version as revision to the local module repository.
-task LocalDebug {
+task Deploy Build, {
 
     # Get the module version
     $sourceVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
@@ -223,7 +223,7 @@ task LocalDebug {
 
     # Define the output path
     $sourcePath = '{0}\{1}\*' -f $IBHConfig.BuildRoot, $IBHConfig.ModuleName
-    $targetPath = '{0}\{1}\{2}' -f $IBHConfig.LocalDebugTask.ModulePath, $IBHConfig.ModuleName, $targetVersion
+    $targetPath = '{0}\{1}\{2}' -f $IBHConfig.DeployTask.ModulePath, $IBHConfig.ModuleName, $targetVersion
     $targetFile = '{0}\{1}.psd1' -f $targetPath, $IBHConfig.ModuleName
 
     # Create the output folder
