@@ -32,6 +32,7 @@ function Get-IBHConfig
 
         BuildRoot           = $BuildRoot
         ModuleName          = Get-BuildModuleName -BuildRoot $BuildRoot
+        SolutionName        = Get-BuildSolutionName -BuildRoot $BuildRoot
 
         VerifyTask          = [PSCustomObject] @{
             Enabled             = $true

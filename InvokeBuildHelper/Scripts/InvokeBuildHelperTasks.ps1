@@ -24,8 +24,7 @@ task . Verify, Build, Test
 task Release Verify, Build, Test, Repository, Gallery
 
 # Synopsis: Build the C# solutions, if any exists. This includes clean, compile and deploy.
-# task Build Clean, Compile, Deploy (NOT IMPLEMENTED)
-task Build
+task Build Clean, Compile
 
 # Synopsis: Test the module with pester and script analyzer. This includes schema tests, module unit tests and script analyzer rules.
 task Test Pester, Schema, Analyze
@@ -51,25 +50,30 @@ task Verify {
     }
 }
 
-# Synopsis: Planned task for C# solution clean. (NOT IMPLEMENTED)
+# Synopsis: Planned task for C# solution clean.
 task Clean {
 
-    Write-Warning 'Clean task not implemented! This task is only required for modules containing a C# solution.'
+    # Get the MSBuild command
+    $msBuildCommand = Resolve-MSBuild
+
+    # Define the solution name to compile
+    $solutionFile = '{0}\{1}\{1}.sln' -f $IBHConfig.BuildRoot, $IBHConfig.SolutionName
+
+    # Invoke the release build
+    exec { & "$msBuildCommand" "$solutionFile" /p:Configuration=Release /t:Clean }
 }
 
-# Synopsis: Planned task for C# solution compile. (NOT IMPLEMENTED)
+# Synopsis: Planned task for C# solution compile.
 task Compile {
 
-    Write-Warning 'Compile task not implemented! This task is only required for modules containing a C# solution.'
+    # Get the MSBuild command
+    $msBuildCommand = Resolve-MSBuild
 
-    # MSBuild.exe
-    # https://github.com/nightroman/Invoke-Build/wiki/Resolve-MSBuild
-}
+    # Define the solution name to compile
+    $solutionFile = '{0}\{1}\{1}.sln' -f $IBHConfig.BuildRoot, $IBHConfig.SolutionName
 
-# Synopsis: Planned task for C# solution deploy. (NOT IMPLEMENTED)
-task Deploy {
-
-    Write-Warning 'Deploy task not implemented! This task is only required for modules containing a C# solution.'
+    # Invoke the release build
+    exec { & "$msBuildCommand" "$solutionFile" /p:Configuration=Release /t:Build }
 }
 
 # Synopsis: Run all pester unit tests for the PowerShell module.

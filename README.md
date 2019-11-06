@@ -140,8 +140,16 @@ $IBHConfig.GalleryTask.Name = 'PSGallery'
 # Gallery Task: The secret token to access the PowerShell Gallery (default)
 $IBHConfig.GalleryTask.Token = ''
 
-# Local Debug Task: The module path where the beta revision is deployed (auto generated)
-$IBHConfig.LocalDebug.ModulePath = 'C:\Users\ClaudioSpizzi\Documents\WindowsPowerShell\Modules'
+
+### C# Libraries
+
+The InvokeBuildHelper module supports building C# .NET class library. It's
+recommended to use the target framework .NET Standard 2.1. Normally, only one
+class library is used with the `.Library` suffix. The following example shows
+how to create a new class library project:
+
+```cmd
+dotnet new classlib -f netstandard2.1 -o InvokeBuildHelper.Library
 ```
 
 ## Versions
