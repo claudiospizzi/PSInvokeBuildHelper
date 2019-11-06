@@ -17,6 +17,25 @@ param ()
 # Load the build configuration
 $IBHConfig = Get-IBHConfig -BuildRoot $BuildRoot
 
+# Stop this build if we try to release the module itself. This is not supported at all.
+if ($null -ne (Get-PSCallStack | Where-Object { $_.Command -eq 'Invoke-Build.ps1' -and $_.Arguments -like '*Task=Release*' }) -and $IBHConfig.ModuleName -eq 'InvokeBuildHelper')
+{
+    # Build information
+    Write-Host -ForegroundColor 'DarkYellow' -Object ''
+    Write-Host -ForegroundColor 'DarkYellow' -Object 'IMPORTANT NOTE'
+    Write-Host -ForegroundColor 'DarkYellow' -Object '**************'
+    Write-Host -ForegroundColor 'DarkYellow' -Object 'You are currently using the build helper tasks of the InvokeBuildHelper module'
+    Write-Host -ForegroundColor 'DarkYellow' -Object 'against itself. There are some limitations in this case: The Release task is'
+    Write-Host -ForegroundColor 'DarkYellow' -Object 'not supported. Please use the following sub-tasks:'
+    Write-Host -ForegroundColor 'DarkYellow' -Object 'PS C:\> Invoke-Build'
+    Write-Host -ForegroundColor 'DarkYellow' -Object 'PS C:\> Invoke-Build -Task "Gallery"'
+    Write-Host -ForegroundColor 'DarkYellow' -Object 'PS C:\> Invoke-Build -Task "Repository"'
+    Write-Host -ForegroundColor 'DarkYellow' -Object ''
+
+    # Stop the build
+    throw 'Release task not supported for module InvokeBuildHelper!'
+}
+
 # Synopsis: The default task will verify, build and test the module. This task is intended to be used during the development of the target module.
 task . Verify, Build, Test
 
