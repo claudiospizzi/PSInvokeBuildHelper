@@ -174,8 +174,11 @@ task Approve {
         $gitRemoteTag = Test-IBHGitRemoteTag -ModuleVersion $moduleVersion
         assert $gitRemoteTag ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)
 
-        $solutionVersion = Test-IBHSolutionVersion -BuildRoot $IBHConfig.BuildRoot -SolutionName $IBHConfig.SolutionName -ModuleVersion $moduleVersion
-        assert $solutionVersion ('Solution assembly info version does not match the module version {0}!' -f $moduleVersion)
+        if (-not [System.String]::IsNullOrEmpty($IBHConfig.SolutionName))
+        {
+            $solutionVersion = Test-IBHSolutionVersion -BuildRoot $IBHConfig.BuildRoot -SolutionName $IBHConfig.SolutionName -ModuleVersion $moduleVersion
+            assert $solutionVersion ('Solution assembly info version does not match the module version {0}!' -f $moduleVersion)
+        }
 
         if ($IBHConfig.GalleryTask.Enabled)
         {
