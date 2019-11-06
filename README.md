@@ -78,6 +78,11 @@ $IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell 
 * **Deploy**  
     Deploy a beta version as revision to the local module repository.
 
+### Commands
+
+* **Invoke-BuildIsolated**  
+    Invoke a build by calling the Invoke-Build in an isolated process.
+
 ### Configuration
 
 The following configuration is set by default or generated on the fly for the
