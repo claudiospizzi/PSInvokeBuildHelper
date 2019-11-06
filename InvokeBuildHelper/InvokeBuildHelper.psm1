@@ -29,7 +29,7 @@ Split-Path -Path $PSCommandPath |
 Set-Alias -Name 'InvokeBuildHelperTasks' -Value "$PSScriptRoot\Scripts\InvokeBuildHelperTasks.ps1"
 
 # Register the argument completer for the Invoke-Build command
-Register-ArgumentCompleter -CommandName 'Invoke-Build.ps1' -ParameterName 'Task' -ScriptBlock {
+Register-ArgumentCompleter -CommandName 'Invoke-Build.ps1', 'Invoke-BuildIsolated' -ParameterName 'Task' -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     if (Test-Path -Path '.\.build.ps1')
     {

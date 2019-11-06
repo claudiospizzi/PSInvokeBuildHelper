@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+* Added: Invoke-BuildIsolated command for isolated builds
 * Added: Build tasks for C# .NET Framework class libraries
 * Added: New task Deploy added for deployment of a module to the local system
 * Added: Schema test for the .debug.ps1 file
