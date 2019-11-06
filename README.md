@@ -75,7 +75,7 @@ $IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell 
 * **Gallery**  
     Release the module to the PowerShell Gallery.
 
-* **LocalDebug**  
+* **Deploy**  
     Deploy a beta version as revision to the local module repository.
 
 ### Configuration
@@ -140,6 +140,9 @@ $IBHConfig.GalleryTask.Name = 'PSGallery'
 # Gallery Task: The secret token to access the PowerShell Gallery (default)
 $IBHConfig.GalleryTask.Token = ''
 
+# Deploy Task: The module path where the beta revision is deployed (auto generated)
+$IBHConfig.DeployTask.ModulePath = 'C:\Users\ClaudioSpizzi\Documents\WindowsPowerShell\Modules'
+```
 
 ### C# Libraries
 
