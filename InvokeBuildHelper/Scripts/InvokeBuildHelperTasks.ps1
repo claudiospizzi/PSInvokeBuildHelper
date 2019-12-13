@@ -246,6 +246,12 @@ task Deploy Build, {
                          Sort-Object -Property 'Version' -Descending |
                              Select-Object -ExpandProperty 'Version' -First 1
 
+    # No version found, start with 0.0.0
+    if ([System.String]::IsNullOrEmpty($targetVersion))
+    {
+        $targetVersion = [System.Version] '0.0.0'
+    }
+
     # Increase the revision by one
     $targetVersion = [System.Version] ('{0}.{1}.{2}.{3}' -f $targetVersion.Major, $targetVersion.Minor, $targetVersion.Build, ($targetVersion.Revision + 1))
 
