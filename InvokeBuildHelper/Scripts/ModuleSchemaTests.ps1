@@ -352,4 +352,70 @@ Describe 'Module Schema' {
         # - Parameter Help
     }
 
+    Context 'DSC Resource' {
+
+        $scriptFiles = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'DSCResources' |
+                           Get-ChildItem -Include '*.psm1' -File |
+                               ForEach-Object { @{ Name = $_.Name; BaseName = $_.BaseName } }
+
+        $nestedModules = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                             ForEach-Object { $_['NestedModules'] } |
+                                 Where-Object { $_ -like 'DSCResources*' } |
+                                     ForEach-Object { @{ NestedModule = $_ } }
+
+        $dscResourcesToExport = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                                    ForEach-Object { $_['DscResourcesToExport'] } |
+                                        ForEach-Object { @{ DscResourcesToExport = $_ } }
+
+        It 'Should have a NestedModules definition for the DSC resource file DSCResources\<Name>' -TestCases $scriptFiles {
+
+            param ($Name, $BaseName)
+
+            # Assert
+            $nestedModules.NestedModule | Should -Contain "DSCResources\$Name"
+        }
+
+        It 'Should have a DscResourcesToExport definition for the DSC resource file DSCResources\<FileName>' -TestCases $scriptFiles {
+
+            param ($Name, $BaseName)
+
+            # Assert
+            $dscResourcesToExport.DscResourcesToExport | Should -Contain $BaseName
+        }
+
+        It 'Should have a DSC resource file for the NestedModules definition <NestedModule>' -TestCases $nestedModules {
+
+            param ($NestedModule)
+
+            # Assert
+            Test-Path -Path "$BuildRoot\$ModuleName\$NestedModule" | Should -BeTrue
+        }
+
+        It 'Should have a DscResourcesToExport definition for the NestedModules definition <NestedModule>' -TestCases $nestedModules {
+
+            param ($NestedModule)
+
+            # Arrange
+            $nestedModuleName = $NestedModule.Split('\')[-1].Replace('.psm1', '')
+
+            # Assert
+            $dscResourcesToExport.DscResourcesToExport | Should -Contain $nestedModuleName
+        }
+
+        It 'Should have a DSC resource file for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport {
+
+            param ($DscResourcesToExport)
+
+            # Assert
+            Test-Path -Path "$BuildRoot\$ModuleName\DSCResources\$DscResourcesToExport.psm1" | Should -BeTrue
+        }
+
+        It 'Should have a NestedModules definition for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport {
+
+            param ($DscResourcesToExport)
+
+            # Assert
+            $nestedModules.NestedModule | Should -Contain "DSCResources\$DscResourcesToExport.psm1"
+        }
+    }
 }
