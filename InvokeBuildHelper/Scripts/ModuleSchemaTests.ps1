@@ -365,9 +365,10 @@ Describe 'Module Schema' {
 
         $dscResourcesToExport = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
                                     ForEach-Object { $_['DscResourcesToExport'] } |
-                                        ForEach-Object { @{ DscResourcesToExport = $_ } }
+                                        Where-Object { -not [System.String]::IsNullOrWhiteSpace($_) } |
+                                            ForEach-Object { @{ DscResourcesToExport = $_ } }
 
-        It 'Should have a NestedModules definition for the DSC resource file DSCResources\<Name>' -TestCases $scriptFiles {
+        It 'Should have a NestedModules definition for the DSC resource file DSCResources\<Name>' -TestCases $scriptFiles -Skip:($scriptFiles.Count -eq 0) {
 
             param ($Name, $BaseName)
 
@@ -375,7 +376,7 @@ Describe 'Module Schema' {
             $nestedModules.NestedModule | Should -Contain "DSCResources\$Name"
         }
 
-        It 'Should have a DscResourcesToExport definition for the DSC resource file DSCResources\<FileName>' -TestCases $scriptFiles {
+        It 'Should have a DscResourcesToExport definition for the DSC resource file DSCResources\<FileName>' -TestCases $scriptFiles -Skip:($scriptFiles.Count -eq 0) {
 
             param ($Name, $BaseName)
 
@@ -383,7 +384,7 @@ Describe 'Module Schema' {
             $dscResourcesToExport.DscResourcesToExport | Should -Contain $BaseName
         }
 
-        It 'Should have a DSC resource file for the NestedModules definition <NestedModule>' -TestCases $nestedModules {
+        It 'Should have a DSC resource file for the NestedModules definition <NestedModule>' -TestCases $nestedModules -Skip:($nestedModules.Count -eq 0) {
 
             param ($NestedModule)
 
@@ -391,7 +392,7 @@ Describe 'Module Schema' {
             Test-Path -Path "$BuildRoot\$ModuleName\$NestedModule" | Should -BeTrue
         }
 
-        It 'Should have a DscResourcesToExport definition for the NestedModules definition <NestedModule>' -TestCases $nestedModules {
+        It 'Should have a DscResourcesToExport definition for the NestedModules definition <NestedModule>' -TestCases $nestedModules -Skip:($nestedModules.Count -eq 0) {
 
             param ($NestedModule)
 
@@ -402,7 +403,7 @@ Describe 'Module Schema' {
             $dscResourcesToExport.DscResourcesToExport | Should -Contain $nestedModuleName
         }
 
-        It 'Should have a DSC resource file for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport {
+        It 'Should have a DSC resource file for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport -Skip:($dscResourcesToExport.Count -eq 0) {
 
             param ($DscResourcesToExport)
 
@@ -410,7 +411,7 @@ Describe 'Module Schema' {
             Test-Path -Path "$BuildRoot\$ModuleName\DSCResources\$DscResourcesToExport.psm1" | Should -BeTrue
         }
 
-        It 'Should have a NestedModules definition for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport {
+        It 'Should have a NestedModules definition for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport -Skip:($dscResourcesToExport.Count -eq 0) {
 
             param ($DscResourcesToExport)
 
