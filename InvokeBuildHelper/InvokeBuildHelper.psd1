@@ -57,12 +57,12 @@
 
     # Type files (.ps1xml) to be loaded when importing this module
     TypesToProcess = @(
-        'Resources\InvokeBuildHelper.Types.ps1xml'
+        'InvokeBuildHelper.Xml.Types.ps1xml'
     )
 
     # Format files (.ps1xml) to be loaded when importing this module
     FormatsToProcess = @(
-        'Resources\InvokeBuildHelper.Formats.ps1xml'
+        'InvokeBuildHelper.Xml.Formats.ps1xml'
     )
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
