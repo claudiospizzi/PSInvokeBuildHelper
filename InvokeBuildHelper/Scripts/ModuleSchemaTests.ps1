@@ -35,10 +35,10 @@ Describe 'Module Schema' {
             @{ RelativePath = '.vscode\settings.json' }
             @{ RelativePath = '.vscode\tasks.json' }
             @{ RelativePath = "$ModuleName\en-US\about_$ModuleName.help.txt" }
-            @{ RelativePath = "$ModuleName\Resources\$ModuleName.Formats.ps1xml" }
-            @{ RelativePath = "$ModuleName\Resources\$ModuleName.Types.ps1xml" }
             @{ RelativePath = "$ModuleName\$ModuleName.psd1" }
             @{ RelativePath = "$ModuleName\$ModuleName.psm1" }
+            @{ RelativePath = "$ModuleName\$ModuleName.Xml.Format.ps1xml" }
+            @{ RelativePath = "$ModuleName\$ModuleName.Xml.Types.ps1xml" }
             @{ RelativePath = '.build.ps1' }
             @{ RelativePath = '.debug.ps1' }
             @{ RelativePath = '.gitignore' }
@@ -285,16 +285,24 @@ Describe 'Module Schema' {
                                        Sort-Object |
                                            ForEach-Object { @{ Name = $_ } }
 
-        It 'Should not export helper functions <Name>' -TestCases $helperFiles -Skip:($helperFiles.Count -eq 0) {
-
-            param ($Name)
+        It "Should define the FormatsToProcess to the file $ModuleName.Xml.Format.ps1xml" {
 
             # Act
             $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
-                          ForEach-Object { $_['FunctionsToExport'] }
+                          ForEach-Object { $_['FormatsToProcess'] }
 
             # Assert
-            $actual | Should -Not -Contain $Name
+            $actual | Should -Contain "$ModuleName.Xml.Format.ps1xml"
+        }
+
+        It "Should define the TypesToProcess to the file $ModuleName.Xml.Types.ps1xml" {
+
+            # Act
+            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                          ForEach-Object { $_['TypesToProcess'] }
+
+            # Assert
+            $actual | Should -Contain "$ModuleName.Xml.Types.ps1xml"
         }
 
         It 'Should export function <Name>' -TestCases $functionFiles -Skip:($functionFiles.Count -eq 0) {
@@ -319,6 +327,18 @@ Describe 'Module Schema' {
 
             # Assert
             $actual.Count | Should -Be 1
+        }
+
+        It 'Should not export helper functions <Name>' -TestCases $helperFiles -Skip:($helperFiles.Count -eq 0) {
+
+            param ($Name)
+
+            # Act
+            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                          ForEach-Object { $_['FunctionsToExport'] }
+
+            # Assert
+            $actual | Should -Not -Contain $Name
         }
     }
 

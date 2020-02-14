@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 * Added: Schema tests for class-based DSC resources
+* Changed: Move xml resource files (Format.ps1xml, Types.ps1xml) to the root
 * Fixed: For local deploy, start with 0.0.0 if module does not exist
 
 ## 2.0.0 - 2019-11-07
