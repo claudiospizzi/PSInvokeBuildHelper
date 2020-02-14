@@ -12,7 +12,6 @@
 #>
 
 [CmdletBinding()]
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '')]
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', '')]
 param ()
 
@@ -261,7 +260,9 @@ task Deploy Build, {
     $targetPath = '{0}\{1}\{2}' -f $IBHConfig.DeployTask.ModulePath, $IBHConfig.ModuleName, $targetVersion
     $targetFile = '{0}\{1}.psd1' -f $targetPath, $IBHConfig.ModuleName
 
-    Write-Host "`n  $($IBHConfig.ModuleName) $targetVersion -> $targetPath`n"
+    $Host.UI.WriteLine()
+    $Host.UI.WriteLine(('  {0} {1} -> {2}' -f $IBHConfig.Module, $targetVersion, $targetPath))
+    $Host.UI.WriteLine()
 
     # Create the output folder
     New-Item -Path $targetPath -ItemType 'Directory' -Force | Out-Null
