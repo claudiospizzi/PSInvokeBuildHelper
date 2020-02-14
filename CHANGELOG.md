@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 * Added: Schema tests for class-based DSC resources
+* Added: Show the output path for the local deployed module (task deploy)
 * Changed: Move xml resource files (Format.ps1xml, Types.ps1xml) to the root
 * Fixed: For local deploy, start with 0.0.0 if module does not exist
 

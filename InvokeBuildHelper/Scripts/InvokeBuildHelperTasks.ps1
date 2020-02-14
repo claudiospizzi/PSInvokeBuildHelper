@@ -260,6 +260,8 @@ task Deploy Build, {
     $targetPath = '{0}\{1}\{2}' -f $IBHConfig.DeployTask.ModulePath, $IBHConfig.ModuleName, $targetVersion
     $targetFile = '{0}\{1}.psd1' -f $targetPath, $IBHConfig.ModuleName
 
+    Write-Host "`n  $($IBHConfig.ModuleName) $targetVersion -> $targetPath`n"
+
     # Create the output folder
     New-Item -Path $targetPath -ItemType 'Directory' -Force | Out-Null
 
