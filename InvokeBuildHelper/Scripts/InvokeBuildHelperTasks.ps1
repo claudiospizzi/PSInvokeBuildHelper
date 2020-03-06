@@ -242,9 +242,12 @@ task Deploy Build, {
     $sourceVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
 
     # Get the latest installed module version
-    $targetVersion = Get-Module -Name $IBHConfig.ModuleName -ListAvailable |
-                         Sort-Object -Property 'Version' -Descending |
-                             Select-Object -ExpandProperty 'Version' -First 1
+    $targetVersion = Get-ChildItem -Path $IBHConfig.DeployTask.ModulePaths -Directory |
+                         Where-Object { $_.Name -eq $IBHConfig.ModuleName } |
+                             Get-ChildItem -Directory |
+                                 ForEach-Object { [System.Version] $_.Name } |
+                                     Sort-Object -Descending |
+                                         Select-Object -First 1
 
     # No version found, start with 0.0.0
     if ([System.String]::IsNullOrEmpty($targetVersion))
@@ -256,22 +259,25 @@ task Deploy Build, {
     $targetVersion = [System.Version] ('{0}.{1}.{2}.{3}' -f $targetVersion.Major, $targetVersion.Minor, $targetVersion.Build, ($targetVersion.Revision + 1))
 
     # Define the output path
-    $sourcePath = '{0}\{1}\*' -f $IBHConfig.BuildRoot, $IBHConfig.ModuleName
-    $targetPath = '{0}\{1}\{2}' -f $IBHConfig.DeployTask.ModulePath, $IBHConfig.ModuleName, $targetVersion
-    $targetFile = '{0}\{1}.psd1' -f $targetPath, $IBHConfig.ModuleName
-
     $Host.UI.WriteLine()
-    $Host.UI.WriteLine(('  {0} {1} -> {2}' -f $IBHConfig.Module, $targetVersion, $targetPath))
+    foreach ($modulePath in $IBHConfig.DeployTask.ModulePaths)
+    {
+        $sourcePath = '{0}\{1}\*' -f $IBHConfig.BuildRoot, $IBHConfig.ModuleName
+        $targetPath = '{0}\{1}\{2}' -f $modulePath, $IBHConfig.ModuleName, $targetVersion
+        $targetFile = '{0}\{1}.psd1' -f $targetPath, $IBHConfig.ModuleName
+
+        $Host.UI.WriteLine(('  {0} {1} -> {2}' -f $IBHConfig.ModuleName, $targetVersion, $targetPath))
+
+        # Create the output folder
+        New-Item -Path $targetPath -ItemType 'Directory' -Force | Out-Null
+
+        # Deploy the module with recursive copy
+        Copy-Item -Path $sourcePath -Destination $targetPath -Recurse -Force
+
+        # Path the module definition
+        $definition = Get-Content -Path $targetFile
+        $definition = $definition -replace "ModuleVersion = '$sourceVersion'", "ModuleVersion = '$targetVersion'"
+        $definition | Set-Content -Path $targetFile -Encoding 'UTF8'
+    }
     $Host.UI.WriteLine()
-
-    # Create the output folder
-    New-Item -Path $targetPath -ItemType 'Directory' -Force | Out-Null
-
-    # Deploy the module with recursive copy
-    Copy-Item -Path $sourcePath -Destination $targetPath -Recurse -Force
-
-    # Path the module definition
-    $definition = Get-Content -Path $targetFile
-    $definition = $definition -replace "ModuleVersion = '$sourceVersion'", "ModuleVersion = '$targetVersion'"
-    $definition | Set-Content -Path $targetFile -Encoding 'UTF8'
 }

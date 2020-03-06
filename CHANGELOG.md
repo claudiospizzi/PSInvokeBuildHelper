@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added: Schema tests for class-based DSC resources
 * Added: Show the output path for the local deployed module (task deploy)
 * Changed: Move xml resource files (Format.ps1xml, Types.ps1xml) to the root
+* Changed: Allow multiple local deploy paths (PowerShell and Windows PowerShell)
 * Fixed: For local deploy, start with 0.0.0 if module does not exist
 
 ## 2.0.0 - 2019-11-07

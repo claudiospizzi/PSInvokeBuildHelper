@@ -146,7 +146,7 @@ $IBHConfig.GalleryTask.Name = 'PSGallery'
 $IBHConfig.GalleryTask.Token = ''
 
 # Deploy Task: The module path where the beta revision is deployed (auto generated)
-$IBHConfig.DeployTask.ModulePath = 'C:\Users\ClaudioSpizzi\Documents\WindowsPowerShell\Modules'
+$IBHConfig.DeployTask.ModulePaths = @('C:\Users\ClaudioSpizzi\Documents\WindowsPowerShell\Modules')
 ```
 
 ### C# Libraries

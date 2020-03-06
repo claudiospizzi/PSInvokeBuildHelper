@@ -69,7 +69,7 @@ function Get-IBHConfig
         }
 
         DeployTask          = [PSCustomObject] @{
-            ModulePath          = ($Env:PSModulePath -split ';') -like "$Home*" | Select-Object -First 1
+            ModulePaths         = 'PowerShell', 'WindowsPowerShell' | ForEach-Object { '{0}\{1}\Modules' -f [System.Environment]::GetFolderPath('MyDocuments'), $_ } | Where-Object { Test-Path -Path $_ }
         }
     }
 
