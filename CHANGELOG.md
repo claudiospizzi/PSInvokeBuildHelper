@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Changed: Move xml resource files (Format.ps1xml, Types.ps1xml) to the root
 * Changed: Allow multiple local deploy paths (PowerShell and Windows PowerShell)
 * Fixed: For local deploy, start with 0.0.0 if module does not exist
+* Fixed: Fake the output as 0 passed tests if no Pester tests were found
 
 ## 2.0.0 - 2019-11-07
 
