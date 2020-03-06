@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 2.1.0 - 2020-03-06
 
 * Added: Schema tests for class-based DSC resources
 * Added: Show the output path for the local deployed module (task deploy)
