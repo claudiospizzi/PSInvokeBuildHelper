@@ -197,6 +197,8 @@ task Repository Build, Approve, {
 
     if ($IBHConfig.RepositoryTask.Enabled)
     {
+        assert (-not [System.String]::IsNullOrEmpty($IBHConfig.RepositoryTask.Token)) 'Repository Token is missing, please set the following variable: $IBHConfig.RepositoryTask.Token'
+
         $publishIBHRepository = @{
             BuildRoot       = $IBHConfig.BuildRoot
             ModuleName      = $IBHConfig.ModuleName
@@ -219,6 +221,8 @@ task Gallery Build, Approve, {
 
     if ($IBHConfig.GalleryTask.Enabled)
     {
+        assert (-not [System.String]::IsNullOrEmpty($IBHConfig.GalleryTask.Token)) 'Gallery Token is missing, please set the following variable: $IBHConfig.GalleryTask.Token'
+
         $publishIBHGallerySplat = @{
             BuildRoot     = $IBHConfig.BuildRoot
             ModuleName    = $IBHConfig.ModuleName

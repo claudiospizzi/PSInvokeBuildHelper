@@ -27,8 +27,8 @@ official PowerShell Gallery:
 
 # Build configuration
 $IBHConfig.VerifyTask.Enabled   = $false
-$IBHConfig.RepositoryTask.Token = Use-VaultSecureString -TargetName 'GitHub Token'
-$IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell Gallery Key'
+$IBHConfig.RepositoryTask.Token = Get-VaultSecureString -TargetName 'GitHub Token'
+$IBHConfig.GalleryTask.Token    = Get-VaultSecureString -TargetName 'PowerShell Gallery Key'
 ```
 
 ### Build Tasks

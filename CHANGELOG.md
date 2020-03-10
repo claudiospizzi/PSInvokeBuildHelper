@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Added: Check for token before using them in Repository and Gallery task
+
 ## 2.1.0 - 2020-03-06
 
 * Added: Schema tests for class-based DSC resources
