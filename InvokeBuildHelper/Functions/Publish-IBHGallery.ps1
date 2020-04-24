@@ -73,7 +73,7 @@ function Publish-IBHGallery
     {
         $token = $GalleryToken | Unprotect-SecureString
 
-        Publish-Module -Path "$BuildRoot\$ModuleName" -Repository $GalleryName -NuGetApiKey $token -ReleaseNotes $releaseNotes
+        Publish-Module -Path "$BuildRoot\$ModuleName" -Repository $GalleryName -NuGetApiKey $token -ReleaseNotes $releaseNotes -Force
     }
     finally
     {
