@@ -71,6 +71,7 @@
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
         'Invoke-BuildIsolated'
+        'Set-ModuleVersion'
         'Get-IBHConfig'
         'Get-IBHGitAheadBy'
         'Get-IBHGitBehindBy'
@@ -80,6 +81,7 @@
         'Get-IBHGitHubUser'
         'Get-IBHModuleVersion'
         'Get-IBHModuleReleaseNote'
+        'Get-IBHFileEncoding'
         'Test-IBHChangeLogVersion'
         'Test-IBHGitLocalTag'
         'Test-IBHGitRemoteTag'
@@ -99,6 +101,8 @@
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
     AliasesToExport = @(
+        'ib'
+        'ibv'
         'InvokeBuildHelperTasks'
     )
 
