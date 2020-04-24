@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 * Added: New cmdlets Get-IBHFileEncoding and Set-ModuleVersion
+* Added: Check file encoding during the meta tests
 * Added: Check for token before using them in Repository and Gallery task
 
 ## 2.1.0 - 2020-03-06

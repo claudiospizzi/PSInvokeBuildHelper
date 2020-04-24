@@ -72,27 +72,18 @@ Describe 'Module Schema' {
                                         $_.FullName -notlike "$BuildRoot\*\packages\*" } |
                              ForEach-Object { @{ Path = $_.FullName; RelativePath = $_.FullName.Replace($BuildRoot, '') } }
 
-        It 'Should not use UTF-16 LE encoding for file <RelativePath>' -TestCases $fileNames {
+        It 'Should use a valid encoding for file <RelativePath>' -TestCases $fileNames {
 
             param ($Path)
 
-            # Act
-            $zeroByteCount = @([System.IO.File]::ReadAllBytes($Path) -eq 0).Length
-
-            # Assert
-            $zeroByteCount | Should -Be 0 -Because 'the text file should not contain 0x00 bytes'
-        }
-
-        It 'Should not use BOM for UTF-8 encoding for file <RelativePath>' -TestCases $fileNames {
-
-            param ($Path)
+            # Arrange
+            $expected = [System.Text.Encoding]::UTF8, [System.Text.Encoding]::ASCII
 
             # Act
-            $bytes = [System.IO.File]::ReadAllBytes($Path)
-            $isBOM = $bytes.Length -ge 3 -and $bytes[0] -eq 239 -and $bytes[1] -eq 187 -and $bytes[2] -eq 191
+            $actual = Get-IBHFileEncoding -Path $Path
 
             # Assert
-            $isBOM | Should -BeFalse -Because 'the text file should not contain the UTF-8 BOM header'
+            $actual | Should -BeIn $expected -Because 'only ASCII and UTF8 encodings are supported'
         }
 
         It 'Should use spaces for indentation (not tabs) for file <RelativePath>' -TestCases $fileNames {
@@ -174,7 +165,8 @@ Describe 'Module Schema' {
 
             # Assert
             $settings.'files.trimTrailingWhitespace'                          | Should -BeTrue
-            $settings.'[markdown]'.'files.trimTrailingWhitespace'             | Should -BeFals
+            $settings.'[markdown]'.'files.trimTrailingWhitespace'             | Should -BeFalse
+            $settings.'[powershell]'.'files.encoding'                         | Should -Be 'utf8bom'
             $settings.'files.exclude'.'**/.git'                               | Should -BeTrue
             $settings.'files.exclude'.'**/.vs'                                | Should -BeTrue
             $settings.'files.exclude'.'**/obj'                                | Should -BeTrue
@@ -250,6 +242,7 @@ Describe 'Module Schema' {
             $gitignore | Should -Contain '[Oo]ut/'
             $gitignore | Should -Contain '.vs/'
             $gitignore | Should -Contain '**/packages/*'
+            $gitignore | Should -Contain '.debug.*.ps1'
         }
     }
 
