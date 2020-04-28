@@ -122,9 +122,10 @@ function Set-ModuleVersion
         $moduleDefinitionContent = @(Get-Content -Path $moduleDefinitionPath)
         for ($i = 0; $i -lt $moduleDefinitionContent.Count; $i++)
         {
-            if ($moduleDefinitionContent[$i] -like "*    ModuleVersion = '*.*.*'*")
+            if ($moduleDefinitionContent[$i] -like "    ModuleVersion = '*.*.*'")
             {
                 $moduleDefinitionContent[$i] = "    ModuleVersion = '{0}'" -f $newVersion
+                break
             }
         }
         $moduleDefinitionContent | Set-Content -Path $moduleDefinitionPath -Encoding 'UTF8'
@@ -154,14 +155,4 @@ function Set-ModuleVersion
 
         git push --tag
     }
-
-
-
-    # $path    = Join-Path -Path $BuildRoot -ChildPath 'CHANGELOG.md'
-    # $content = Get-Content -Path $path
-
-    # $releaseNotes = [System.String[]] 'Release Notes:'
-
-    # $isCurrentVersion = $false
-
 }

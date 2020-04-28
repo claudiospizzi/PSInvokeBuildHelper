@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Fixed: Only update psd1 module version once in Set-ModuleVersion
+
 ## 2.2.0 - 2020-04-24
 
 * Added: New cmdlets Get-IBHFileEncoding and Set-ModuleVersion
