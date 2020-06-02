@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 2.3.0 - 2020-06-02
 
 * Added: Default parameter set for Set-ModuleVersion to query caller
 * Fixed: Only update psd1 module version once in Set-ModuleVersion
