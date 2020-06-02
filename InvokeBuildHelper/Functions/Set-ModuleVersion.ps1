@@ -33,6 +33,7 @@ function Set-ModuleVersion
 {
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High', DefaultParameterSetName = 'Query')]
     [Alias('ibv')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '')]
     param
     (
         # New module version.
