@@ -69,23 +69,30 @@ function Publish-IBHRepository
     # Create ZIP file
     Compress-Archive -Path "$BuildRoot\$ModuleName" -DestinationPath $artifactPath -Verbose:$VerbosePreference -Force
 
-    $publishGitHubReleaseSplat = @{
-        RepositoryUser = $RepositoryUser
-        RepositoryName = $RepositoryName
-        Token          = $RepositoryToken
-        ModuleName     = $ModuleName
-        ModuleVersion  = $ModuleVersion
-        ReleaseNote    = $releaseNotes
-    }
-    $release = Publish-IBHGitHubRelease @publishGitHubReleaseSplat
+    if ($RepositoryType -eq 'GitHub')
+    {
+        $publishGitHubReleaseSplat = @{
+            RepositoryUser = $RepositoryUser
+            RepositoryName = $RepositoryName
+            Token          = $RepositoryToken
+            ModuleName     = $ModuleName
+            ModuleVersion  = $ModuleVersion
+            ReleaseNote    = $releaseNotes
+        }
+        $release = Publish-IBHGitHubRelease @publishGitHubReleaseSplat
 
-    $publishGitHubArtifactSplat = @{
-        RepositoryUser = $RepositoryUser
-        RepositoryName = $RepositoryName
-        Token          = $RepositoryToken
-        ReleaseId      = $release.Id
-        Name           = $artifactName
-        Path           = $artifactPath
+        $publishGitHubArtifactSplat = @{
+            RepositoryUser = $RepositoryUser
+            RepositoryName = $RepositoryName
+            Token          = $RepositoryToken
+            ReleaseId      = $release.Id
+            Name           = $artifactName
+            Path           = $artifactPath
+        }
+        Publish-IBHGitHubArtifact @publishGitHubArtifactSplat | Out-Null
     }
-    Publish-IBHGitHubArtifact @publishGitHubArtifactSplat | Out-Null
+    else
+    {
+        Write-Warning "Repository type '$RepositoryType' not supported, skip repository publish!"
+    }
 }
