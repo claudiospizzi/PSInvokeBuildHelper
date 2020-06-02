@@ -8,6 +8,7 @@
         also module specific files.
 #>
 [CmdletBinding()]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 param
 (
     # Root path of the project.
