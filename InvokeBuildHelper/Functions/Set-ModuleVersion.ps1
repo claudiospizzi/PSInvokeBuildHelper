@@ -31,7 +31,7 @@
 #>
 function Set-ModuleVersion
 {
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High', DefaultParameterSetName = 'Query')]
     [Alias('ibv')]
     param
     (
@@ -88,9 +88,21 @@ function Set-ModuleVersion
     }
 
     # Get the current version to increment if required.
+    $newVersion = ''
     if ($PSCmdlet.ParameterSetName -ne 'Version')
     {
         $Version = [System.Version](Get-IBHModuleVersion -BuildRoot $buildRoot -ModuleName $moduleName)
+    }
+
+    # Query for the user input
+    if ($PSCmdlet.ParameterSetName -eq 'Query')
+    {
+        Write-Host "Current version: $Version"
+        do
+        {
+            $newVersion = Read-Host -Prompt 'Enter the new version'
+        }
+        while ($newVersion -notmatch '\d+\.\d+\.\d+')
     }
 
     # Calculate the new module version.
@@ -131,27 +143,27 @@ function Set-ModuleVersion
         $moduleDefinitionContent | Set-Content -Path $moduleDefinitionPath -Encoding 'UTF8'
 
 
-        Write-Host "Step Stage Changes: git add *" -ForegroundColor 'Cyan'
+        Write-Host "Step Stage Changes:    > git add *" -ForegroundColor 'Cyan'
 
         git add *
 
 
-        Write-Host "Step Commit Changes: git commit -m `"Version $newVersion`"" -ForegroundColor 'Cyan'
+        Write-Host "Step Commit Changes:   > git commit -m `"Version $newVersion`"" -ForegroundColor 'Cyan'
 
         git commit -m `"Version $newVersion`"
 
 
-        Write-Host "Step Push Commit: git push" -ForegroundColor 'Cyan'
+        Write-Host "Step Push Commit:      > git push" -ForegroundColor 'Cyan'
 
         git push
 
 
-        Write-Host "Step Create Tag: git tag `"$newVersion`"" -ForegroundColor 'Cyan'
+        Write-Host "Step Create Tag:       > git tag `"$newVersion`"" -ForegroundColor 'Cyan'
 
         git tag "$newVersion"
 
 
-        Write-Host "Step Push Tag: git push --tag" -ForegroundColor 'Cyan'
+        Write-Host "Step Push Tag:         > git push --tag" -ForegroundColor 'Cyan'
 
         git push --tag
     }

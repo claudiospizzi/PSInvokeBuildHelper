@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+* Added: Default parameter set for Set-ModuleVersion to query caller
 * Fixed: Only update psd1 module version once in Set-ModuleVersion
 
 ## 2.2.0 - 2020-04-24
