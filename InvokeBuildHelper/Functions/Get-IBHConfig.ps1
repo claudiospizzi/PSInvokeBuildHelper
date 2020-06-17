@@ -68,6 +68,10 @@ function Get-IBHConfig
             Token               = [System.Security.SecureString]::new()
         }
 
+        ZipFileTask         = [PSCustomObject] @{
+            Enabled             = $true
+        }
+
         DeployTask          = [PSCustomObject] @{
             ModulePaths         = 'PowerShell', 'WindowsPowerShell' | ForEach-Object { '{0}\{1}\Modules' -f [System.Environment]::GetFolderPath('MyDocuments'), $_ } | Where-Object { Test-Path -Path $_ }
         }

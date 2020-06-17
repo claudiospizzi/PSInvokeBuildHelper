@@ -29,7 +29,7 @@ if ($null -ne (Get-PSCallStack | Where-Object { $_.Command -eq 'Invoke-Build.ps1
 task . Verify, Build, Test
 
 # Synopsis: Release the module to the repository and the gallery. This task is used to publish a new module version.
-task Release Verify, Build, Test, Repository, Gallery
+task Release Verify, Build, Test, Repository, Gallery, ZipFile
 
 # Synopsis: Build the C# solutions, if any exists. This includes clean, compile and deploy.
 task Build Clean, Compile
@@ -236,6 +236,24 @@ task Gallery Build, Approve, {
     else
     {
         Write-Warning 'Gallery task is disabled, no release to the gallery!'
+    }
+}
+
+# Synopsis: Release the module to the local file system as zip file.
+task ZipFile Build, Approve, {
+
+    if ($IBHConfig.ZipFileTask.Enabled)
+    {
+        $publishIBHZipFileSplat = @{
+            BuildRoot     = $IBHConfig.BuildRoot
+            ModuleName    = $IBHConfig.ModuleName
+            ModuleVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
+        }
+        Publish-IBHZipFile @publishIBHZipFileSplat
+    }
+    else
+    {
+        Write-Warning 'ZipFile task is disabled, no release to the local file system!'
     }
 }
 
