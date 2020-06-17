@@ -150,7 +150,7 @@ Describe 'Module Schema' {
             $launch.'configurations'[1].'name'                             | Should -Be 'PowerShell Debug Script'
             $launch.'configurations'[1].'type'                             | Should -Be 'PowerShell'
             $launch.'configurations'[1].'request'                          | Should -Be 'launch'
-            $launch.'configurations'[1].'script'                           | Should -Be '${workspaceFolder}\.debug.ps1'
+            $launch.'configurations'[1].'script'                           | Should -Be '${workspaceFolder}\.debug.temp.ps1'
             $launch.'configurations'[1].'cwd'                              | Should -Be '${workspaceFolder}'
             $launch.'configurations'[1].'createTemporaryIntegratedConsole' | Should -BeTrue
 
