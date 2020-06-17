@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 2.4.0 - 2020-06-17
 
 * Added: New task ZipFile for local deployment to a ZIP file in the bin folder
 * Changed: The temporary debug script should be used by the VS Code debug task
