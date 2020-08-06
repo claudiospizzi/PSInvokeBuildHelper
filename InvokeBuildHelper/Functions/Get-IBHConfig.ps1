@@ -45,7 +45,7 @@ function Get-IBHConfig
         }
 
         AnalyzeTask         = [PSCustomObject] @{
-            ScriptAnalyzerRules = Get-ScriptAnalyzerRule
+            ScriptAnalyzerRules = Get-ScriptAnalyzerRule | Where-Object { $_.RuleName -notin 'PSReviewUnusedParameter' }
         }
 
         ApproveTask         = [PSCustomObject] @{

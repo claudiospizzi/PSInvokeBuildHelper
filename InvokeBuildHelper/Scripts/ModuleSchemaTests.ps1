@@ -142,18 +142,25 @@ Describe 'Module Schema' {
 
             # Assert
             $launch.'version'                                              | Should -Be '0.2.0'
-            $launch.'configurations'[0].'name'                             | Should -Be 'PowerShell Interactive'
+            $launch.'configurations'[0].'name'                             | Should -Be 'PowerShell Debug Script'
             $launch.'configurations'[0].'type'                             | Should -Be 'PowerShell'
             $launch.'configurations'[0].'request'                          | Should -Be 'launch'
+            $launch.'configurations'[0].'script'                           | Should -Be '${workspaceFolder}\.debug.temp.ps1'
             $launch.'configurations'[0].'cwd'                              | Should -Be '${workspaceFolder}'
             $launch.'configurations'[0].'createTemporaryIntegratedConsole' | Should -BeTrue
-            $launch.'configurations'[1].'name'                             | Should -Be 'PowerShell Debug Script'
-            $launch.'configurations'[1].'type'                             | Should -Be 'PowerShell'
-            $launch.'configurations'[1].'request'                          | Should -Be 'launch'
-            $launch.'configurations'[1].'script'                           | Should -Be '${workspaceFolder}\.debug.temp.ps1'
-            $launch.'configurations'[1].'cwd'                              | Should -Be '${workspaceFolder}'
-            $launch.'configurations'[1].'createTemporaryIntegratedConsole' | Should -BeTrue
 
+            # Old version of the launch definition with interactive launch:
+            # $launch.'configurations'[0].'name'                             | Should -Be 'PowerShell Interactive'
+            # $launch.'configurations'[0].'type'                             | Should -Be 'PowerShell'
+            # $launch.'configurations'[0].'request'                          | Should -Be 'launch'
+            # $launch.'configurations'[0].'cwd'                              | Should -Be '${workspaceFolder}'
+            # $launch.'configurations'[0].'createTemporaryIntegratedConsole' | Should -BeTrue
+            # $launch.'configurations'[1].'name'                             | Should -Be 'PowerShell Debug Script'
+            # $launch.'configurations'[1].'type'                             | Should -Be 'PowerShell'
+            # $launch.'configurations'[1].'request'                          | Should -Be 'launch'
+            # $launch.'configurations'[1].'script'                           | Should -Be '${workspaceFolder}\.debug.temp.ps1'
+            # $launch.'configurations'[1].'cwd'                              | Should -Be '${workspaceFolder}'
+            # $launch.'configurations'[1].'createTemporaryIntegratedConsole' | Should -BeTrue
         }
 
         It 'Should have a valid .vscode\settings.json' {
