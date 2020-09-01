@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 2.5.0 - 2020-09-01
 
 * Changed: Exclude the test PSReviewUnusedParameter in the script analyzer task
 * Changed: Remote the 'PowerShell Interactive' task in launch.json
