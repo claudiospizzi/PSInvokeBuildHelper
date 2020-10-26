@@ -24,7 +24,12 @@ param
     # List of text file extension.
     [Parameter(Mandatory = $true)]
     [System.String[]]
-    $TextFileExtension
+    $TextFileExtension,
+
+    # List of paths to exclude.
+    [Parameter(Mandatory = $true)]
+    [System.String[]]
+    $ExcludePath
 )
 
 Describe 'Module Schema' {
@@ -65,13 +70,17 @@ Describe 'Module Schema' {
 
     Context 'File Encoding & Formatting' {
 
+        # Get all text files based on their extensions. Then filter out all
+        # paths not relevant for the schema test.
         $fileNames = Get-ChildItem -Path $BuildRoot -File -Recurse |
-                         Where-Object { $TextFileExtension -contains $_.Extension -and
-                                        $_.FullName -notlike "$BuildRoot*\out\*" -and
-                                        $_.FullName -notlike "$BuildRoot*\bin\*" -and
-                                        $_.FullName -notlike "$BuildRoot*\obj\*" -and
-                                        $_.FullName -notlike "$BuildRoot\*\packages\*" } |
+                         Where-Object { $TextFileExtension -contains $_.Extension } |
                              ForEach-Object { @{ Path = $_.FullName; RelativePath = $_.FullName.Replace($BuildRoot, '') } }
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\out\\.*' }                # Used by the InvokeBuildHelper tasks
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\bin\\.*' }                # Used by the InvokeBuildHelper tasks
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\(\w*\\)?bin\\.*' }        # Used by the Visual Studio solutions
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\(\w*\\)?obj\\.*' }        # Used by the Visual Studio solutions
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\(\w*\\)?packages\\.*' }   # Used by the Visual Studio solutions
+        $fileNames = $fileNames | Where-Object { $relativePath = $_.RelativePath; @($ExcludePath | Where-Object { $relativePath -like $_ }).Count -eq 0 }
 
         It 'Should use a valid encoding for file <RelativePath>' -TestCases $fileNames {
 

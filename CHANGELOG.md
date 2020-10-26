@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+* Added: Exclude filters for schema and analyzer tests
 * Added: Update assembly version in Set-ModuleVersion too
 
 ## 2.5.0 - 2020-09-01

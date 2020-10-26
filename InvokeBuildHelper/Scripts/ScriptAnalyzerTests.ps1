@@ -23,7 +23,12 @@ param
     # Script analyzer rules to test.
     [Parameter(Mandatory = $true)]
     [System.Object[]]
-    $Rule
+    $Rule,
+
+    # List of paths to exclude.
+    [Parameter(Mandatory = $true)]
+    [System.String[]]
+    $ExcludePath
 )
 
 # Invoke the script analyzer
@@ -36,6 +41,8 @@ Describe 'Script Analyzer' {
         Context "$($currentRule.RuleName) ($($currentRule.Severity))" {
 
             $currentIssues = $issues.Where({ $_.RuleName -eq $currentRule.RuleName })
+            $currentIssues | ForEach-Object { $_ | Add-Member -MemberType 'NoteProperty' -Name 'RelativePath' -Value ('\' + $_.ScriptPath.Replace($BuildRoot, '').TrimStart('\')) }
+            $currentIssues = $currentIssues | Where-Object { $relativePath = $_.RelativePath; @($ExcludePath | Where-Object { $relativePath -like $_ }).Count -eq 0 }
 
             if ($currentIssues.Count -eq 0)
             {
@@ -48,7 +55,7 @@ Describe 'Script Analyzer' {
             {
                 foreach ($currentIssue in $currentIssues)
                 {
-                    It ('Should pass the rule for \{0}:{1},{2}' -f $currentIssue.ScriptPath.Replace($BuildRoot, '').TrimStart('\'), $currentIssue.Line, $currentIssue.Column) {
+                    It ('Should pass the rule for {0}:{1},{2}' -f $currentIssue.RelativePath, $currentIssue.Line, $currentIssue.Column) {
 
                         throw $currentIssue.Message
                     }

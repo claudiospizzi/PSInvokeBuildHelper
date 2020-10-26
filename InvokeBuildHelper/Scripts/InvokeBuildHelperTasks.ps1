@@ -123,7 +123,7 @@ task Schema {
     $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
 
     # Invoke the module schema tests
-    $result = Invoke-IBHModuleSchemaTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -TextFileExtension $IBHConfig.SchemaTask.TextFileExtension -OutputPath $outputPath
+    $result = Invoke-IBHModuleSchemaTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -TextFileExtension $IBHConfig.SchemaTask.TextFileExtension -ExcludePath $IBHConfig.SchemaTask.ExcludePath -OutputPath $outputPath
 
     $Host.UI.WriteLine()
 
@@ -139,7 +139,7 @@ task Analyze {
     $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
 
     # Invoke the script analyzer, run all defined rules
-    $result = Invoke-IBHScriptAnalyzerTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -Rule $IBHConfig.AnalyzeTask.ScriptAnalyzerRules -OutputPath $outputPath
+    $result = Invoke-IBHScriptAnalyzerTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -Rule $IBHConfig.AnalyzeTask.ScriptAnalyzerRules -ExcludePath $IBHConfig.AnalyzeTask.ExcludePath -OutputPath $outputPath
 
     $Host.UI.WriteLine()
 

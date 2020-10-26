@@ -37,6 +37,11 @@ function Invoke-IBHScriptAnalyzerTest
         [System.Object[]]
         $Rule,
 
+        # List of paths to exclude.
+        [Parameter(Mandatory = $true)]
+        [System.String[]]
+        $ExcludePath,
+
         # Output folder for the NUnitXml file.
         [Parameter(Mandatory = $true)]
         [System.String]
@@ -53,6 +58,7 @@ function Invoke-IBHScriptAnalyzerTest
                 BuildRoot    = $BuildRoot
                 ModuleName   = $ModuleName
                 Rule         = $Rule
+                ExcludePath  = $ExcludePath
             }
         }
         OutputFile   = Join-Path -Path $OutputPath -ChildPath 'TestResult.ScriptAnalyzer.xml'

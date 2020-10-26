@@ -109,8 +109,14 @@ $IBHConfig.VerifyTask.ModulePackageUrl = "https://www.powershellgallery.com/api/
 # Schema Task: List of text file extension (default)
 $IBHConfig.SchemaTask.TextFileExtension = '.gitignore', '.gitattributes', '.ps1', '.psm1', '.psd1', '.ps1xml', '.txt', '.xml', '.cmd', '.json', '.md'
 
+# Schema Task: Exclude files from the schema test by using wildcard filters (default)
+$IBHConfig.SchemaTask.ExcludePath = @()
+
 # Analyze Task: Rules to process by the PowerShell Script Analyzer (default)
 $IBHConfig.AnalyzeTask.ScriptAnalyzerRules = Get-ScriptAnalyzerRule
+
+# Analyze Task: Exclude files from the test by using wildcard filters (default)
+$IBHConfig.AnalyzeTask.ExcludePath = @()
 
 # Approve Task: Option to enable or disable the release approval tests (default)
 $IBHConfig.ApproveTask.Enabled = $true

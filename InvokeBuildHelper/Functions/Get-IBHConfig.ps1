@@ -42,10 +42,12 @@ function Get-IBHConfig
 
         SchemaTask          = [PSCustomObject] @{
             TextFileExtension   = '.gitignore', '.gitattributes', '.ps1', '.psm1', '.psd1', '.ps1xml', '.txt', '.xml', '.cmd', '.json', '.md'
+            ExcludePath         = @()
         }
 
         AnalyzeTask         = [PSCustomObject] @{
             ScriptAnalyzerRules = Get-ScriptAnalyzerRule | Where-Object { $_.RuleName -notin 'PSReviewUnusedParameter' }
+            ExcludePath         = @()
         }
 
         ApproveTask         = [PSCustomObject] @{

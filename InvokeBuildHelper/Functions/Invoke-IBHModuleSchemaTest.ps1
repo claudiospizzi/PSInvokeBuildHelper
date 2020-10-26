@@ -37,6 +37,11 @@ function Invoke-IBHModuleSchemaTest
         [System.String[]]
         $TextFileExtension,
 
+        # List of paths to exclude.
+        [Parameter(Mandatory = $true)]
+        [System.String[]]
+        $ExcludePath,
+
         # Output folder for the NUnitXml file.
         [Parameter(Mandatory = $true)]
         [System.String]
@@ -50,6 +55,7 @@ function Invoke-IBHModuleSchemaTest
                 BuildRoot         = $BuildRoot
                 ModuleName        = $ModuleName
                 TextFileExtension = $TextFileExtension
+                ExcludePath       = $ExcludePath
             }
         }
         OutputFile   = Join-Path -Path $OutputPath -ChildPath 'TestResult.ModuleSchema.xml'
