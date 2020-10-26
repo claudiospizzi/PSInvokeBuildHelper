@@ -69,9 +69,10 @@ function Set-ModuleVersion
 
     # Check if we have a solution, just show a warning if yes.
     $solutionName = Get-BuildSolutionName -BuildRoot $buildRoot
-    if (-not [System.String]::IsNullOrEmpty($solutionName))
+    $solutionAssemblyVersionPath = "$buildRoot\$solutionName\Properties\AssemblyVersion.cs"
+    if (-not [System.String]::IsNullOrEmpty($solutionName) -and -not (Test-Path -Path $solutionAssemblyVersionPath))
     {
-        Write-Warning "Repository contains a .NET solution, update the version manually: $solutionName"
+        throw "The assembly version file is missing: $solutionAssemblyVersionPath"
     }
 
     # Verify if the change log contains an unreleased section
@@ -142,6 +143,26 @@ function Set-ModuleVersion
             }
         }
         $moduleDefinitionContent | Set-Content -Path $moduleDefinitionPath -Encoding 'UTF8'
+
+
+        if (-not [System.String]::IsNullOrEmpty($solutionName))
+        {
+            Write-Host "Step Update File: $solutionAssemblyVersionPath" -ForegroundColor 'Cyan'
+
+            $solutionAssemblyVersionContent = Get-Content -Path $solutionAssemblyVersionPath
+            for ($i = 0; $i -lt $solutionAssemblyVersionContent.Count; $i++)
+            {
+                if ($solutionAssemblyVersionContent[$i] -like '[assembly: AssemblyVersion("*")]')
+                {
+                    $solutionAssemblyVersionContent[$i] = '[assembly: AssemblyVersion("{0}")]' -f $newVersion
+                }
+                if ($solutionAssemblyVersionContent[$i] -like '[assembly: AssemblyFileVersion("*")]')
+                {
+                    $solutionAssemblyVersionContent[$i] = '[assembly: AssemblyFileVersion("{0}")]' -f $newVersion
+                }
+            }
+            $solutionAssemblyVersionContent | Set-Content -Path $solutionAssemblyVersionPath -Encoding 'UTF8'
+        }
 
 
         Write-Host "Step Stage Changes:    > git add *" -ForegroundColor 'Cyan'
