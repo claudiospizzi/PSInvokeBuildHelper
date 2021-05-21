@@ -39,18 +39,18 @@ function Test-IBHSolutionVersion
     )
 
     # Path to the assembly info file.
-    $assemblyInfoPath = '{0}\{1}\Properties\AssemblyInfo.cs' -f $BuildRoot, $SolutionName
+    $assemblyPath = '{0}\{1}\Properties\*.cs' -f $BuildRoot, $SolutionName
 
     # Extract the assembly version
     $assemblyVersion = ''
-    if ($null -ne ($assemblyVersionMatch = Select-String -Path $assemblyInfoPath -Pattern '^\[assembly: AssemblyVersion\("([0-9\.]+)"\)\]$'))
+    if ($null -ne ($assemblyVersionMatch = Select-String -Path $assemblyPath -Pattern '^\[assembly: AssemblyVersion\("([0-9\.]+)"\)\]$'))
     {
         $assemblyVersion = ($assemblyVersionMatch.Matches.Captures)[0].Groups[1].Value
     }
 
     # Extract the assembly file version
     $assemblyFileVersion = ''
-    if ($null -ne ($assemblyFileVersionMatch = Select-String -Path $assemblyInfoPath -Pattern '^\[assembly: AssemblyFileVersion\("([0-9\.]+)"\)\]$'))
+    if ($null -ne ($assemblyFileVersionMatch = Select-String -Path $assemblyPath -Pattern '^\[assembly: AssemblyFileVersion\("([0-9\.]+)"\)\]$'))
     {
         $assemblyFileVersion = ($assemblyFileVersionMatch.Matches.Captures)[0].Groups[1].Value
     }
