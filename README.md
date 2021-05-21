@@ -202,4 +202,11 @@ For the best development experience, open this project as a folder in Visual
 Studio Code and ensure that the PowerShell extension is installed.
 
 * [Visual Studio Code] with the [PowerShell Extension]
-* [Pester], [PSScriptAnalyzer] and [psake] PowerShell Modules
+* [Pester], [PSScriptAnalyzer], [InvokeBuild] and [InvokeBuildHelper] modules
+
+[Visual Studio Code]: https://code.visualstudio.com/
+[PowerShell Extension]: https://marketplace.visualstudio.com/items?itemName=ms-vscode.PowerShell
+[Pester]: https://www.powershellgallery.com/packages/Pester
+[PSScriptAnalyzer]: https://www.powershellgallery.com/packages/PSScriptAnalyzer
+[InvokeBuild]: https://www.powershellgallery.com/packages/InvokeBuild
+[InvokeBuildHelper]: https://www.powershellgallery.com/packages/InvokeBuildHelper
