@@ -49,7 +49,7 @@ task Verify {
 
         # Ensure the module dependency on InvokeBuildHelper itself is ok
         $ibhActualVersion   = Get-Module -Name 'InvokeBuildHelper' | Select-Object -ExpandProperty 'Version'
-        $ibhRequiredVersion = Invoke-RestMethod -Uri $IBHConfig.VerifyTask.ModulePackageUrl | Select-Object -Last 1 | ForEach-Object { [System.Version] $_.properties.version }
+        $ibhRequiredVersion = Invoke-RestMethod -Uri $IBHConfig.VerifyTask.ModulePackageUrl -TimeoutSec 5 | Select-Object -Last 1 | ForEach-Object { [System.Version] $_.properties.version }
         assert ($ibhActualVersion -ge $ibhRequiredVersion) "The InvokeBuildHelper module version $ibhActualVersion is outdated, please update to $ibhRequiredVersion or later!"
     }
     else
