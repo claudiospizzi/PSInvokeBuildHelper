@@ -39,6 +39,7 @@ function Invoke-IBHModuleSchemaTest
 
         # List of paths to exclude.
         [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
         [System.String[]]
         $ExcludePath,
 
