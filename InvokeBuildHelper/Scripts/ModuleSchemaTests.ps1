@@ -29,6 +29,7 @@ param
     # List of paths to exclude.
     [Parameter(Mandatory = $true)]
     [System.String[]]
+    [AllowEmptyCollection()]
     $ExcludePath
 )
 
@@ -75,11 +76,11 @@ Describe 'Module Schema' {
         $fileNames = Get-ChildItem -Path $BuildRoot -File -Recurse |
                          Where-Object { $TextFileExtension -contains $_.Extension } |
                              ForEach-Object { @{ Path = $_.FullName; RelativePath = $_.FullName.Replace($BuildRoot, '') } }
-        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\out\\.*' }                # Used by the InvokeBuildHelper tasks
-        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\bin\\.*' }                # Used by the InvokeBuildHelper tasks
-        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\(\w*\\)?bin\\.*' }        # Used by the Visual Studio solutions
-        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\(\w*\\)?obj\\.*' }        # Used by the Visual Studio solutions
-        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\(\w*\\)?packages\\.*' }   # Used by the Visual Studio solutions
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\?out\\.*' }                     # Used by the InvokeBuildHelper tasks
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\?bin\\.*' }                     # Used by the InvokeBuildHelper tasks
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\?([\w.-_]*\\)?bin\\.*' }        # Used by the Visual Studio solutions
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\?([\w.-_]*\\)?obj\\.*' }        # Used by the Visual Studio solutions
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\?([\w.-_]*\\)?packages\\.*' }   # Used by the Visual Studio solutions
         $fileNames = $fileNames | Where-Object { $relativePath = $_.RelativePath; @($ExcludePath | Where-Object { $relativePath -like $_ }).Count -eq 0 }
 
         It 'Should use a valid encoding for file <RelativePath>' -TestCases $fileNames {
@@ -275,6 +276,18 @@ Describe 'Module Schema' {
         }
     }
 
+    Context 'Module File README.md' {
+
+        It 'Should not reference the old psake PowerShell build module' {
+
+            # Act
+            $actual = Get-Content -Path "$BuildRoot\README.md" -Raw
+
+            # Assert
+            $actual | Should -Not -Match ' \[psake\] '
+        }
+    }
+
     Context 'Module Definition' {
 
         # Get the name of all helper files
@@ -353,7 +366,6 @@ Describe 'Module Schema' {
     }
 
     Context 'Module Function' {
-
 
         $scriptFiles = @()
         $scriptFiles += Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Helpers' | Get-ChildItem -Include '*.ps1' -File -Recurse
