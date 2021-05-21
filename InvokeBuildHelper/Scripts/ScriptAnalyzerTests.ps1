@@ -28,6 +28,7 @@ param
     # List of paths to exclude.
     [Parameter(Mandatory = $true)]
     [System.String[]]
+    [AllowEmptyCollection()]
     $ExcludePath
 )
 
