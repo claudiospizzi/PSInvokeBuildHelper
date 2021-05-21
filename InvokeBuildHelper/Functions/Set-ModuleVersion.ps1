@@ -152,11 +152,11 @@ function Set-ModuleVersion
             $solutionAssemblyVersionContent = Get-Content -Path $solutionAssemblyVersionPath
             for ($i = 0; $i -lt $solutionAssemblyVersionContent.Count; $i++)
             {
-                if ($solutionAssemblyVersionContent[$i] -like '[assembly: AssemblyVersion("*")]')
+                if ($solutionAssemblyVersionContent[$i] -like '`[assembly: AssemblyVersion("*")`]')
                 {
                     $solutionAssemblyVersionContent[$i] = '[assembly: AssemblyVersion("{0}")]' -f $newVersion
                 }
-                if ($solutionAssemblyVersionContent[$i] -like '[assembly: AssemblyFileVersion("*")]')
+                if ($solutionAssemblyVersionContent[$i] -like '`[assembly: AssemblyFileVersion("*")`]')
                 {
                     $solutionAssemblyVersionContent[$i] = '[assembly: AssemblyFileVersion("{0}")]' -f $newVersion
                 }
