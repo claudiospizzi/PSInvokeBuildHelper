@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+* Added: Detect the primary branch name: master or main
 * Added: Exclude filters for schema and analyzer tests
 * Added: Update assembly version in Set-ModuleVersion too
 

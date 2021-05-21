@@ -52,7 +52,7 @@ function Get-IBHConfig
 
         ApproveTask         = [PSCustomObject] @{
             Enabled             = $true
-            BranchName          = 'master'
+            BranchName          = Get-IBHGitBranchPrimary
         }
 
         RepositoryTask      = [PSCustomObject] @{
