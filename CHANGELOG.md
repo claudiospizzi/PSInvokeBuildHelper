@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 2.6.0 - 2021-06-04
 
 * Added: README check for the contribute section
 * Added: Detect the primary branch name: master or main
