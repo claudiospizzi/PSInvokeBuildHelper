@@ -45,13 +45,34 @@ function Invoke-IBHPesterUnitTest
 
     if (Test-Path -Path $pesterTestPath)
     {
-        $invokePesterSplat = @{
-            Path         = $pesterTestPath
-            OutputFile   = Join-Path -Path $OutputPath -ChildPath 'TestResult.PetserUnit.xml'
-            OutputFormat = 'NUnitXml'
-            PassThru     = $true
+        $pesterNUnitOutputPath = Join-Path -Path $OutputPath -ChildPath 'TestResult.PesterUnit.xml'
+
+        if ((Get-Module -Name 'Pester').Version.Major -ge 5)
+        {
+            $invokePesterSplat = @{
+                Path     = $pesterTestPath
+                Output   = 'Detailed'
+                CI       = $true
+                PassThru = $true
+            }
+            $pesterResult = Invoke-Pester @invokePesterSplat
+
+            # Export NUnit report with a separate command, as this is not
+            # build-in into Invoke-Pester starting with v5.
+            $pesterResult | ConvertTo-NUnitReport -AsString | Set-Content -Path $pesterNUnitPath -Encoding 'UTF8'
         }
-        Invoke-Pester @invokePesterSplat
+        else
+        {
+            $invokePesterSplat = @{
+                Path         = $pesterTestPath
+                OutputFile   = $pesterNUnitOutputPath
+                OutputFormat = 'NUnitXml'
+                PassThru     = $true
+            }
+            $pesterResult = Invoke-Pester @invokePesterSplat
+        }
+
+        Write-Output $pesterResult
     }
     else
     {

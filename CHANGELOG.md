@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Added: Support for Pester v5 tests invocation
+
 ## 2.6.0 - 2021-06-04
 
 * Added: README check for the contribute section
