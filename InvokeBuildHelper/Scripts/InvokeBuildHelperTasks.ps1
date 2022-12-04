@@ -3,8 +3,8 @@
         Common build tasks for a PowerShell module.
 
     .DESCRIPTION
-        Script with the common build tasks definition. The configuration will
-        be stored in the $IBHConfig variable.
+        Script with the common build tasks definition. The configuration will be
+        stored in the $IBHConfig variable.
 
     .LINK
         https://github.com/nightroman/Invoke-Build
@@ -21,7 +21,6 @@ $IBHConfig = Get-IBHConfig -BuildRoot $BuildRoot
 # Stop this build if we try to release the module itself. This is not supported at all.
 if ($null -ne (Get-PSCallStack | Where-Object { $_.Command -eq 'Invoke-Build.ps1' -and $_.Arguments -like '*Task=Release*' }) -and $IBHConfig.ModuleName -eq 'InvokeBuildHelper')
 {
-    # Stop the build
     throw 'Release task is not supported for the module InvokeBuildHelper itself! Please use the sub-tasks Gallery and Repository.'
 }
 
@@ -106,7 +105,7 @@ task Pester {
     # Create output folder
     $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
 
-    # Inovke the Pester unit tests
+    # Invoke the Pester unit tests
     $result = Invoke-IBHPesterUnitTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -OutputPath $outputPath
 
     $Host.UI.WriteLine()

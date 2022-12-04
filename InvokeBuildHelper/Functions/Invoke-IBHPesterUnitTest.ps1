@@ -59,7 +59,7 @@ function Invoke-IBHPesterUnitTest
 
             # Export NUnit report with a separate command, as this is not
             # build-in into Invoke-Pester starting with v5.
-            $pesterResult | ConvertTo-NUnitReport -AsString | Set-Content -Path $pesterNUnitPath -Encoding 'UTF8'
+            $pesterResult | ConvertTo-NUnitReport -AsString | Set-Content -Path $pesterNUnitOutputPath -Encoding 'UTF8'
         }
         else
         {
