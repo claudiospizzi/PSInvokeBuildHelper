@@ -52,7 +52,6 @@ function Invoke-IBHPesterUnitTest
             $invokePesterSplat = @{
                 Path     = $pesterTestPath
                 Output   = 'Detailed'
-                CI       = $true
                 PassThru = $true
             }
             $pesterResult = Invoke-Pester @invokePesterSplat

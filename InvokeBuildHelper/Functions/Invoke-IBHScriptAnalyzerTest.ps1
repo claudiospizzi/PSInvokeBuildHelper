@@ -64,7 +64,6 @@ function Invoke-IBHScriptAnalyzerTest
                 ExcludePath  = $ExcludePath
             }
             Output    = 'Detailed'
-            CI        = $true
             PassThru  = $true
         }
         $pesterResult = Invoke-Pester @invokePesterSplat

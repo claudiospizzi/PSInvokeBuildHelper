@@ -64,7 +64,6 @@ function Invoke-IBHModuleSchemaTest
                 ExcludePath       = $ExcludePath
             }
             Output    = 'Detailed'
-            CI        = $true
             PassThru  = $true
         }
         $pesterResult = Invoke-Pester @invokePesterSplat
