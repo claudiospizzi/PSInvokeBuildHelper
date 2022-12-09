@@ -89,6 +89,7 @@
         'Test-IBHSolutionVersion'
         'Invoke-IBHModuleSchemaTest'
         'Invoke-IBHPesterUnitTest'
+        'Invoke-IBHPesterIntegrationTest'
         'Invoke-IBHScriptAnalyzerTest'
         'Publish-IBHGallery'
         'Publish-IBHRepository'
