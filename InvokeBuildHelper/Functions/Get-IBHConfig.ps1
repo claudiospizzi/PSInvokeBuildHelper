@@ -45,8 +45,8 @@ function Get-IBHConfig
             ExcludePath         = @()
         }
 
-        AnalyzeTask         = [PSCustomObject] @{
-            ScriptAnalyzerRules = Get-ScriptAnalyzerRule | Where-Object { $_.RuleName -notin 'PSReviewUnusedParameter' }
+        AnalyzerTestTask    = [PSCustomObject] @{
+            ScriptAnalyzerRules = Get-ScriptAnalyzerRule # | Where-Object { $_.RuleName -notin 'PSReviewUnusedParameter' } // 09.12.2022 Removed
             ExcludePath         = @()
         }
 

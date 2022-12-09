@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Added: Support for Pester integration tests located in `/Tests/Integration`
+* Changed: Optimize the Pester unit test location and only use `/Tests/Unit` if available instead always using all tests in `/Tests`
+* Changed: Rename tasks with their configuration by applying the suffix `Test` for all Pester test commands
+* Fixed: Fix the argument completer for the `Invoke-BuildIsolated` command
+
 ## 2.7.0 - 2022-12-06
 
 * Added: Support for Pester v5 tests invocation
