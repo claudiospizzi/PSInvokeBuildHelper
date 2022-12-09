@@ -1,11 +1,11 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 3.0.0 - 2022-12-09
 
 * Added: Support for Pester integration tests located in `/Tests/Integration`
 * Changed: Optimize the Pester unit test location and only use `/Tests/Unit` if available instead always using all tests in `/Tests`
