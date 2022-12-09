@@ -40,8 +40,14 @@ function Invoke-IBHPesterUnitTest
     # Create output folder
     New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Out-Null
 
-    # Define the test path
-    $pesterTestPath = Join-Path -Path $BuildRoot -ChildPath "$ModuleName\Tests"
+    # Define the test path. We will prefer the Tests/Unit folder if this exists.
+    # This is because with the recurring execution tests, we only use the unit
+    # tests but not the integration tests.
+    $pesterTestPath = Join-Path -Path $BuildRoot -ChildPath "$ModuleName\Tests\Unit"
+    if (-not (Test-Path -Path $pesterTestPath))
+    {
+        $pesterTestPath = Join-Path -Path $BuildRoot -ChildPath "$ModuleName\Tests"
+    }
 
     if (Test-Path -Path $pesterTestPath)
     {
