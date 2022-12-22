@@ -45,5 +45,5 @@
     "powershell.codeFormatting.whitespaceAfterSeparator": true,
     "powershell.codeFormatting.whitespaceAroundOperator": true,
     "powershell.codeFormatting.whitespaceBeforeOpenBrace": true,
-    "powershell.codeFormatting.whitespaceBeforeOpenParen": true,
+    "powershell.codeFormatting.whitespaceBeforeOpenParen": true
 }
