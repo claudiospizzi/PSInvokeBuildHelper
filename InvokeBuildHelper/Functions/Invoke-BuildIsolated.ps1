@@ -40,7 +40,6 @@ function Invoke-BuildIsolated
 
 # Register the argument completer for the Invoke-Build command
 Register-ArgumentCompleter -CommandName 'Invoke-BuildIsolated' -ParameterName 'Task' -ScriptBlock {
-    param ($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     $taskNames = $Script:INVOKE_BUILD_HELPER_TASK_NAMES
     foreach ($taskName in $taskNames)
     {
