@@ -27,3 +27,9 @@ Split-Path -Path $PSCommandPath |
 
 # Create an alias to the build script
 Set-Alias -Name 'InvokeBuildHelperTasks' -Value "$PSScriptRoot\Scripts\InvokeBuildHelperTasks.ps1"
+
+# Get all task names
+$Script:INVOKE_BUILD_HELPER_TASK_NAMES =
+    Get-Content -Path "$PSScriptRoot\Scripts\InvokeBuildHelperTasks.ps1" |
+        Where-Object { $_ -match '^task (?<TaskName>[a-zA-Z]+)' } |
+            ForEach-Object { $Matches['TaskName'] }

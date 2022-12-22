@@ -3,7 +3,7 @@
     RootModule = 'InvokeBuildHelper.psm1'
 
     # Version number of this module.
-    ModuleVersion = '2.6.0'
+    ModuleVersion = '3.0.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -89,6 +89,7 @@
         'Test-IBHSolutionVersion'
         'Invoke-IBHModuleSchemaTest'
         'Invoke-IBHPesterUnitTest'
+        'Invoke-IBHPesterIntegrationTest'
         'Invoke-IBHScriptAnalyzerTest'
         'Publish-IBHGallery'
         'Publish-IBHRepository'

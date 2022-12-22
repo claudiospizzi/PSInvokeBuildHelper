@@ -3,8 +3,8 @@
         Common build tasks for a PowerShell module.
 
     .DESCRIPTION
-        Script with the common build tasks definition. The configuration will
-        be stored in the $IBHConfig variable.
+        Script with the common build tasks definition. The configuration will be
+        stored in the $IBHConfig variable.
 
     .LINK
         https://github.com/nightroman/Invoke-Build
@@ -21,7 +21,6 @@ $IBHConfig = Get-IBHConfig -BuildRoot $BuildRoot
 # Stop this build if we try to release the module itself. This is not supported at all.
 if ($null -ne (Get-PSCallStack | Where-Object { $_.Command -eq 'Invoke-Build.ps1' -and $_.Arguments -like '*Task=Release*' }) -and $IBHConfig.ModuleName -eq 'InvokeBuildHelper')
 {
-    # Stop the build
     throw 'Release task is not supported for the module InvokeBuildHelper itself! Please use the sub-tasks Gallery and Repository.'
 }
 
@@ -35,7 +34,7 @@ task Release Verify, Build, Test, Repository, Gallery, ZipFile
 task Build Clean, Compile
 
 # Synopsis: Test the module with pester and script analyzer. This includes schema tests, module unit tests and script analyzer rules.
-task Test Pester, Schema, Analyze
+task Test UnitTest, SchemaTest, AnalyzerTest
 
 # Synopsis: Verify the build system itself, like the InvokeBuild and InvokeBuildHelper module version.
 task Verify {
@@ -99,14 +98,14 @@ task Compile {
 }
 
 # Synopsis: Run all pester unit tests for the PowerShell module.
-task Pester {
+task UnitTest {
 
     $Host.UI.WriteLine()
 
     # Create output folder
     $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
 
-    # Inovke the Pester unit tests
+    # Invoke the Pester unit tests
     $result = Invoke-IBHPesterUnitTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -OutputPath $outputPath
 
     $Host.UI.WriteLine()
@@ -114,8 +113,24 @@ task Pester {
     assert ($result.FailedCount -eq 0) ('{0} failure(s) in Pester Unit tests' -f $result.FailedCount)
 }
 
+# Synopsis: Run all pester integration tests for the PowerShell module.
+task IntegrationTest {
+
+    $Host.UI.WriteLine()
+
+    # Create output folder
+    $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
+
+    # Invoke the Pester integration tests
+    $result = Invoke-IBHPesterIntegrationTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -OutputPath $outputPath
+
+    $Host.UI.WriteLine()
+
+    assert ($result.FailedCount -eq 0) ('{0} failure(s) in Pester Integration tests' -f $result.FailedCount)
+}
+
 # Synopsis: Test the PowerShell module schema.
-task Schema {
+task SchemaTest {
 
     $Host.UI.WriteLine()
 
@@ -131,7 +146,7 @@ task Schema {
 }
 
 # Synopsis: Invoke the script analyzer for the PowerShell module.
-task Analyze {
+task AnalyzerTest {
 
     $Host.UI.WriteLine()
 
@@ -139,7 +154,7 @@ task Analyze {
     $outputPath = New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Select-Object -ExpandProperty 'FullName'
 
     # Invoke the script analyzer, run all defined rules
-    $result = Invoke-IBHScriptAnalyzerTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -Rule $IBHConfig.AnalyzeTask.ScriptAnalyzerRules -ExcludePath $IBHConfig.AnalyzeTask.ExcludePath -OutputPath $outputPath
+    $result = Invoke-IBHScriptAnalyzerTest -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName -Rule $IBHConfig.AnalyzerTestTask.ScriptAnalyzerRules -ExcludePath $IBHConfig.AnalyzerTestTask.ExcludePath -OutputPath $outputPath
 
     $Host.UI.WriteLine()
 

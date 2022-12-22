@@ -1,22 +1,22 @@
 <#
     .SYNOPSIS
-        Invoke the Pester unit tests.
+        Invoke the Pester integration tests.
 
     .DESCRIPTION
-        This function will invoke all Pester unit tests in the module itself to
-        invoke the module unit tests.
+        This function will invoke all Pester integration tests in the module
+        itself to invoke the module integration tests.
 
     .OUTPUTS
         System.Management.Automation.PSCustomObject. Pester result object.
 
     .EXAMPLE
-        PS C:\> Invoke-IBHPesterUnitTest -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleName 'InvokeBuildHelper' -OutputPath 'C:\TestResults'
-        Invoke the Pester unit tests for the InvokeBuildHelper module.
+        PS C:\> Invoke-IBHPesterIntegrationTest -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleName 'InvokeBuildHelper' -OutputPath 'C:\TestResults'
+        Invoke the Pester integration tests for the InvokeBuildHelper module.
 
     .LINK
         https://github.com/claudiospizzi/InvokeBuildHelper
 #>
-function Invoke-IBHPesterUnitTest
+function Invoke-IBHPesterIntegrationTest
 {
     [CmdletBinding()]
     param
@@ -40,18 +40,12 @@ function Invoke-IBHPesterUnitTest
     # Create output folder
     New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Out-Null
 
-    # Define the test path. We will prefer the Tests/Unit folder if this exists.
-    # This is because with the recurring execution tests, we only use the unit
-    # tests but not the integration tests.
-    $pesterTestPath = Join-Path -Path $BuildRoot -ChildPath "$ModuleName\Tests\Unit"
-    if (-not (Test-Path -Path $pesterTestPath))
-    {
-        $pesterTestPath = Join-Path -Path $BuildRoot -ChildPath "$ModuleName\Tests"
-    }
+    # Define the test path
+    $pesterTestPath = Join-Path -Path $BuildRoot -ChildPath "$ModuleName\Tests\Integration"
 
     if (Test-Path -Path $pesterTestPath)
     {
-        $pesterNUnitOutputPath = Join-Path -Path $OutputPath -ChildPath 'TestResult.PesterUnit.xml'
+        $pesterNUnitOutputPath = Join-Path -Path $OutputPath -ChildPath 'TestResult.PesterIntegration.xml'
 
         if ((Get-Module -Name 'Pester').Version.Major -ge 5)
         {

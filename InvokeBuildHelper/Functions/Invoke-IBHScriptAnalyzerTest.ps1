@@ -12,7 +12,7 @@
 
     .EXAMPLE
         PS C:\> Invoke-IBHScriptAnalyzerTest -BuildRoot 'C:\GitHub\InvokeBuildHelper' -ModuleName 'InvokeBuildHelper' -OutputPath 'C:\TestResults'
-        Invoke the script analyter tests for the InvokeBuildHelper module.
+        Invoke the script analyzer tests for the InvokeBuildHelper module.
 
     .LINK
         https://github.com/claudiospizzi/InvokeBuildHelper
@@ -49,22 +49,47 @@ function Invoke-IBHScriptAnalyzerTest
         $OutputPath
     )
 
-    # Create output folder
-    New-Item -Path (Join-Path -Path $BuildRoot -ChildPath 'out') -ItemType 'Directory' -Force | Out-Null
+    # Path to the script analyzer tests stored in this module
+    $scriptAnalyzerTestFile = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ScriptAnalyzerTests.ps1" | Select-Object -ExpandProperty 'Path'
 
-    $invokePesterSplat = @{
-        Script       = @{
-            Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ScriptAnalyzerTests.ps1" | Select-Object -ExpandProperty 'Path'
-            Parameters   = @{
+    $pesterNUnitOutputPath = Join-Path -Path $OutputPath -ChildPath 'TestResult.ScriptAnalyzer.xml'
+
+    if ((Get-Module -Name 'Pester').Version.Major -ge 5)
+    {
+        $invokePesterSplat = @{
+            Container = New-PesterContainer -Path $scriptAnalyzerTestFile -Data @{
                 BuildRoot    = $BuildRoot
                 ModuleName   = $ModuleName
                 Rule         = $Rule
                 ExcludePath  = $ExcludePath
             }
+            Output    = 'Detailed'
+            PassThru  = $true
         }
-        OutputFile   = Join-Path -Path $OutputPath -ChildPath 'TestResult.ScriptAnalyzer.xml'
-        OutputFormat = 'NUnitXml'
-        PassThru     = $true
+        $pesterResult = Invoke-Pester @invokePesterSplat
+
+        # Export NUnit report with a separate command, as this is not build-in
+        # into Invoke-Pester starting with v5.
+        $pesterResult | ConvertTo-NUnitReport -AsString | Set-Content -Path $pesterNUnitOutputPath -Encoding 'UTF8'
     }
-    Invoke-Pester @invokePesterSplat
+    else
+    {
+        $invokePesterSplat = @{
+            Script       = @{
+                Path         = $scriptAnalyzerTestFile
+                Parameters   = @{
+                    BuildRoot    = $BuildRoot
+                    ModuleName   = $ModuleName
+                    Rule         = $Rule
+                    ExcludePath  = $ExcludePath
+                }
+            }
+            OutputFile   = $pesterNUnitOutputPath
+            OutputFormat = 'NUnitXml'
+            PassThru     = $true
+        }
+        $pesterResult = Invoke-Pester @invokePesterSplat
+    }
+
+    Write-Output $pesterResult
 }

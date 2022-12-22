@@ -57,13 +57,16 @@ $IBHConfig.GalleryTask.Token    = Get-VaultSecureString -TargetName 'PowerShell 
 * **Deploy**  
     Planned task for C# solution deploy. (NOT IMPLEMENTED)
   
-* **Pester**  
+* **UnitTest**  
     Run all pester unit tests for the PowerShell module.
 
-* **Schema**  
+* **IntegrationTest**  
+    Run all pester integration tests for the PowerShell module.
+
+* **SchemaTest**  
     Test the PowerShell module schema.
 
-* **Analyze**  
+* **AnalyzerTest**  
     Invoke the script analyzer for the PowerShell module.
 
 * **Approve**  
@@ -113,10 +116,10 @@ $IBHConfig.SchemaTask.TextFileExtension = '.gitignore', '.gitattributes', '.ps1'
 $IBHConfig.SchemaTask.ExcludePath = @()
 
 # Analyze Task: Rules to process by the PowerShell Script Analyzer (default)
-$IBHConfig.AnalyzeTask.ScriptAnalyzerRules = Get-ScriptAnalyzerRule
+$IBHConfig.AnalyzerTestTask.ScriptAnalyzerRules = Get-ScriptAnalyzerRule
 
 # Analyze Task: Exclude files from the test by using wildcard filters (default)
-$IBHConfig.AnalyzeTask.ExcludePath = @()
+$IBHConfig.AnalyzerTestTask.ExcludePath = @()
 
 # Approve Task: Option to enable or disable the release approval tests (default)
 $IBHConfig.ApproveTask.Enabled = $true

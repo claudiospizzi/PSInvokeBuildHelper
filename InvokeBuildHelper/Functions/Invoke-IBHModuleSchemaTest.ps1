@@ -49,19 +49,47 @@ function Invoke-IBHModuleSchemaTest
         $OutputPath
     )
 
-    $invokePesterSplat = @{
-        Script       = @{
-            Path         = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ModuleSchemaTests.ps1" | Select-Object -ExpandProperty 'Path'
-            Parameters   = @{
+    # Path to the schema tests stored in this module
+    $moduleSchemaTestFile = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ModuleSchemaTests.ps1" | Select-Object -ExpandProperty 'Path'
+
+    $pesterNUnitOutputPath = Join-Path -Path $OutputPath -ChildPath 'TestResult.ModuleSchema.xml'
+
+    if ((Get-Module -Name 'Pester').Version.Major -ge 5)
+    {
+        $invokePesterSplat = @{
+            Container = New-PesterContainer -Path $moduleSchemaTestFile -Data @{
                 BuildRoot         = $BuildRoot
                 ModuleName        = $ModuleName
                 TextFileExtension = $TextFileExtension
                 ExcludePath       = $ExcludePath
             }
+            Output    = 'Detailed'
+            PassThru  = $true
         }
-        OutputFile   = Join-Path -Path $OutputPath -ChildPath 'TestResult.ModuleSchema.xml'
-        OutputFormat = 'NUnitXml'
-        PassThru     = $true
+        $pesterResult = Invoke-Pester @invokePesterSplat
+
+        # Export NUnit report with a separate command, as this is not build-in
+        # into Invoke-Pester starting with v5.
+        $pesterResult | ConvertTo-NUnitReport -AsString | Set-Content -Path $pesterNUnitOutputPath -Encoding 'UTF8'
     }
-    Invoke-Pester @invokePesterSplat
+    else
+    {
+        $invokePesterSplat = @{
+            Script       = @{
+                Path         = $moduleSchemaTestFile
+                Parameters   = @{
+                    BuildRoot         = $BuildRoot
+                    ModuleName        = $ModuleName
+                    TextFileExtension = $TextFileExtension
+                    ExcludePath       = $ExcludePath
+                }
+            }
+            OutputFile   = $pesterNUnitOutputPath
+            OutputFormat = 'NUnitXml'
+            PassThru     = $true
+        }
+        $pesterResult = Invoke-Pester @invokePesterSplat
+    }
+
+    Write-Output $pesterResult
 }
