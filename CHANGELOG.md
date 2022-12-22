@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Changed: Update module schema checks for PowerShell VS code formatting
+
 ## 3.0.0 - 2022-12-09
 
 * Added: Support for Pester integration tests located in `/Tests/Integration`
