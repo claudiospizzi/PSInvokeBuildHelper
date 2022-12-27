@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+* Added: Option to use a callback for the token configuration values
 * Fixed: Use the same PowerShell executable for the Invoke-BuildIsolated command
 * Removed: Dependency on SecurityFever module
 

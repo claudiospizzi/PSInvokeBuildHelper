@@ -212,7 +212,17 @@ task Repository Build, Approve, {
 
     if ($IBHConfig.RepositoryTask.Enabled)
     {
-        assert (-not [System.String]::IsNullOrEmpty($IBHConfig.RepositoryTask.Token)) 'Repository Token is missing, please set the following variable: $IBHConfig.RepositoryTask.Token'
+        $token = $null
+        if ($null -ne $IBHConfig.RepositoryTask.Token)
+        {
+            $token = $IBHConfig.RepositoryTask.Token
+        }
+        elseif ($null -ne $IBHConfig.RepositoryTask.TokenCallback)
+        {
+            $token = & $IBHConfig.RepositoryTask.TokenCallback
+        }
+
+        assert ($null -ne $token -and $token -is [System.Security.SecureString]) 'Repository Token is missing, please set one of the following variables: $IBHConfig.RepositoryTask.Token or $IBHConfig.RepositoryTask.TokenCallback'
 
         $publishIBHRepository = @{
             BuildRoot       = $IBHConfig.BuildRoot
@@ -221,7 +231,7 @@ task Repository Build, Approve, {
             RepositoryType  = $IBHConfig.RepositoryTask.Type
             RepositoryUser  = $IBHConfig.RepositoryTask.User
             RepositoryName  = $IBHConfig.RepositoryTask.Name
-            RepositoryToken = $IBHConfig.RepositoryTask.Token
+            RepositoryToken = $token
         }
         Publish-IBHRepository @publishIBHRepository
     }
@@ -236,7 +246,17 @@ task Gallery Build, Approve, {
 
     if ($IBHConfig.GalleryTask.Enabled)
     {
-        assert (-not [System.String]::IsNullOrEmpty($IBHConfig.GalleryTask.Token)) 'Gallery Token is missing, please set the following variable: $IBHConfig.GalleryTask.Token'
+        $token = $null
+        if ($null -ne $IBHConfig.GalleryTask.Token)
+        {
+            $token = $IBHConfig.GalleryTask.Token
+        }
+        elseif ($null -ne $IBHConfig.GalleryTask.TokenCallback)
+        {
+            $token = & $IBHConfig.GalleryTask.TokenCallback
+        }
+
+        assert ($null -ne $token -and $token -is [System.Security.SecureString]) 'Gallery Token is missing, please set one of the following variables: $IBHConfig.GalleryTask.Token or $IBHConfig.GalleryTask.TokenCallback'
 
         $publishIBHGallerySplat = @{
             BuildRoot     = $IBHConfig.BuildRoot
@@ -244,7 +264,7 @@ task Gallery Build, Approve, {
             ModuleVersion = Get-IBHModuleVersion -BuildRoot $IBHConfig.BuildRoot -ModuleName $IBHConfig.ModuleName
             GalleryUser   = $IBHConfig.GalleryTask.User
             GalleryName   = $IBHConfig.GalleryTask.Name
-            GalleryToken  = $IBHConfig.GalleryTask.Token
+            GalleryToken  = $token
         }
         Publish-IBHGallery @publishIBHGallerySplat
     }

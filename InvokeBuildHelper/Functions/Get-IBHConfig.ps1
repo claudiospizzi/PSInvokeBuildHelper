@@ -60,14 +60,16 @@ function Get-IBHConfig
             Type                = 'GitHub'
             User                = Get-IBHGitHubUser
             Name                = Get-IBHGitHubRepo
-            Token               = [System.Security.SecureString]::new()
+            Token               = $null
+            TokenCallback       = $null
         }
 
         GalleryTask         = [PSCustomObject] @{
             Enabled             = $true
             User                = Get-IBHGitHubUser
             Name                = 'PSGallery'
-            Token               = [System.Security.SecureString]::new()
+            Token               = $null
+            TokenCallback       = $null
         }
 
         ZipFileTask         = [PSCustomObject] @{

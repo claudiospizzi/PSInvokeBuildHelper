@@ -27,8 +27,8 @@ official PowerShell Gallery:
 
 # Build configuration
 $IBHConfig.VerifyTask.Enabled   = $false
-$IBHConfig.RepositoryTask.Token = Get-VaultSecureString -TargetName 'GitHub Token'
-$IBHConfig.GalleryTask.Token    = Get-VaultSecureString -TargetName 'PowerShell Gallery Key'
+$IBHConfig.RepositoryTask.Token = Use-VaultSecureString -TargetName 'GitHub Token'
+$IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell Gallery Key'
 ```
 
 ### Build Tasks
@@ -140,7 +140,10 @@ $IBHConfig.RepositoryTask.User = 'claudiospizzi'
 $IBHConfig.RepositoryTask.Name = 'InvokeBuildHelper'
 
 # Repository Task: The secret token to access the GitHub api (default)
-$IBHConfig.RepositoryTask.Token = ''
+$IBHConfig.RepositoryTask.Token = Use-VaultSecureString -TargetName 'Repository Token'
+
+# Repository Task: The secret token callback to access the GitHub api (default)
+$IBHConfig.RepositoryTask.TokenCallback = { Get-VaultSecureString -TargetName 'Repository Token' }
 
 # Gallery Task: Option to enable or disable the release to the gallery (default)
 $IBHConfig.GalleryTask.Enabled = $true
@@ -152,7 +155,10 @@ $IBHConfig.GalleryTask.User = 'claudiospizzi'
 $IBHConfig.GalleryTask.Name = 'PSGallery'
 
 # Gallery Task: The secret token to access the PowerShell Gallery (default)
-$IBHConfig.GalleryTask.Token = ''
+$IBHConfig.GalleryTask.Token = Use-VaultSecureString -TargetName 'Gallery Token'
+
+# Gallery Task: The secret token callback to access the PowerShell Gallery (default)
+$IBHConfig.GalleryTask.TokenCallback = { Get-VaultSecureString -TargetName 'Gallery Token' }
 
 # Deploy Task: The module path where the beta revision is deployed (auto generated)
 $IBHConfig.DeployTask.ModulePaths = @('C:\Users\ClaudioSpizzi\Documents\WindowsPowerShell\Modules')
@@ -206,6 +212,12 @@ Studio Code and ensure that the PowerShell extension is installed.
 
 * [Visual Studio Code] with the [PowerShell Extension]
 * [Pester], [PSScriptAnalyzer], [InvokeBuild] and [InvokeBuildHelper] modules
+
+[PowerShell Gallery]: https://www.powershellgallery.com/packages/InvokeBuildHelper
+[GitHub Releases]: https://github.com/claudiospizzi/InvokeBuildHelper/releases
+[Installing a PowerShell Module]: https://msdn.microsoft.com/en-us/library/dd878350
+
+[CHANGELOG.md]: CHANGELOG.md
 
 [Visual Studio Code]: https://code.visualstudio.com/
 [PowerShell Extension]: https://marketplace.visualstudio.com/items?itemName=ms-vscode.PowerShell
