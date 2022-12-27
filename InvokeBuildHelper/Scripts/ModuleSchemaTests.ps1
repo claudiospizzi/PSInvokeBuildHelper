@@ -182,37 +182,42 @@ Describe 'Module Schema' {
             $settings = Get-Content -Path $path | ConvertFrom-Json
 
             # Assert
-            $settings.'files.trimTrailingWhitespace'                          | Should -BeTrue
-            $settings.'[markdown]'.'files.trimTrailingWhitespace'             | Should -BeFalse
-            $settings.'[powershell]'.'files.encoding'                         | Should -Be 'utf8bom'
-            $settings.'files.exclude'.'**/.git'                               | Should -BeTrue
-            $settings.'files.exclude'.'**/.vs'                                | Should -BeTrue
-            $settings.'files.exclude'.'**/obj'                                | Should -BeTrue
-            $settings.'files.exclude'.'**/bin'                                | Should -BeTrue
-            $settings.'files.exclude'.'**/out'                                | Should -BeTrue
-            $settings.'files.exclude'.'**/packages'                           | Should -BeTrue
-            $settings.'files.exclude'.'**/*.user'                             | Should -BeTrue
-            $settings.'search.exclude'.'**/.git'                              | Should -BeTrue
-            $settings.'search.exclude'.'**/.vs'                               | Should -BeTrue
-            $settings.'search.exclude'.'**/obj'                               | Should -BeTrue
-            $settings.'search.exclude'.'**/bin'                               | Should -BeTrue
-            $settings.'search.exclude'.'**/out'                               | Should -BeTrue
-            $settings.'search.exclude'.'**/packages'                          | Should -BeTrue
-            $settings.'search.exclude'.'**/*.user'                            | Should -BeTrue
-            $settings.'powershell.debugging.createTemporaryIntegratedConsole' | Should -BeTrue
-            $settings.'powershell.codeFormatting.alignPropertyValuePairs'     | Should -BeTrue
-            $settings.'powershell.codeFormatting.ignoreOneLineBlock'          | Should -BeTrue
-            $settings.'powershell.codeFormatting.newLineAfterCloseBrace'      | Should -BeTrue
-            $settings.'powershell.codeFormatting.newLineAfterOpenBrace'       | Should -BeTrue
-            $settings.'powershell.codeFormatting.openBraceOnSameLine'         | Should -BeFalse
-            $settings.'powershell.codeFormatting.pipelineIndentationStyle'    | Should -Be 'IncreaseIndentationAfterEveryPipeline'
-            $settings.'powershell.codeFormatting.useCorrectCasing'            | Should -BeTrue
-            $settings.'powershell.codeFormatting.whitespaceAfterSeparator'    | Should -BeTrue
-            $settings.'powershell.codeFormatting.whitespaceAroundOperator'    | Should -BeTrue
-            $settings.'powershell.codeFormatting.WhitespaceAroundPipe'        | Should -BeTrue
-            $settings.'powershell.codeFormatting.whitespaceBeforeOpenBrace'   | Should -BeTrue
-            $settings.'powershell.codeFormatting.whitespaceBeforeOpenParen'   | Should -BeTrue
-            $settings.'powershell.codeFormatting.WhitespaceInsideBrace'       | Should -BeTrue
+            $settings.'files.trimTrailingWhitespace'                               | Should -BeTrue
+            $settings.'[markdown]'.'files.trimTrailingWhitespace'                  | Should -BeFalse
+            $settings.'[powershell]'.'files.encoding'                              | Should -Be 'utf8bom'
+            $settings.'files.exclude'.'**/.git'                                    | Should -BeTrue
+            $settings.'files.exclude'.'**/.vs'                                     | Should -BeTrue
+            $settings.'files.exclude'.'**/obj'                                     | Should -BeTrue
+            $settings.'files.exclude'.'**/bin'                                     | Should -BeTrue
+            $settings.'files.exclude'.'**/out'                                     | Should -BeTrue
+            $settings.'files.exclude'.'**/packages'                                | Should -BeTrue
+            $settings.'files.exclude'.'**/*.user'                                  | Should -BeTrue
+            $settings.'search.exclude'.'**/.git'                                   | Should -BeTrue
+            $settings.'search.exclude'.'**/.vs'                                    | Should -BeTrue
+            $settings.'search.exclude'.'**/obj'                                    | Should -BeTrue
+            $settings.'search.exclude'.'**/bin'                                    | Should -BeTrue
+            $settings.'search.exclude'.'**/out'                                    | Should -BeTrue
+            $settings.'search.exclude'.'**/packages'                               | Should -BeTrue
+            $settings.'search.exclude'.'**/*.user'                                 | Should -BeTrue
+            $settings.'powershell.debugging.createTemporaryIntegratedConsole'      | Should -BeTrue
+            $settings.'powershell.codeFormatting.addWhitespaceAroundPipe'          | Should -BeTrue
+            $settings.'powershell.codeFormatting.autoCorrectAliases'               | Should -BeFalse
+            $settings.'powershell.codeFormatting.avoidSemicolonsAsLineTerminators' | Should -BeTrue
+            $settings.'powershell.codeFormatting.trimWhitespaceAroundPipe'         | Should -BeFalse
+            $settings.'powershell.codeFormatting.useConstantStrings'               | Should -BeFalse
+            $settings.'powershell.codeFormatting.whitespaceBetweenParameters'      | Should -BeTrue
+            $settings.'powershell.codeFormatting.whitespaceInsideBrace'            | Should -BeTrue
+            $settings.'powershell.codeFormatting.alignPropertyValuePairs'          | Should -BeTrue
+            $settings.'powershell.codeFormatting.ignoreOneLineBlock'               | Should -BeTrue
+            $settings.'powershell.codeFormatting.newLineAfterCloseBrace'           | Should -BeTrue
+            $settings.'powershell.codeFormatting.newLineAfterOpenBrace'            | Should -BeTrue
+            $settings.'powershell.codeFormatting.openBraceOnSameLine'              | Should -BeFalse
+            $settings.'powershell.codeFormatting.pipelineIndentationStyle'         | Should -Be 'IncreaseIndentationAfterEveryPipeline'
+            $settings.'powershell.codeFormatting.useCorrectCasing'                 | Should -BeTrue
+            $settings.'powershell.codeFormatting.whitespaceAfterSeparator'         | Should -BeTrue
+            $settings.'powershell.codeFormatting.whitespaceAroundOperator'         | Should -BeTrue
+            $settings.'powershell.codeFormatting.whitespaceBeforeOpenBrace'        | Should -BeTrue
+            $settings.'powershell.codeFormatting.whitespaceBeforeOpenParen'        | Should -BeTrue
         }
 
         It 'Should have a valid .vscode\tasks.json' {

@@ -8,6 +8,7 @@
         files, one passing test will be shown.
 #>
 [CmdletBinding()]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'ExcludePath', Justification = 'False negative')]
 param
 (
     # Root path of the project.

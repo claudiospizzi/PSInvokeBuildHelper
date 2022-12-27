@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed: Use the same PowerShell executable for the Invoke-BuildIsolated command
 * Removed: Dependency on SecurityFever module
 
+## 3.1.0 - 2022-12-22
+
+* Changed: Update module schema checks for PowerShell VS code formatting
+
 ## 3.0.0 - 2022-12-09
 
 * Added: Support for Pester integration tests located in `/Tests/Integration`
