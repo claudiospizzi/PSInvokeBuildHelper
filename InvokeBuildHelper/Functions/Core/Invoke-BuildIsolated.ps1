@@ -5,7 +5,7 @@
     .DESCRIPTION
         This command will invoke a new powershell.exe process and pass the task
         specified into the child process. It ensures, the process working
-        directory matches the current process. This is usfull for building
+        directory matches the current process. This is usefull for building
         modules using .NET class libraries, because the can only imported once
         into a PowerShell process. Updating .NET class libraries is not
         possible, so the test would always run on the initial imported version.
