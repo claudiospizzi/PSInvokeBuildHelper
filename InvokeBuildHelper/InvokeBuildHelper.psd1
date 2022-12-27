@@ -46,7 +46,6 @@
         'InvokeBuild'
         'Pester'
         'PSScriptAnalyzer'
-        'SecurityFever'
     )
 
     # Assemblies that must be loaded prior to importing this module

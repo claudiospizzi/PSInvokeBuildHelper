@@ -55,25 +55,12 @@ function Publish-IBHGallery
 
     $releaseNotes = Get-IBHModuleReleaseNote -BuildRoot $BuildRoot -ModuleVersion $ModuleVersion
 
-    if ($GalleryToken.Length -eq 0)
-    {
-        if (-not [System.String]::IsNullOrEmpty($GalleryUser))
-        {
-            $targetName = 'IBH {0} Token ({1})' -f $GalleryName, $GalleryUser
-        }
-        else
-        {
-            $targetName = 'IBH {0} Token ({1})' -f $GalleryName, $ModuleName
-        }
-
-        $GalleryToken = Use-VaultSecureString -TargetName $targetName
-    }
-
     try
     {
-        $token = $GalleryToken | Unprotect-SecureString
+        $tokenCredentialStub = [System.Management.Automation.PSCredential]::new('Token', $GalleryToken)
+        $plainToken = $tokenCredentialStub.GetNetworkCredential().Password
 
-        Publish-Module -Path "$BuildRoot\$ModuleName" -Repository $GalleryName -NuGetApiKey $token -ReleaseNotes $releaseNotes -Force
+        Publish-Module -Path "$BuildRoot\$ModuleName" -Repository $GalleryName -NuGetApiKey $plainToken -ReleaseNotes $releaseNotes -Force
     }
     finally
     {

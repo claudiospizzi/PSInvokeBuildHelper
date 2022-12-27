@@ -45,7 +45,8 @@ function Publish-IBHGitHubArtifact
     }
 
     # Unprotect token
-    $plainToken = Unprotect-SecureString -SecureString $Token
+    $tokenCredentialStub = [System.Management.Automation.PSCredential]::new('Token', $Token)
+    $plainToken = $tokenCredentialStub.GetNetworkCredential().Password
 
     # Upload artifact to GitHub
     $invokeRestMethodSplat = @{
