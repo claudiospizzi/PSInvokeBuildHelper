@@ -34,8 +34,8 @@ function Invoke-BuildIsolated
         $Task = '.'
     )
 
-    $powershellCommand = Get-Command -Name 'powershell.exe' | Select-Object -ExpandProperty 'Source'
-    & $powershellCommand -NoLogo -NoProfile -ExecutionPolicy 'Bypass' -Command "Set-Location -Path '$($pwd.ProviderPath)'; Invoke-Build -Task '$Task'"
+    $commandPath = Get-Process -Id $PID | Select-Object -ExpandProperty 'Path'
+    & $commandPath -NoLogo -NoProfile -ExecutionPolicy 'Bypass' -Command "Set-Location -Path '$($pwd.ProviderPath)'; Invoke-Build -Task '$Task'"
 }
 
 # Register the argument completer for the Invoke-Build command

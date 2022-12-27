@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+* Fixed: Use the same PowerShell executable for the Invoke-BuildIsolated command
 * Removed: Dependency on SecurityFever module
 
 ## 3.0.0 - 2022-12-09
