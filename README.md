@@ -1,7 +1,7 @@
-![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/InvokeBuildHelper?label=PowerShell%20Gallery&logo=PowerShell)
-![Gallery Downloads](https://img.shields.io/powershellgallery/dt/InvokeBuildHelper?label=Downloads&logo=PowerShell)
-![GitHub Release](https://img.shields.io/github/v/release/claudiospizzi/PSInvokeBuildHelper?label=Release&logo=GitHub&sort=semver)
-![GitHub CI Build](https://img.shields.io/github/actions/workflow/status/claudiospizzi/PSInvokeBuildHelper/ci.yml?label=CI%20Build&logo=GitHub)
+[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/InvokeBuildHelper?label=PowerShell%20Gallery&logo=PowerShell)](https://www.powershellgallery.com/packages/InvokeBuildHelper)
+[![Gallery Downloads](https://img.shields.io/powershellgallery/dt/InvokeBuildHelper?label=Downloads&logo=PowerShell)](https://www.powershellgallery.com/packages/InvokeBuildHelper)
+[![GitHub Release](https://img.shields.io/github/v/release/claudiospizzi/PSInvokeBuildHelper?label=Release&logo=GitHub&sort=semver)](https://github.com/claudiospizzi/PSInvokeBuildHelper/releases)
+[![GitHub CI Build](https://img.shields.io/github/actions/workflow/status/claudiospizzi/PSInvokeBuildHelper/ci.yml?label=CI%20Build&logo=GitHub)](https://github.com/claudiospizzi/PSInvokeBuildHelper/actions/workflows/ci.yml)
 
 # InvokeBuildHelper PowerShell Module
 
@@ -50,14 +50,14 @@ $IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell 
     Test the module with pester and script analyzer. This includes schema tests, module unit tests and script analyzer rules.
 
 * **Clean**  
-    Planned task for C# solution clean. (NOT IMPLEMENTED)
+    Task for C# solution clean.
 
 * **Compile**  
-    Planned task for C# solution compile. (NOT IMPLEMENTED)
+    Task for C# solution compile.
 
 * **Deploy**  
-    Planned task for C# solution deploy. (NOT IMPLEMENTED)
-  
+    Task for C# solution deploy.
+
 * **UnitTest**  
     Run all pester unit tests for the PowerShell module.
 
