@@ -50,7 +50,7 @@ function Invoke-IBHScriptAnalyzerTest
     )
 
     # Path to the script analyzer tests stored in this module
-    $scriptAnalyzerTestFile = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ScriptAnalyzerTests.ps1" | Select-Object -ExpandProperty 'Path'
+    $scriptAnalyzerTestFile = Resolve-Path -Path "$PSScriptRoot\..\..\Scripts\ScriptAnalyzerTests.ps1" | Select-Object -ExpandProperty 'Path'
 
     $pesterNUnitOutputPath = Join-Path -Path $OutputPath -ChildPath 'TestResult.ScriptAnalyzer.xml'
 

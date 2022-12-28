@@ -50,7 +50,7 @@ function Invoke-IBHModuleSchemaTest
     )
 
     # Path to the schema tests stored in this module
-    $moduleSchemaTestFile = Resolve-Path -Path "$PSScriptRoot\..\Scripts\ModuleSchemaTests.ps1" | Select-Object -ExpandProperty 'Path'
+    $moduleSchemaTestFile = Resolve-Path -Path "$PSScriptRoot\..\..\Scripts\ModuleSchemaTests.ps1" | Select-Object -ExpandProperty 'Path'
 
     $pesterNUnitOutputPath = Join-Path -Path $OutputPath -ChildPath 'TestResult.ModuleSchema.xml'
 
