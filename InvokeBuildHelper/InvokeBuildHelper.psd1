@@ -72,6 +72,7 @@
         # Core
         'Invoke-BuildIsolated'
         'Set-ModuleVersion'
+        'Find-ModuleManifest'
         # Helper
         'Get-IBHConfig'
         'Get-IBHGitAheadBy'
@@ -128,16 +129,16 @@
             Tags = @('PSModule', 'Invoke-Build', 'Helper', 'Task')
 
             # A URL to the license for this module.
-            LicenseUri = 'https://raw.githubusercontent.com/claudiospizzi/InvokeBuildHelper/master/LICENSE'
+            LicenseUri = 'https://raw.githubusercontent.com/claudiospizzi/PSInvokeBuildHelper/master/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/claudiospizzi/InvokeBuildHelper'
+            ProjectUri = 'https://github.com/claudiospizzi/PSInvokeBuildHelper'
 
             # A URL to an icon representing this module.
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'https://github.com/claudiospizzi/InvokeBuildHelper/blob/master/CHANGELOG.md'
+            ReleaseNotes = 'https://github.com/claudiospizzi/PSInvokeBuildHelper/blob/master/CHANGELOG.md'
 
         } # End of PSData hashtable
 
