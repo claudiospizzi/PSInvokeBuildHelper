@@ -19,6 +19,7 @@
 function Publish-IBHGallery
 {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'GalleryUser', Justification = 'Not yet in use')]
     param
     (
         # Root path of the project.
@@ -55,15 +56,10 @@ function Publish-IBHGallery
 
     $releaseNotes = Get-IBHModuleReleaseNote -BuildRoot $BuildRoot -ModuleVersion $ModuleVersion
 
-    try
-    {
-        $tokenCredentialStub = [System.Management.Automation.PSCredential]::new('Token', $GalleryToken)
-        $plainToken = $tokenCredentialStub.GetNetworkCredential().Password
+    # Unprotect token
+    $tokenCredentialStub = [System.Management.Automation.PSCredential]::new('Token', $GalleryToken)
+    $plainToken = $tokenCredentialStub.GetNetworkCredential().Password
 
-        Publish-Module -Path "$BuildRoot\$ModuleName" -Repository $GalleryName -NuGetApiKey $plainToken -ReleaseNotes $releaseNotes -Force
-    }
-    finally
-    {
-        Remove-Variable -Name 'token' -Force
-    }
+    # Publish to the Gallery
+    Publish-Module -Path "$BuildRoot\$ModuleName" -Repository $GalleryName -NuGetApiKey $plainToken -ReleaseNotes $releaseNotes -Force
 }
