@@ -14,7 +14,7 @@
         Get the build configuration.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Get-IBHConfig
 {

@@ -14,7 +14,7 @@
         Return the number of pending files in the current working directory.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Get-IBHGitPendingFile
 {

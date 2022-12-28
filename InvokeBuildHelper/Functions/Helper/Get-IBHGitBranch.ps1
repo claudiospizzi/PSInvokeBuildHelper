@@ -13,7 +13,7 @@
         Get the current checked out branch.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Get-IBHGitBranch
 {

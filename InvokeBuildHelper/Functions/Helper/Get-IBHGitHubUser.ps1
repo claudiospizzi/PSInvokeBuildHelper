@@ -14,7 +14,7 @@
         Get the user name of a GitHub repository.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Get-IBHGitHubUser
 {

@@ -16,7 +16,7 @@
         in the change log.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Test-IBHChangeLogVersion
 {

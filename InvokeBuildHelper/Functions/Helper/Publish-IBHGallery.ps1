@@ -14,7 +14,7 @@
         Publish the module InvokeBuildHelper version 1.0.0 to the PSGallery.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelperer
 #>
 function Publish-IBHGallery
 {

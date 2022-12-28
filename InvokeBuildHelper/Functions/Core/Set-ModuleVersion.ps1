@@ -27,7 +27,7 @@
         Set the module version to the next build.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Set-ModuleVersion
 {

@@ -13,7 +13,7 @@
         Get the module version of the module InvokeBuildHelper.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelperer
 #>
 function Get-IBHModuleVersion
 {

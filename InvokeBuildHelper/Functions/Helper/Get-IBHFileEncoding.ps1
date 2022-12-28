@@ -13,7 +13,7 @@
         Guess the encoding of the demo.txt file.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Get-IBHFileEncoding
 {

@@ -14,7 +14,7 @@
         Invoke the Pester unit tests for the InvokeBuildHelper module.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Invoke-IBHPesterUnitTest
 {

@@ -15,7 +15,7 @@
         bin folder.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Publish-IBHZipFile
 {

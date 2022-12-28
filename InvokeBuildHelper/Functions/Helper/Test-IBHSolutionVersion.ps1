@@ -14,7 +14,7 @@
         Test if the version 1.0.0 is set in the solution InvokeBuildHelper.Library.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Test-IBHSolutionVersion
 {

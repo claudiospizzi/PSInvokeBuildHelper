@@ -14,7 +14,7 @@
         Return the number of commits behind by the origin repository.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Get-IBHGitBehindBy
 {

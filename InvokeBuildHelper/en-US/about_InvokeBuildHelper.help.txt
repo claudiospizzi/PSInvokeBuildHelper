@@ -10,4 +10,4 @@ LONG DESCRIPTION
     repository readme or the cmdlet based help for the module functions.
 
 LINK
-    https://github.com/claudiospizzi/InvokeBuildHelper
+    https://github.com/claudiospizzi/PSInvokeBuildHelper

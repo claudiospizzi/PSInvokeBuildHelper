@@ -15,7 +15,7 @@
         Test if the version 1.0.0 tag is on the git local repository.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Test-IBHGitLocalTag
 {

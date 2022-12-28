@@ -21,7 +21,7 @@
         Invoke the release task isolated.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 function Invoke-BuildIsolated
 {

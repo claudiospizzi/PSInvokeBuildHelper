@@ -15,7 +15,7 @@
         Invoke the script analyzer tests for the InvokeBuildHelper module.
 
     .LINK
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelperer
 #>
 function Invoke-IBHScriptAnalyzerTest
 {

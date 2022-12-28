@@ -1,6 +1,6 @@
 [![PowerShell Gallery - InvokeBuildHelper](https://img.shields.io/badge/PowerShell_Gallery-InvokeBuildHelper-0072C6.svg)](https://www.powershellgallery.com/packages/InvokeBuildHelper)
-[![GitHub - Release](https://img.shields.io/github/release/claudiospizzi/InvokeBuildHelper.svg)](https://github.com/claudiospizzi/InvokeBuildHelper/releases)
-[![AppVeyor - master](https://img.shields.io/appveyor/ci/claudiospizzi/InvokeBuildHelper/master.svg)](https://ci.appveyor.com/project/claudiospizzi/InvokeBuildHelper/branch/master)
+[![GitHub - Release](https://img.shields.io/github/release/claudiospizzi/PSInvokeBuildHelper.svg)](https://github.com/claudiospizzi/PSInvokeBuildHelper/releases)
+[![AppVeyor - master](https://img.shields.io/appveyor/ci/claudiospizzi/PSInvokeBuildHelper/master.svg)](https://ci.appveyor.com/project/claudiospizzi/PSInvokeBuildHelper/branch/master)
 
 # InvokeBuildHelper PowerShell Module
 
@@ -10,7 +10,7 @@ Common build tasks for the [Invoke-Build](https://github.com/nightroman/Invoke-B
 
 This module includes a script with common build tasks for a PowerShell module. A manifest module using script files is the main target. The module can include some C# .NET based libraries, they will be build with Release options before the build script runs. The core build script with all tasks can be found here:
 
-* [InvokeBuildHelper/Scripts/InvokeBuildHelperTasks.ps1](https://github.com/claudiospizzi/InvokeBuildHelper/blob/master/InvokeBuildHelper/Scripts/InvokeBuildHelperTasks.ps1)
+* [InvokeBuildHelper/Scripts/InvokeBuildHelperTasks.ps1](https://github.com/claudiospizzi/PSInvokeBuildHelper/blob/master/InvokeBuildHelper/Scripts/InvokeBuildHelperTasks.ps1)
 
 ## Features
 
@@ -214,7 +214,7 @@ Studio Code and ensure that the PowerShell extension is installed.
 * [Pester], [PSScriptAnalyzer], [InvokeBuild] and [InvokeBuildHelper] modules
 
 [PowerShell Gallery]: https://www.powershellgallery.com/packages/InvokeBuildHelper
-[GitHub Releases]: https://github.com/claudiospizzi/InvokeBuildHelper/releases
+[GitHub Releases]: https://github.com/claudiospizzi/PSInvokeBuildHelper/releases
 [Installing a PowerShell Module]: https://msdn.microsoft.com/en-us/library/dd878350
 
 [CHANGELOG.md]: CHANGELOG.md

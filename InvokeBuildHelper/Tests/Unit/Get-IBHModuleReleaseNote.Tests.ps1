@@ -1,35 +1,37 @@
 
-$modulePath = Resolve-Path -Path "$PSScriptRoot\..\..\.." | Select-Object -ExpandProperty Path
-$moduleName = Resolve-Path -Path "$PSScriptRoot\..\.." | Get-Item | Select-Object -ExpandProperty BaseName
+BeforeAll {
 
-Import-Module -Name "$modulePath\$moduleName" -Force
+    Find-ModuleManifest -Path $PSScriptRoot | Import-Module -Force
+}
 
 Describe 'Get-IBHModuleReleaseNote' {
 
-    $errorMessageTemplate = 'Release notes not found in CHANGELOG.md for version {0}'
-
     Context 'Unreleased' {
 
-        Mock 'Get-Content' -ModuleName $moduleName -ParameterFilter { $Path -eq 'C:\GitHub\InvokeBuildHelper\CHANGELOG.md' } {
+        BeforeAll {
+            Find-ModuleManifest -Path $PSScriptRoot | Import-Module -Force
 
-            '# Changelog'
-            ''
-            'All notable changes to this project will be documented in this file.'
-            ''
-            'The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)'
-            'and this project adheres to [Semantic Versioning](http://semver.org/).'
-            ''
-            '## Unreleased'
-            ''
-            '* Added: Initial version'
+            Mock 'Get-Content' -ModuleName 'InvokeBuildHelper' -ParameterFilter { $Path -eq 'C:\GitHub\InvokeBuildHelper\CHANGELOG.md' } {
+
+                '# Changelog'
+                ''
+                'All notable changes to this project will be documented in this file.'
+                ''
+                'The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)'
+                'and this project adheres to [Semantic Versioning](http://semver.org/).'
+                ''
+                '## Unreleased'
+                ''
+                '* Added: Initial version'
+            }
         }
 
-        It 'Should throw an eroor if the version does not exist' {
+        It 'Should throw an error if the version does not exist' {
 
             # Arrange
             $path         = 'C:\GitHub\InvokeBuildHelper'
             $version      = '1.0.0'
-            $errorMessage = $errorMessageTemplate -f $version
+            $errorMessage = 'Release notes not found in CHANGELOG.md for version {0}' -f $version
 
             # Act & Assert
             { Get-IBHModuleReleaseNote -BuildRoot $path -ModuleVersion $version } | Should -Throw $errorMessage
@@ -38,26 +40,29 @@ Describe 'Get-IBHModuleReleaseNote' {
 
     Context 'First Release' {
 
-        Mock 'Get-Content' -ModuleName $moduleName -ParameterFilter { $Path -eq 'C:\GitHub\InvokeBuildHelper\CHANGELOG.md' } {
+        BeforeAll {
 
-            '# Changelog'
-            ''
-            'All notable changes to this project will be documented in this file.'
-            ''
-            'The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)'
-            'and this project adheres to [Semantic Versioning](http://semver.org/).'
-            ''
-            '## 1.0.0 - 2019-10-19'
-            ''
-            '* Added: Initial version'
+            Mock 'Get-Content' -ModuleName $moduleName -ParameterFilter { $Path -eq 'C:\GitHub\InvokeBuildHelper\CHANGELOG.md' } {
+
+                '# Changelog'
+                ''
+                'All notable changes to this project will be documented in this file.'
+                ''
+                'The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)'
+                'and this project adheres to [Semantic Versioning](http://semver.org/).'
+                ''
+                '## 1.0.0 - 2019-10-19'
+                ''
+                '* Added: Initial version'
+            }
         }
 
-        It 'Should throw an eroor if the version does not exist' {
+        It 'Should throw an error if the version does not exist' {
 
             # Arrange
             $path         = 'C:\GitHub\InvokeBuildHelper'
             $version      = '2.0.0'
-            $errorMessage = $errorMessageTemplate -f $version
+            $errorMessage = 'Release notes not found in CHANGELOG.md for version {0}' -f $version
 
             # Act & Assert
             { Get-IBHModuleReleaseNote -BuildRoot $path -ModuleVersion $version } | Should -Throw $errorMessage
@@ -79,35 +84,38 @@ Describe 'Get-IBHModuleReleaseNote' {
 
     Context 'Multiple Releases' {
 
-        Mock 'Get-Content' -ModuleName $moduleName -ParameterFilter { $Path -eq 'C:\GitHub\InvokeBuildHelper\CHANGELOG.md' } {
+        BeforeAll {
 
-            '# Changelog'
-            ''
-            'All notable changes to this project will be documented in this file.'
-            ''
-            'The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)'
-            'and this project adheres to [Semantic Versioning](http://semver.org/).'
-            ''
-            '## Unreleased'
-            ''
-            '* Fixed: Funny bug'
-            ''
-            '## 2.0.0 - 2019-10-19'
-            ''
-            '* Changed: Incredible new feature'
-            '* Removed: Boring old feature'
-            ''
-            '## 1.0.0 - 2019-01-02'
-            ''
-            '* Added: Initial version'
+            Mock 'Get-Content' -ModuleName $moduleName -ParameterFilter { $Path -eq 'C:\GitHub\InvokeBuildHelper\CHANGELOG.md' } {
+
+                '# Changelog'
+                ''
+                'All notable changes to this project will be documented in this file.'
+                ''
+                'The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)'
+                'and this project adheres to [Semantic Versioning](http://semver.org/).'
+                ''
+                '## Unreleased'
+                ''
+                '* Fixed: Funny bug'
+                ''
+                '## 2.0.0 - 2019-10-19'
+                ''
+                '* Changed: Incredible new feature'
+                '* Removed: Boring old feature'
+                ''
+                '## 1.0.0 - 2019-01-02'
+                ''
+                '* Added: Initial version'
+            }
         }
 
-        It 'Should throw an eroor if the version does not exist' {
+        It 'Should throw an error if the version does not exist' {
 
             # Arrange
             $path         = 'C:\GitHub\InvokeBuildHelper'
             $version      = '3.0.0'
-            $errorMessage = $errorMessageTemplate -f $version
+            $errorMessage = 'Release notes not found in CHANGELOG.md for version {0}' -f $version
 
             # Act & Assert
             { Get-IBHModuleReleaseNote -BuildRoot $path -ModuleVersion $version } | Should -Throw $errorMessage

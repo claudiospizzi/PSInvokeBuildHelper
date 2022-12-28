@@ -8,7 +8,7 @@
 
     .LINK
         https://github.com/nightroman/Invoke-Build
-        https://github.com/claudiospizzi/InvokeBuildHelper
+        https://github.com/claudiospizzi/PSInvokeBuildHelper
 #>
 
 [CmdletBinding()]
