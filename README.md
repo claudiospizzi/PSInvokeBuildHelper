@@ -1,6 +1,7 @@
-[![PowerShell Gallery - InvokeBuildHelper](https://img.shields.io/badge/PowerShell_Gallery-InvokeBuildHelper-0072C6.svg)](https://www.powershellgallery.com/packages/InvokeBuildHelper)
-[![GitHub - Release](https://img.shields.io/github/release/claudiospizzi/PSInvokeBuildHelper.svg)](https://github.com/claudiospizzi/PSInvokeBuildHelper/releases)
-[![GitHub - CI](https://github.com/claudiospizzi/PSInvokeBuildHelper/actions/workflows/ci.yml/badge.svg)](https://github.com/claudiospizzi/PSInvokeBuildHelper/actions/workflows/ci.yml)
+![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/InvokeBuildHelper?label=PowerShell%20Gallery&logo=PowerShell)
+![Gallery Downloads](https://img.shields.io/powershellgallery/dt/InvokeBuildHelper?label=Downloads&logo=PowerShell)
+![GitHub Release](https://img.shields.io/github/v/release/claudiospizzi/PSInvokeBuildHelper?label=Release&logo=GitHub&sort=semver)
+![GitHub CI Build](https://img.shields.io/github/actions/workflow/status/claudiospizzi/PSInvokeBuildHelper/ci.yml?label=CI%20Build&logo=GitHub)
 
 # InvokeBuildHelper PowerShell Module
 
