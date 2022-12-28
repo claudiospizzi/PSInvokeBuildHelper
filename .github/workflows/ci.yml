@@ -16,7 +16,7 @@ jobs:
         uses: potatoqualitee/psmodulecache@v5.2
         with:
           shell: powershell
-          modules-to-cache: InvokeBuild:5.10.1, InvokeBuildHelper:3.2.0
+          modules-to-cache: InvokeBuild:5.10.1, InvokeBuildHelper:3.2.1
       - name: Run PowerShell module Schema tests
         shell: powershell
         run: |
@@ -39,7 +39,7 @@ jobs:
         uses: potatoqualitee/psmodulecache@v5.2
         with:
           shell: pwsh
-          modules-to-cache: InvokeBuild:5.10.1, InvokeBuildHelper:3.2.0
+          modules-to-cache: InvokeBuild:5.10.1, InvokeBuildHelper:3.2.1
       - name: Run PowerShell module Schema tests
         shell: pwsh
         run: |
@@ -63,7 +63,7 @@ jobs:
         uses: potatoqualitee/psmodulecache@v5.2
         with:
           shell: pwsh
-          modules-to-cache: InvokeBuild:5.10.1, InvokeBuildHelper:3.2.0
+          modules-to-cache: InvokeBuild:5.10.1, InvokeBuildHelper:3.2.1
       - name: Run PowerShell module Schema tests
         shell: pwsh
         run: |
