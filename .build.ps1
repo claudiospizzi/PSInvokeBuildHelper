@@ -7,5 +7,5 @@ Import-Module .\InvokeBuildHelper\InvokeBuildHelper.psd1
 . InvokeBuildHelperTasks
 
 # Build configuration
-$IBHConfig.RepositoryTask.Token = Get-VaultSecureString -TargetName 'GitHub Token (claudiospizzi)'
-$IBHConfig.GalleryTask.Token    = Get-VaultSecureString -TargetName 'PowerShell Gallery Key (claudiospizzi)'
+$IBHConfig.RepositoryTask.TokenCallback = { Use-VaultSecureString -TargetName 'GitHub Token (claudiospizzi)' }
+$IBHConfig.GalleryTask.TokenCallback    = { Use-VaultSecureString -TargetName 'PowerShell Gallery Key (claudiospizzi)' }
