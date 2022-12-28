@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Fixed: Fix schema test on Linux with wrong hardcoded path separator
+
 ## 3.2.0 - 2022-12-28
 
 * Added: Option to use a callback for the token configuration values

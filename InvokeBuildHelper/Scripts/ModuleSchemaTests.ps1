@@ -118,7 +118,7 @@ Describe 'Module Schema' {
             $failedLines.Count | Should -Be 0 -Because "the line(s) $($failedLines -join ', ') should not contain a tab indentation"
         }
 
-        It 'Should use no trailing spaces on lines for file <RelativePath>' -TestCases $fileNames.Where({ $_.RelativePath -ne '\README.md' }) {
+        It 'Should use no trailing spaces on lines for file <RelativePath>' -TestCases $fileNames.Where({ $_.RelativePath -notin '\README.md', '/README.md' }) {
 
             param ($Path)
 
