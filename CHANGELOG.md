@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+* Fixed: Git command in Set-ModuleVersion
 * Fixed: Fix schema test on Linux with wrong hardcoded path separator
 
 ## 3.2.0 - 2022-12-28

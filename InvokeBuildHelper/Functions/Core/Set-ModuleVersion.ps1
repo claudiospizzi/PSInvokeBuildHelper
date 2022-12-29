@@ -175,7 +175,7 @@ function Set-ModuleVersion
 
         Write-Host "Step Commit Changes:   > git commit -m `"Version $newVersion`"" -ForegroundColor 'Cyan'
 
-        git commit -m `"Version $newVersion`"
+        git commit -m "Version $newVersion"
 
 
         Write-Host "Step Push Commit:      > git push" -ForegroundColor 'Cyan'
@@ -185,7 +185,7 @@ function Set-ModuleVersion
 
         Write-Host "Step Create Tag:       > git tag `"$newVersion`"" -ForegroundColor 'Cyan'
 
-        git tag "$newVersion"
+        git tag $newVersion
 
 
         Write-Host "Step Push Tag:         > git push --tag" -ForegroundColor 'Cyan'
