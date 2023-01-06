@@ -73,9 +73,11 @@ Describe 'Module Schema' {
 
         # Get all text files based on their extensions. Then filter out all
         # paths not relevant for the schema test.
-        $fileNames = Get-ChildItem -Path $BuildRoot -File -Recurse |
-                         Where-Object { $TextFileExtension -contains $_.Extension } |
-                             ForEach-Object { @{ Path = $_.FullName; RelativePath = $_.FullName.Replace($BuildRoot, '') } }
+        $fileNames =
+            Get-ChildItem -Path $BuildRoot -File -Recurse |
+                Where-Object { $TextFileExtension -contains $_.Extension } |
+                    ForEach-Object { @{ Path = $_.FullName; RelativePath = $_.FullName.Replace($BuildRoot, '') } }
+        $fileNames = $fileNames | Where-Object { $_.RelativePath -notlike "*\$ModuleName\Assemblies\*" }       # External assemblies, sometimes XML files
         $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\?out\\.*' }                     # Used by the InvokeBuildHelper tasks
         $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\?bin\\.*' }                     # Used by the InvokeBuildHelper tasks
         $fileNames = $fileNames | Where-Object { $_.RelativePath -notmatch '^\\?([\w.-_]*\\)?bin\\.*' }        # Used by the Visual Studio solutions
@@ -296,28 +298,30 @@ Describe 'Module Schema' {
     Context 'Module Definition' {
 
         # Get the name of all helper files
-        $helperFiles = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Helpers' |
-                           Get-ChildItem -Include '*.ps1' -File -Recurse |
-                               Sort-Object -Property 'BaseName' |
-                                   ForEach-Object { @{ Name = $_.BaseName } }
+        $helperFiles =
+            Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Helpers' |
+                Get-ChildItem -Include '*.ps1' -File -Recurse |
+                    Sort-Object -Property 'BaseName' |
+                        ForEach-Object { @{ Name = $_.BaseName } }
 
         # Get the name of all function files
-        $functionFiles = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' |
-                             Get-ChildItem -Include '*.ps1' -File -Recurse |
-                                 Sort-Object -Property 'BaseName' |
-                                     ForEach-Object { @{ Name = $_.BaseName } }
+        $functionFiles =
+            Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' |
+                Get-ChildItem -Include '*.ps1' -File -Recurse |
+                    Sort-Object -Property 'BaseName' |
+                        ForEach-Object { @{ Name = $_.BaseName } }
 
         # Get the list of all exported functions
-        $functionExportNames = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
-                                   ForEach-Object { $_['FunctionsToExport'] } |
-                                       Sort-Object |
-                                           ForEach-Object { @{ Name = $_ } }
+        $functionExportNames =
+            Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                ForEach-Object { $_['FunctionsToExport'] } |
+                    Sort-Object |
+                        ForEach-Object { @{ Name = $_ } }
 
         It "Should define the FormatsToProcess to the file $ModuleName.Xml.Format.ps1xml" {
 
             # Act
-            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
-                          ForEach-Object { $_['FormatsToProcess'] }
+            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" | ForEach-Object { $_['FormatsToProcess'] }
 
             # Assert
             $actual | Should -Contain "$ModuleName.Xml.Format.ps1xml"
@@ -326,8 +330,7 @@ Describe 'Module Schema' {
         It "Should define the TypesToProcess to the file $ModuleName.Xml.Types.ps1xml" {
 
             # Act
-            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
-                          ForEach-Object { $_['TypesToProcess'] }
+            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" | ForEach-Object { $_['TypesToProcess'] }
 
             # Assert
             $actual | Should -Contain "$ModuleName.Xml.Types.ps1xml"
@@ -338,8 +341,7 @@ Describe 'Module Schema' {
             param ($Name)
 
             # Act
-            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
-                          ForEach-Object { $_['FunctionsToExport'] }
+            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" | ForEach-Object { $_['FunctionsToExport'] }
 
             # Assert
             $actual | Should -Contain $Name
@@ -350,8 +352,7 @@ Describe 'Module Schema' {
             param ($Name)
 
             # Act
-            $actual = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' |
-                          Get-ChildItem -Filter "$Name.ps1" -File -Recurse
+            $actual = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' | Get-ChildItem -Filter "$Name.ps1" -File -Recurse
 
             # Assert
             $actual.Count | Should -Be 1
@@ -362,8 +363,7 @@ Describe 'Module Schema' {
             param ($Name)
 
             # Act
-            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
-                          ForEach-Object { $_['FunctionsToExport'] }
+            $actual = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" | ForEach-Object { $_['FunctionsToExport'] }
 
             # Assert
             $actual | Should -Not -Contain $Name
@@ -401,19 +401,22 @@ Describe 'Module Schema' {
 
     Context 'DSC Resource' {
 
-        $scriptFiles = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'DSCResources' |
-                           Get-ChildItem -Include '*.psm1' -File |
-                               ForEach-Object { @{ Name = $_.Name; BaseName = $_.BaseName } }
+        $scriptFiles =
+            Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'DSCResources' |
+                Get-ChildItem -Include '*.psm1' -File |
+                    ForEach-Object { @{ Name = $_.Name; BaseName = $_.BaseName } }
 
-        $nestedModules = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
-                             ForEach-Object { $_['NestedModules'] } |
-                                 Where-Object { $_ -like 'DSCResources*' } |
-                                     ForEach-Object { @{ NestedModule = $_ } }
+        $nestedModules =
+            Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                ForEach-Object { $_['NestedModules'] } |
+                    Where-Object { $_ -like 'DSCResources*' } |
+                        ForEach-Object { @{ NestedModule = $_ } }
 
-        $dscResourcesToExport = Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
-                                    ForEach-Object { $_['DscResourcesToExport'] } |
-                                        Where-Object { -not [System.String]::IsNullOrWhiteSpace($_) } |
-                                            ForEach-Object { @{ DscResourcesToExport = $_ } }
+        $dscResourcesToExport =
+            Import-PowerShellDataFile -Path "$BuildRoot\$ModuleName\$ModuleName.psd1" |
+                ForEach-Object { $_['DscResourcesToExport'] } |
+                    Where-Object { -not [System.String]::IsNullOrWhiteSpace($_) } |
+                        ForEach-Object { @{ DscResourcesToExport = $_ } }
 
         It 'Should have a NestedModules definition for the DSC resource file DSCResources\<Name>' -TestCases $scriptFiles -Skip:($scriptFiles.Count -eq 0) {
 

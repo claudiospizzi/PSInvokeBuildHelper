@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Fixed: Remove assembly files from schema check
+
 ## 3.2.1 - 2022-12-29
 
 * Fixed: Git command in Set-ModuleVersion
