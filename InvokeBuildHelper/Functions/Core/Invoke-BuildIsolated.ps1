@@ -29,13 +29,27 @@ function Invoke-BuildIsolated
     [Alias('ib')]
     param
     (
+        # Specify the task to execute. Default task by default.
         [Parameter(Mandatory = $false)]
         [System.String]
-        $Task = '.'
+        $Task = '.',
+
+        # Specify the Pester module version if required.
+        [Parameter(Mandatory = $false)]
+        [ValidateSet('Unspecified', 'v4', 'v5')]
+        [System.String]
+        $PesterVersion = 'Unspecified'
     )
 
+    $pesterImport = ''
+    switch ($PesterVersion)
+    {
+        'v4' { $pesterImport = "Import-Module -Name 'Pester' -MaximumVersion '4.99.99'" }
+        'v5' { $pesterImport = "Import-Module -Name 'Pester' -MinimumVersion '5.0.0'" }
+    }
+
     $commandPath = Get-Process -Id $PID | Select-Object -ExpandProperty 'Path'
-    & $commandPath -NoLogo -NoProfile -ExecutionPolicy 'Bypass' -Command "Set-Location -Path '$($pwd.ProviderPath)'; Invoke-Build -Task '$Task'"
+    & $commandPath -NoLogo -NoProfile -ExecutionPolicy 'Bypass' -Command "Set-Location -Path '$($pwd.ProviderPath)'; $pesterImport; Invoke-Build -Task '$Task'"
 }
 
 # Register the argument completer for the Invoke-Build command
