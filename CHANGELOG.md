@@ -1,11 +1,11 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 3.2.3 - 2023-02-06
 
 * Fixed: Option to specify the Pester version for the Invoke-BuildIsolated command to prevent Pester module version mismatch
 
