@@ -56,13 +56,13 @@ function Get-BuildSecret
         if ($PSBoundParameters.ContainsKey('EnvironmentVariable'))
         {
             $secretPlainText = [System.Environment]::GetEnvironmentVariable($EnvironmentVariable)
-            if (-not [System.String]::IsNullOrWhiteSpace($secretEnvVar))
+            if (-not [System.String]::IsNullOrWhiteSpace($secretPlainText))
             {
                 switch ($OutputType)
                 {
                     'SecureString'
                     {
-                        $secretSecureString = $secretPlainText | ConvertTo-SecureString -String $secretEnvVar -AsPlainText -Force
+                        $secretSecureString = ConvertTo-SecureString -String $secretPlainText -AsPlainText -Force
                         return $secretSecureString
                     }
 
