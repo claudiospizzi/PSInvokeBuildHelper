@@ -1,0 +1,33 @@
+name: PowerShell - Release
+
+on:
+  push:
+    tags: [ '*.*.*' ]
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Install and cache PowerShell modules
+        uses: potatoqualitee/psmodulecache@v6.2.1
+        with:
+          modules-to-cache: InvokeBuild:5.14.18,InvokeBuildHelper:3.2.3
+
+      - name: Publish to PowerShell Gallery
+        shell: pwsh
+        run: |
+          Invoke-Build -Task 'Gallery'
+        env:
+          PS_GALLERY_KEY: ${{ secrets.PS_GALLERY_KEY }}
+
+      - name: Publish to GitHub Repository
+        shell: pwsh
+        run: |
+          Invoke-Build -Task 'Repository'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
