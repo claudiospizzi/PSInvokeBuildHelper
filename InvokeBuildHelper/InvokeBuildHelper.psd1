@@ -73,6 +73,7 @@
         'Invoke-BuildIsolated'
         'Set-ModuleVersion'
         'Find-ModuleManifest'
+        'Get-BuildSecret'
         # Helper
         'Get-IBHConfig'
         'Get-IBHGitAheadBy'
