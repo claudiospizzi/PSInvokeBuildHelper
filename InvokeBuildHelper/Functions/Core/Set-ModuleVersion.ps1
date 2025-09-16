@@ -32,7 +32,7 @@
 function Set-ModuleVersion
 {
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High', DefaultParameterSetName = 'Query')]
-    [Alias('ibv')]
+    [Alias('ibv', 'release')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Major', Justification = 'False negative')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Minor', Justification = 'False negative')]
@@ -59,6 +59,14 @@ function Set-ModuleVersion
         [Switch]
         $Build
     )
+
+    Write-Host ''
+    Write-Host 'SET MODULE VERSION' -ForegroundColor 'Magenta'
+    Write-Host '******************' -ForegroundColor 'Magenta'
+    Write-Host ''
+    Write-Host 'This command will update the module version, create a git tag and push' -ForegroundColor 'DarkGray'
+    Write-Host 'it to the origin. This will trigger a CI/CD release, if configured.' -ForegroundColor 'DarkGray'
+    Write-Host ''
 
     # Check if the current location is a valid repository.
     $buildRoot = Get-Location | Select-Object -ExpandProperty 'Path'

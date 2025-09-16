@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Added: New function to get build secret (Get-BuildSecret)
 * Changed: Update the .vscode\tasks.json to run cross platform with PowerShell 7
+* Changed: Optimize Set-ModuleVersion command with warning for a CI/CD release
 * Fixed: Remove detection for default branch (this has issues on CI/CD systems) and set it to main
 * Fixed: Prevent the approve task to validate the git branch in CI/CD as they checkout a detached HEAD
 

@@ -108,6 +108,7 @@
     AliasesToExport = @(
         'ib'
         'ibv'
+        'release'
         'InvokeBuildHelperTasks'
     )
 
