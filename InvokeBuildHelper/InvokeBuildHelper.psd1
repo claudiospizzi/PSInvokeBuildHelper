@@ -80,7 +80,6 @@
         'Get-IBHGitBehindBy'
         'Get-IBHGitPendingFile'
         'Get-IBHGitBranch'
-        'Get-IBHGitBranchPrimary'
         'Get-IBHGitHubRepo'
         'Get-IBHGitHubUser'
         'Get-IBHModuleVersion'
