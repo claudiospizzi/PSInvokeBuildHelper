@@ -160,19 +160,6 @@ Describe 'Module Schema' {
             $launch.'configurations'[0].'script'                           | Should -Be '${workspaceFolder}\.debug.temp.ps1'
             $launch.'configurations'[0].'cwd'                              | Should -Be '${workspaceFolder}'
             $launch.'configurations'[0].'createTemporaryIntegratedConsole' | Should -BeTrue
-
-            # Old version of the launch definition with interactive launch:
-            # $launch.'configurations'[0].'name'                             | Should -Be 'PowerShell Interactive'
-            # $launch.'configurations'[0].'type'                             | Should -Be 'PowerShell'
-            # $launch.'configurations'[0].'request'                          | Should -Be 'launch'
-            # $launch.'configurations'[0].'cwd'                              | Should -Be '${workspaceFolder}'
-            # $launch.'configurations'[0].'createTemporaryIntegratedConsole' | Should -BeTrue
-            # $launch.'configurations'[1].'name'                             | Should -Be 'PowerShell Debug Script'
-            # $launch.'configurations'[1].'type'                             | Should -Be 'PowerShell'
-            # $launch.'configurations'[1].'request'                          | Should -Be 'launch'
-            # $launch.'configurations'[1].'script'                           | Should -Be '${workspaceFolder}\.debug.temp.ps1'
-            # $launch.'configurations'[1].'cwd'                              | Should -Be '${workspaceFolder}'
-            # $launch.'configurations'[1].'createTemporaryIntegratedConsole' | Should -BeTrue
         }
 
         It 'Should have a valid .vscode\settings.json' {
@@ -232,19 +219,18 @@ Describe 'Module Schema' {
 
             # Assert
             $tasks.version                  | Should -Be '2.0.0'
-            $tasks.command                  | Should -Be '"& { Invoke-Build -Task $args }"'
-            $tasks.type                     | Should -Be 'shell'
-            $tasks.options.shell.executable | Should -Be 'powershell.exe'
-            $tasks.options.shell.args[0]    | Should -Be '-NoProfile'
-            $tasks.options.shell.args[1]    | Should -Be '-Command'
-            $tasks.presentation.echo        | Should -BeFalse
-            $tasks.presentation.reveal      | Should -Be 'always'
-            $tasks.presentation.focus       | Should -BeFalse
-            $tasks.presentation.panel       | Should -Be 'new'
             $tasks.tasks[0].label           | Should -Be 'Test'
+            $tasks.tasks[0].command         | Should -Be 'pwsh'
+            $tasks.tasks[0].args[0]         | Should -Be '-NoProfile'
+            $tasks.tasks[0].args[1]         | Should -Be '-Command'
+            $tasks.tasks[0].args[2]         | Should -Be 'Invoke-Build -Task Test'
             $tasks.tasks[0].group.kind      | Should -Be 'test'
             $tasks.tasks[0].group.isDefault | Should -BeTrue
             $tasks.tasks[1].label           | Should -Be 'Build'
+            $tasks.tasks[1].command         | Should -Be 'pwsh'
+            $tasks.tasks[1].args[0]         | Should -Be '-NoProfile'
+            $tasks.tasks[1].args[1]         | Should -Be '-Command'
+            $tasks.tasks[1].args[2]         | Should -Be 'Invoke-Build -Task Build'
             $tasks.tasks[1].group.kind      | Should -Be 'build'
             $tasks.tasks[1].group.isDefault | Should -BeTrue
         }

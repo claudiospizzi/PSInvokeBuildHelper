@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 * Added: New function to get build secret (Get-BuildSecret)
+* Changed: Update the .vscode\tasks.json to run cross platform with PowerShell 7
 * Fixed: Remove detection for default branch (this has issues on CI/CD systems) and set it to main
 
 ## 3.2.3 - 2023-02-06
