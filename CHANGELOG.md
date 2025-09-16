@@ -1,11 +1,11 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 3.3.0 - 2025-09-17
 
 * Added: New function to get build secret (Get-BuildSecret)
 * Changed: Update the .vscode\tasks.json to run cross platform with PowerShell 7
