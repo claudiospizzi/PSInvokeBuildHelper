@@ -27,7 +27,9 @@
 function Get-BuildSecret
 {
     [CmdletBinding()]
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', $null, Justification = 'The parameter CredentialManager is used to identify the item by name.')]
+    [OutputType([System.String], [System.Security.SecureString])]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = 'The parameter CredentialManager is used to identify the item by name.')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification = 'Required to protect the plain text secret from the environment variable.')]
     param
     (
         # The environment variable to use as first option.
