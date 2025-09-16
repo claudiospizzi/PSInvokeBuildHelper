@@ -191,8 +191,8 @@ task Approve {
             assert $gitRemoteTag ('Module is not ready to release, tag {0} does not exist on origin!  (git push --tag)' -f $moduleVersion)
         }
 
-        $changeLogVersion = Test-IBHChangeLogVersion -BuildRoot $IBHConfig.BuildRoot -ModuleVersion $moduleVersion -ReleaseDate ([DateTime]::Now)
-        assert $changeLogVersion ('Module is not ready to release, CHANGELOG.md does not contain the current version and/or date!  (## {0} - {1:yyyy-MM-dd})' -f $moduleVersion, [DateTime]::Now)
+        $changeLogVersion = Test-IBHChangeLogVersion -BuildRoot $IBHConfig.BuildRoot -ModuleVersion $moduleVersion
+        assert $changeLogVersion ('Module is not ready to release, CHANGELOG.md does not contain the current version (and optionally date)!  (## {0})' -f $moduleVersion)
 
         if (-not [System.String]::IsNullOrEmpty($IBHConfig.SolutionName))
         {

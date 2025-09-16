@@ -32,21 +32,15 @@ function Test-IBHChangeLogVersion
         # The version to test.
         [Parameter(Mandatory = $true)]
         [System.String]
-        $ModuleVersion,
-
-        # The release date to test.
-        [Parameter(Mandatory = $true)]
-        [System.DateTime]
-        $ReleaseDate
+        $ModuleVersion
     )
 
     $path    = Join-Path -Path $BuildRoot -ChildPath 'CHANGELOG.md'
     $content = Get-Content -Path $path -Raw
 
     $moduleVersionEscaped = [System.Text.RegularExpressions.Regex]::Escape($ModuleVersion)
-    $releaseDateEscaped   = [System.Text.RegularExpressions.Regex]::Escape('{0:yyyy-MM-dd}' -f $ReleaseDate)
 
-    $result = $content -match "## $moduleVersionEscaped - $releaseDateEscaped"
+    $result = $content -match "## $moduleVersionEscaped"
 
     return $result
 }

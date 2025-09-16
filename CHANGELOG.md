@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Fixed: The Test-IBHChangeLogVersion only checks for the version now, not the date which can be optionally included
+
 ## 3.3.0 - 2025-09-17
 
 * Added: New function to get build secret (Get-BuildSecret)
