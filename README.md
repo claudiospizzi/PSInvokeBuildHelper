@@ -1,7 +1,7 @@
-[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/InvokeBuildHelper?label=PowerShell%20Gallery&logo=PowerShell)](https://www.powershellgallery.com/packages/InvokeBuildHelper)
-[![Gallery Downloads](https://img.shields.io/powershellgallery/dt/InvokeBuildHelper?label=Downloads&logo=PowerShell)](https://www.powershellgallery.com/packages/InvokeBuildHelper)
 [![GitHub Release](https://img.shields.io/github/v/release/claudiospizzi/PSInvokeBuildHelper?label=Release&logo=GitHub&sort=semver)](https://github.com/claudiospizzi/PSInvokeBuildHelper/releases)
 [![GitHub CI Build](https://img.shields.io/github/actions/workflow/status/claudiospizzi/PSInvokeBuildHelper/pwsh-ci.yml?label=CI%20Build&logo=GitHub)](https://github.com/claudiospizzi/PSInvokeBuildHelper/actions/workflows/pwsh-ci.yml)
+[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/InvokeBuildHelper?label=PowerShell%20Gallery&logo=PowerShell)](https://www.powershellgallery.com/packages/InvokeBuildHelper)
+[![Gallery Downloads](https://img.shields.io/powershellgallery/dt/InvokeBuildHelper?label=Downloads&logo=PowerShell)](https://www.powershellgallery.com/packages/InvokeBuildHelper)
 
 # InvokeBuildHelper PowerShell Module
 
@@ -17,19 +17,16 @@ This module includes a script with common build tasks for a PowerShell module. A
 
 ### Build Script
 
-Even the module exports multiple command with the *IBH* prefix, only the build
-script should be used. The following example of a `.build.ps1` script can be
-used, if the repository is hosted on GitHub and the module is published to the
-official PowerShell Gallery:
+Even the module exports multiple command with the *IBH* prefix, only the build script should be used. The following example of a `.build.ps1` script can be used, if the repository is hosted on GitHub and the module is published to the official PowerShell Gallery:
 
 ```powershell
 # Import build tasks
 . InvokeBuildHelperTasks
 
 # Build configuration
-$IBHConfig.VerifyTask.Enabled   = $false
-$IBHConfig.RepositoryTask.Token = Use-VaultSecureString -TargetName 'GitHub Token'
-$IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell Gallery Key'
+$IBHConfig.VerifyTask.Enabled           = $false
+$IBHConfig.GalleryTask.TokenCallback    = { Get-BuildSecret -EnvironmentVariable 'PS_GALLERY_KEY' -CredentialManager 'PowerShell Gallery Key' }
+$IBHConfig.RepositoryTask.TokenCallback = { Get-BuildSecret -EnvironmentVariable 'GITHUB_TOKEN' -CredentialManager 'GitHub Token' }
 ```
 
 ### Build Tasks
@@ -87,12 +84,12 @@ $IBHConfig.GalleryTask.Token    = Use-VaultSecureString -TargetName 'PowerShell 
 * **Invoke-BuildIsolated**  
     Invoke a build by calling the Invoke-Build in an isolated process.
 
+* **Set-ModuleVersion**  
+  Set the module version in the module manifest file, updates the changelog and triggers a git version tag. This can invoke a release build in the CI/CD pipeline.
+
 ### Configuration
 
-The following configuration is set by default or generated on the fly for the
-build system. An demo value is shown in this example for generated properties.
-Every configuration can be overwritten after importing the build script
-`InvokeBuildHelperTasks` in the `.build.ps1` scripts.
+The following configuration is set by default or generated on the fly for the build system. An demo value is shown in this example for generated properties. Every configuration can be overwritten after importing the build script `InvokeBuildHelperTasks` in the `.build.ps1` scripts.
 
 ```powershell
 # Path to the module root folder (auto generated)
@@ -141,10 +138,10 @@ $IBHConfig.RepositoryTask.User = 'claudiospizzi'
 $IBHConfig.RepositoryTask.Name = 'InvokeBuildHelper'
 
 # Repository Task: The secret token to access the GitHub api (default)
-$IBHConfig.RepositoryTask.Token = Use-VaultSecureString -TargetName 'Repository Token'
+$IBHConfig.RepositoryTask.Token = Get-BuildSecret -EnvironmentVariable 'GITHUB_TOKEN' -CredentialManager 'GitHub Token'
 
 # Repository Task: The secret token callback to access the GitHub api (default)
-$IBHConfig.RepositoryTask.TokenCallback = { Get-VaultSecureString -TargetName 'Repository Token' }
+$IBHConfig.RepositoryTask.TokenCallback = { Get-BuildSecret -EnvironmentVariable 'GITHUB_TOKEN' -CredentialManager 'GitHub Token' }
 
 # Gallery Task: Option to enable or disable the release to the gallery (default)
 $IBHConfig.GalleryTask.Enabled = $true
@@ -156,13 +153,13 @@ $IBHConfig.GalleryTask.User = 'claudiospizzi'
 $IBHConfig.GalleryTask.Name = 'PSGallery'
 
 # Gallery Task: The secret token to access the PowerShell Gallery (default)
-$IBHConfig.GalleryTask.Token = Use-VaultSecureString -TargetName 'Gallery Token'
+$IBHConfig.GalleryTask.Token = Get-BuildSecret -EnvironmentVariable 'PS_GALLERY_KEY' -CredentialManager 'PowerShell Gallery Key'
 
 # Gallery Task: The secret token callback to access the PowerShell Gallery (default)
-$IBHConfig.GalleryTask.TokenCallback = { Get-VaultSecureString -TargetName 'Gallery Token' }
+$IBHConfig.GalleryTask.TokenCallback = { Get-BuildSecret -EnvironmentVariable 'PS_GALLERY_KEY' -CredentialManager 'PowerShell Gallery Key' }
 
 # Deploy Task: The module path where the beta revision is deployed (auto generated)
-$IBHConfig.DeployTask.ModulePaths = @('C:\Users\ClaudioSpizzi\Documents\WindowsPowerShell\Modules')
+$IBHConfig.DeployTask.ModulePaths = @("$HOME\Documents\WindowsPowerShell\Modules")
 ```
 
 ### C# Libraries
