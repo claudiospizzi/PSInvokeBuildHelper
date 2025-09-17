@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Fixed: Remove the target_commitish from the GitHub release as it causes issues on CI/CD systems
+
 ## 3.3.2 - 2025-09-17
 
 * Fixed: Fix the Get-BuildSecret function to properly handle empty environment variables and improve error handling

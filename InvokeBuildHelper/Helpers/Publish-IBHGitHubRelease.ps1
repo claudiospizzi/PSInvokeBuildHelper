@@ -58,7 +58,6 @@ function Publish-IBHGitHubRelease
         }
         Body   = @{
             tag_name         = $ModuleVersion
-            target_commitish = Get-IBHGitBranch
             name             = "$ModuleName v$ModuleVersion"
             body             = ($ReleaseNote -join "`n")
             draft            = $false
