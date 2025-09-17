@@ -5,8 +5,8 @@ on:
     tags: [ '*.*.*' ]
 
 jobs:
-  release:
-    name: Release
+  repository:
+    name: GitHub Repository
     runs-on: ubuntu-latest
     steps:
 
@@ -16,14 +16,7 @@ jobs:
       - name: Install and cache PowerShell modules
         uses: potatoqualitee/psmodulecache@v6.2.1
         with:
-          modules-to-cache: InvokeBuild:5.14.18,InvokeBuildHelper:3.2.3
-
-      - name: Publish to PowerShell Gallery
-        shell: pwsh
-        run: |
-          Invoke-Build -Task 'Gallery'
-        env:
-          PS_GALLERY_KEY: ${{ secrets.PS_GALLERY_KEY }}
+          modules-to-cache: InvokeBuild:5.14.18,InvokeBuildHelper::,PSScriptAnalyzer:1.24.0,Pester:5.7.1
 
       - name: Publish to GitHub Repository
         shell: pwsh
@@ -31,3 +24,22 @@ jobs:
           Invoke-Build -Task 'Repository'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  gallery:
+    name: PowerShell Gallery
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Install and cache PowerShell modules
+        uses: potatoqualitee/psmodulecache@v6.2.1
+        with:
+          modules-to-cache: InvokeBuild:5.14.18,InvokeBuildHelper::,PSScriptAnalyzer:1.24.0,Pester:5.7.1
+      - name: Publish to PowerShell Gallery
+        shell: pwsh
+        run: |
+          Invoke-Build -Task 'Gallery'
+        env:
+          PS_GALLERY_KEY: ${{ secrets.PS_GALLERY_KEY }}
