@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Fixed: Fix the DSC Resource schema tests when using Pester v5
+
 ## 3.3.3 - 2025-09-17
 
 * Fixed: Remove the target_commitish from the GitHub release as it causes issues on CI/CD systems
