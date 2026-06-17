@@ -102,7 +102,7 @@ $IBHConfig.ModuleName = 'InvokeBuildHelper'
 $IBHConfig.VerifyTask.Enabled = $true
 
 # Verify Task: Minimum version of the InvokeBuild module (default)
-$IBHConfig.VerifyTask.InvokeBuildVersion = '5.5.5'
+$IBHConfig.VerifyTask.InvokeBuildVersion = '5.14.23'
 
 # Verify Task: Url to the PowerShell Gallery to get the latest InvokeBuildHelper version (default)
 $IBHConfig.VerifyTask.ModulePackageUrl = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"

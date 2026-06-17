@@ -27,6 +27,18 @@
         "**/*.user": true
     },
 
+    "terminal.integrated.env.windows": {
+        "PWSH_DEBUG_MODULE": "true"
+    },
+
+    "terminal.integrated.env.linux": {
+        "PWSH_DEBUG_MODULE": "true"
+    },
+
+    "terminal.integrated.env.osx": {
+        "PWSH_DEBUG_MODULE": "true"
+    },
+
     "powershell.debugging.createTemporaryIntegratedConsole": true,
     "powershell.codeFormatting.addWhitespaceAroundPipe": true,
     "powershell.codeFormatting.autoCorrectAliases": false,
@@ -48,6 +60,9 @@
     "powershell.codeFormatting.whitespaceBeforeOpenParen": true,
 
     "cSpell.words": [
-        "Paren"
+        "commitish",
+        "linux",
+        "Paren",
+        "psake"
     ]
 }

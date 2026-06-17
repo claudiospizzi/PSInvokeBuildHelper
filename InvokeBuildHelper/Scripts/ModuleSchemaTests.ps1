@@ -188,6 +188,9 @@ Describe 'Module Schema' {
             $settings.'search.exclude'.'**/out'                                    | Should -BeTrue
             $settings.'search.exclude'.'**/packages'                               | Should -BeTrue
             $settings.'search.exclude'.'**/*.user'                                 | Should -BeTrue
+            $settings.'terminal.integrated.env.windows'.'PWSH_DEBUG_MODULE'        | Should -Be 'true'
+            $settings.'terminal.integrated.env.osx'.'PWSH_DEBUG_MODULE'            | Should -Be 'true'
+            $settings.'terminal.integrated.env.linux'.'PWSH_DEBUG_MODULE'          | Should -Be 'true'
             $settings.'powershell.debugging.createTemporaryIntegratedConsole'      | Should -BeTrue
             $settings.'powershell.codeFormatting.addWhitespaceAroundPipe'          | Should -BeTrue
             $settings.'powershell.codeFormatting.autoCorrectAliases'               | Should -BeFalse
@@ -259,13 +262,56 @@ Describe 'Module Schema' {
 
     Context 'Module Loader' {
 
-        It 'Should load the module without any errors' {
+        It 'Should support the optimized module loading and module debugging mode' {
+
+            # Arrange
+            $path = '{0}\{1}\{1}.psm1' -f $BuildRoot, $ModuleName
+
+            # Act
+            $moduleContent = Get-Content -Path $path -Raw
+            $moduleContentScriptBlock = [System.Management.Automation.ScriptBlock]::Create($moduleContent)
+
+            # Assert
+            $moduleContentScriptBlock.Ast.ParamBlock.Parameters.Name.VariablePath.UserPath | Should -Contain 'DebugModule' -Because 'the module should support the -DebugModule parameter'
+        }
+
+        It 'Should support the optimized module loading by respecting the DebugModule parameter and PWSH_DEBUG_MODULE environment variable' {
+
+            # Arrange
+            $path = '{0}\{1}\{1}.psm1' -f $BuildRoot, $ModuleName
+
+            # Act
+            $moduleContent = Get-Content -Path $path -Raw
+
+            # Assert
+            $moduleContent | Should -Match 'if \(\$DebugModule -or \$Env:PWSH_DEBUG_MODULE -eq ''true''\)' -Because 'the module should have a condition to check if the debug mode is enabled'
+        }
+
+        It 'Should load the module without any errors when DebugModule is not specified' {
 
             # Arrange
             $path = '{0}\{1}\{1}.psd1' -f $BuildRoot, $ModuleName
 
             # Act & Assert
             { Import-Module -Name $path -Force -ErrorAction Stop } | Should -Not -Throw
+        }
+
+        It 'Should load the module without any errors when DebugModule is enabled' {
+
+            # Arrange
+            $path = '{0}\{1}\{1}.psd1' -f $BuildRoot, $ModuleName
+
+            # Act & Assert
+            { Import-Module -Name $path -ArgumentList $true -Force -ErrorAction Stop } | Should -Not -Throw
+        }
+
+        It 'Should load the module without any errors when DebugModule is disabled' {
+
+            # Arrange
+            $path = '{0}\{1}\{1}.psd1' -f $BuildRoot, $ModuleName
+
+            # Act & Assert
+            { Import-Module -Name $path -ArgumentList $false -Force -ErrorAction Stop } | Should -Not -Throw
         }
     }
 
@@ -288,14 +334,14 @@ Describe 'Module Schema' {
             Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Helpers' |
                 Get-ChildItem -Include '*.ps1' -File -Recurse |
                     Sort-Object -Property 'BaseName' |
-                        ForEach-Object { @{ Name = $_.BaseName } }
+                        ForEach-Object { @{ Name = $_.BaseName; Path = $_.FullName } }
 
         # Get the name of all function files
         $functionFiles =
             Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' |
                 Get-ChildItem -Include '*.ps1' -File -Recurse |
                     Sort-Object -Property 'BaseName' |
-                        ForEach-Object { @{ Name = $_.BaseName } }
+                        ForEach-Object { @{ Name = $_.BaseName; Path = $_.FullName } }
 
         # Get the list of all exported functions
         $functionExportNames =
@@ -303,6 +349,9 @@ Describe 'Module Schema' {
                 ForEach-Object { $_['FunctionsToExport'] } |
                     Sort-Object |
                         ForEach-Object { @{ Name = $_ } }
+
+        # Combined list for helper and function files
+        $combinedFunctionHelperFiles = @($helperFiles + $functionFiles)
 
         It "Should define the FormatsToProcess to the file $ModuleName.Xml.Format.ps1xml" {
 
@@ -338,10 +387,21 @@ Describe 'Module Schema' {
             param ($Name)
 
             # Act
-            $actual = Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' | Get-ChildItem -Filter "$Name.ps1" -File -Recurse
+            $actual = @(Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' | Get-ChildItem -Filter "$Name.ps1" -File -Recurse)
 
             # Assert
             $actual.Count | Should -Be 1
+        }
+
+        It 'Should have the script file <Name> with the matching helper/function definition' -TestCases $combinedFunctionHelperFiles -Skip:($combinedFunctionHelperFiles.Count -eq 0) {
+
+            param ($Name, $Path)
+
+            # Act
+            $actual = Get-Content -Path $Path
+
+            # Assert
+            $actual | Should -Contain "function $Name" -Because "the script file $Path should contain the function definition for $Name"
         }
 
         It 'Should not export helper functions <Name>' -TestCases $helperFiles -Skip:($helperFiles.Count -eq 0) {
@@ -356,34 +416,143 @@ Describe 'Module Schema' {
         }
     }
 
-    Context 'Module Function' {
+    Context 'Module Script' {
 
-        $scriptFiles = @()
-        $scriptFiles += Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Helpers' | Get-ChildItem -Include '*.ps1' -File -Recurse
-        $scriptFiles += Get-ChildItem -Path "$BuildRoot\$ModuleName" -Filter 'Functions' | Get-ChildItem -Include '*.ps1' -File -Recurse
+        Context 'Module Core' {
 
-        foreach ($scriptFile in $scriptFiles)
-        {
-            Context $scriptFile.FullName.Replace("$BuildRoot\", 'File ') {
+            It 'Should have a Module Core section' {
 
-                #
+                # Act
+                $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                # Assert
+                $actual | Should -Contain '## Module Core'
+            }
+
+            Context 'Module Behavior' {
+
+                It 'Should have a Module Core / Module Behavior section' {
+
+                    # Act
+                    $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                    # Assert
+                    $actual | Should -Contain '# Module behavior'
+                }
+
+                It 'Should set the strict mode behavior to the latest version' {
+
+                    # Act
+                    $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                    # Assert
+                    $actual | Should -Contain "Set-StrictMode -Version 'Latest'"
+                }
+
+                It 'Should set the error action preference to Stop' {
+
+                    # Act
+                    $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                    # Assert
+                    $actual | Should -Contain '$Script:ErrorActionPreference = ''Stop'''
+                }
+
+                It 'Should set the progress preference to SilentlyContinue' {
+
+                    # Act
+                    $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                    # Assert
+                    $actual | Should -Contain '$Script:ProgressPreference    = ''SilentlyContinue'''
+                }
+            }
+
+            Context 'Module Metadata' {
+
+                It 'Should have a Module Core / Module Metadata section' {
+
+                    # Act
+                    $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                    # Assert
+                    $actual | Should -Contain '# Module metadata'
+                }
+
+                It 'Should set the module internal variable PSModulePath to the module path' {
+
+                    # Act
+                    $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                    # Assert
+                    $actual | Should -Contain '$Script:PSModulePath    = [System.IO.Path]::GetDirectoryName($PSCommandPath)'
+                }
+
+                It 'Should set the module internal variable PSModuleName to the module name' {
+
+                    # Act
+                    $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                    # Assert
+                    $actual | Should -Contain '$Script:PSModuleName    = [System.IO.Path]::GetFileName($PSCommandPath).Split(''.'')[0]'
+                }
+
+                It 'Should set the module internal variable PSModuleVersion to the current module version' {
+
+                    # Act
+                    $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
+
+                    # Assert
+                    $actual | Should -Contain '$Script:PSModuleVersion = (Import-PowerShellDataFile -Path "$Script:PSModulePath\$Script:PSModuleName.psd1")[''ModuleVersion'']'
+                }
             }
         }
 
+        Context 'Module Loader' {
 
-        # Use AST / Parser
-        # [System.Management.Automation.Language.Parser]::ParseInput($MyInvocation.MyCommand.ScriptContents, [ref]$null, [ref]$null)
+            It 'Should have a Module Loader section' {
 
-        # Ensure function matches filename
+                # Act
+                $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1"
 
-        # Ensure function help:
-        # - SYNOPSIS, DESCRIPTION, EXAMPLE
-        # - INPUT (if defined)
-        # - OUTPUT (if deinfed)
-        # - NOTES (Author, Repo, License)
-        # - LINK (to the repository, combine with git remote)
-        # - Parameter Help
+                # Assert
+                $actual | Should -Contain '## Module Loader'
+            }
+
+            It 'Should should query for all helper and function script files in the module path' {
+
+                # Act
+                $actual = Get-Content -Path "$BuildRoot\$ModuleName\$ModuleName.psm1" -Raw
+
+                # Assert
+                $actual | Should -Match 'Get-ChildItem -Path "\$Script:PSModulePath\\Helpers", "\$Script:PSModulePath\\Functions" -Filter ''\*\.ps1'' -File -Recurse'
+            }
+        }
     }
+
+    # Context 'Module Function' {
+
+    #     $functionFiles =
+    #         Get-ChildItem -Path "$BuildRoot\$ModuleName\Helpers", "$BuildRoot\$ModuleName\Functions" -Include '*.ps1' -File -Recurse |
+    #             ForEach-Object { @{ Function = $_.BaseName; File = $_.Name; Path = $_.FullName } }
+
+    #     It '' -TestCases $functionFiles -Skip:($functionFiles.Count -eq 0) {
+
+    #     }
+
+    #     # Use AST / Parser
+    #     # [System.Management.Automation.Language.Parser]::ParseInput($MyInvocation.MyCommand.ScriptContents, [ref]$null, [ref]$null)
+
+    #     # Ensure function matches filename
+
+    #     # Ensure function help:
+    #     # - SYNOPSIS, DESCRIPTION, EXAMPLE
+    #     # - INPUT (if defined)
+    #     # - OUTPUT (if defined)
+    #     # - NOTES (Author, Repo, License)
+    #     # - LINK (to the repository, combine with git remote)
+    #     # - Parameter Help
+    # }
 
     Context 'DSC Resource' {
 
@@ -404,7 +573,7 @@ Describe 'Module Schema' {
                     Where-Object { -not [System.String]::IsNullOrWhiteSpace($_) } |
                         ForEach-Object { @{ DscResourcesToExport = $_; ModuleDefinitionFile = "$BuildRoot\$ModuleName\$ModuleName.psd1" } }
 
-        It 'Should have a NestedModules definition for the DSC resource file DSCResources\<Name>' -TestCases $scriptFiles -Skip:($scriptFiles.Count -eq 0) {
+        It 'Should have a NestedModules definition for the DSC resource file DSCResources\<Name>' -TestCases $scriptFiles -Skip:(@($scriptFiles).Count -eq 0) {
 
             param ($Name, $BaseName, $ModuleDefinitionFile)
 
@@ -418,7 +587,7 @@ Describe 'Module Schema' {
             $nestedModules | Should -Contain "DSCResources\$Name"
         }
 
-        It 'Should have a DscResourcesToExport definition for the DSC resource file DSCResources\<FileName>' -TestCases $scriptFiles -Skip:($scriptFiles.Count -eq 0) {
+        It 'Should have a DscResourcesToExport definition for the DSC resource file DSCResources\<FileName>' -TestCases $scriptFiles -Skip:(@($scriptFiles).Count -eq 0) {
 
             param ($Name, $BaseName, $ModuleDefinitionFile)
 
@@ -431,7 +600,7 @@ Describe 'Module Schema' {
             $dscResourcesToExport | Should -Contain $BaseName
         }
 
-        It 'Should have a DSC resource file for the NestedModules definition <NestedModule>' -TestCases $nestedModules -Skip:($nestedModules.Count -eq 0) {
+        It 'Should have a DSC resource file for the NestedModules definition <NestedModule>' -TestCases $nestedModules -Skip:(@($nestedModules).Count -eq 0) {
 
             param ($NestedModule, $ModuleDefinitionFile)
 
@@ -439,7 +608,7 @@ Describe 'Module Schema' {
             Test-Path -Path "$BuildRoot\$ModuleName\$NestedModule" | Should -BeTrue
         }
 
-        It 'Should have a DscResourcesToExport definition for the NestedModules definition <NestedModule>' -TestCases $nestedModules -Skip:($nestedModules.Count -eq 0) {
+        It 'Should have a DscResourcesToExport definition for the NestedModules definition <NestedModule>' -TestCases $nestedModules -Skip:(@($nestedModules).Count -eq 0) {
 
             param ($NestedModule, $ModuleDefinitionFile)
 
@@ -455,7 +624,7 @@ Describe 'Module Schema' {
             $dscResourcesToExport | Should -Contain $nestedModuleName
         }
 
-        It 'Should have a DSC resource file for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport -Skip:($dscResourcesToExport.Count -eq 0) {
+        It 'Should have a DSC resource file for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport -Skip:(@($dscResourcesToExport).Count -eq 0) {
 
             param ($DscResourcesToExport, $ModuleDefinitionFile)
 
@@ -463,7 +632,7 @@ Describe 'Module Schema' {
             Test-Path -Path "$BuildRoot\$ModuleName\DSCResources\$DscResourcesToExport.psm1" | Should -BeTrue
         }
 
-        It 'Should have a NestedModules definition for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport -Skip:($dscResourcesToExport.Count -eq 0) {
+        It 'Should have a NestedModules definition for the DscResourcesToExport definition <DscResourcesToExport>' -TestCases $dscResourcesToExport -Skip:(@($dscResourcesToExport).Count -eq 0) {
 
             param ($DscResourcesToExport, $ModuleDefinitionFile)
 
