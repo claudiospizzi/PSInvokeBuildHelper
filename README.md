@@ -105,7 +105,13 @@ $IBHConfig.VerifyTask.Enabled = $true
 $IBHConfig.VerifyTask.InvokeBuildVersion = '5.14.23'
 
 # Verify Task: Url to the PowerShell Gallery to get the latest InvokeBuildHelper version (default)
-$IBHConfig.VerifyTask.ModulePackageUrl = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
+$IBHConfig.VerifyTask.InvokeBuildHelperVersionUrl = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
+
+# Verify Task: Minimum version of the Pester module (default)
+$IBHConfig.VerifyTask.PesterVersion = '5.7.1'
+
+# Verify Task: Minimum version of the PowerShell Script Analyzer module (default)
+$IBHConfig.VerifyTask.ScriptAnalyzerVersion = '1.25.0'
 
 # Schema Task: List of text file extension (default)
 $IBHConfig.SchemaTask.TextFileExtension = '.gitignore', '.gitattributes', '.ps1', '.psm1', '.psd1', '.ps1xml', '.txt', '.xml', '.cmd', '.json', '.md'
@@ -196,11 +202,9 @@ manually on your local system:
 
 ## Requirements
 
-The following minimum requirements are necessary to use this module, or in other
-words are used to test this module:
+The following minimum requirements are recommended to use this module. It used to work on older versions and other platforms too, but they are not officially supported or tested.
 
-* Windows PowerShell 5.1
-* Windows 10 (for the File Explorer Namespace functions)
+* Windows 11 / PowerShell 7
 
 ## Contribute
 
