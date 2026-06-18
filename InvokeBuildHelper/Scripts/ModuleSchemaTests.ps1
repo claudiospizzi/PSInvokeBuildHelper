@@ -372,7 +372,7 @@ Describe 'Module Schema' {
             $actual | Should -Contain "$ModuleName.Xml.Types.ps1xml"
         }
 
-        It 'Should export function <Name>' -TestCases $functionFiles -Skip:($functionFiles.Count -eq 0) {
+        It 'Should export function <Name>' -TestCases $functionFiles -Skip:(@($functionFiles).Count -eq 0) {
 
             param ($Name)
 
@@ -383,7 +383,7 @@ Describe 'Module Schema' {
             $actual | Should -Contain $Name
         }
 
-        It 'Should have the script file for the function <Name>' -TestCases $functionExportNames -Skip:($functionExportNames.Count -eq 0) {
+        It 'Should have the script file for the function <Name>' -TestCases $functionExportNames -Skip:(@($functionExportNames).Count -eq 0) {
 
             param ($Name)
 
@@ -394,7 +394,7 @@ Describe 'Module Schema' {
             $actual.Count | Should -Be 1
         }
 
-        It 'Should have the script file <Name> with the matching helper/function definition' -TestCases $combinedFunctionHelperFiles -Skip:($combinedFunctionHelperFiles.Count -eq 0) {
+        It 'Should have the script file <Name> with the matching helper/function definition' -TestCases $combinedFunctionHelperFiles -Skip:(@($combinedFunctionHelperFiles).Count -eq 0) {
 
             param ($Name, $Path)
 
@@ -405,7 +405,7 @@ Describe 'Module Schema' {
             $actual | Should -Contain "function $Name" -Because "the script file $Path should contain the function definition for $Name"
         }
 
-        It 'Should not export helper functions <Name>' -TestCases $helperFiles -Skip:($helperFiles.Count -eq 0) {
+        It 'Should not export helper functions <Name>' -TestCases $helperFiles -Skip:(@($helperFiles).Count -eq 0) {
 
             param ($Name)
 

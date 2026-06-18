@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Fixed: Fix the module schema test if the module has no helper files
+
 ## 3.4.0 - 2026-06-18
 
 * Added: Support for faster dot-sourcing module loading and module debugging mode
