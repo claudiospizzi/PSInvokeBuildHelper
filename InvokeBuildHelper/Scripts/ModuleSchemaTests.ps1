@@ -352,7 +352,7 @@ Describe 'Module Schema' {
                         ForEach-Object { @{ Name = $_ } }
 
         # Combined list for helper and function files
-        $combinedFunctionHelperFiles = @($helperFiles + $functionFiles)
+        $combinedFunctionHelperFiles = @(@($helperFiles) + $functionFiles)
 
         It "Should define the FormatsToProcess to the file $ModuleName.Xml.Format.ps1xml" {
 
