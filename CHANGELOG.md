@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added: PowerShell module script (psm1) tests for module behavior, metadata and loader
 * Added: Additional checks for the module helper and function files
 * Added: Additional checks and version updates for the build dependency modules (Pester, PSScriptAnalyzer)
+* Added: Ensure the SECURITY.md file is included in the module package
 
 ## 3.3.4 - 2026-02-14
 

@@ -52,6 +52,7 @@ Describe 'Module Schema' {
             @{ RelativePath = 'CHANGELOG.md' }
             @{ RelativePath = 'LICENSE' }
             @{ RelativePath = 'README.md' }
+            @{ RelativePath = 'SECURITY.md' }
         )
 
         It 'Should have the file <RelativePath>' -TestCases $fileNames {
