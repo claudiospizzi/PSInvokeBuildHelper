@@ -48,8 +48,18 @@ task Verify {
 
         # Ensure the module dependency on InvokeBuildHelper itself is ok
         $ibhActualVersion   = Get-Module -Name 'InvokeBuildHelper' | Select-Object -ExpandProperty 'Version'
-        $ibhRequiredVersion = Invoke-RestMethod -Uri $IBHConfig.VerifyTask.ModulePackageUrl -TimeoutSec 5 | Select-Object -Last 1 | ForEach-Object { [System.Version] $_.properties.version }
+        $ibhRequiredVersion = Invoke-RestMethod -Uri $IBHConfig.VerifyTask.InvokeBuildHelperVersionUrl -TimeoutSec 5 | Select-Object -Last 1 | ForEach-Object { [System.Version] $_.properties.version }
         assert ($ibhActualVersion -ge $ibhRequiredVersion) "The InvokeBuildHelper module version $ibhActualVersion is outdated, please update to $ibhRequiredVersion or later!"
+
+        # Ensure the module dependency on Pester is ok
+        $pActualVersion   = Get-Module -Name 'Pester' | Select-Object -ExpandProperty 'Version'
+        $pRequiredVersion = [System.Version] $IBHConfig.VerifyTask.PesterVersion
+        assert ($pActualVersion -ge $pRequiredVersion) "The Pester module version $pActualVersion is outdated, please update to $pRequiredVersion or later!"
+
+        # Ensure the module dependency on PSScriptAnalyzer is ok
+        $saActualVersion   = Get-Module -Name 'PSScriptAnalyzer' | Select-Object -ExpandProperty 'Version'
+        $saRequiredVersion = [System.Version] $IBHConfig.VerifyTask.ScriptAnalyzerVersion
+        assert ($saActualVersion -ge $saRequiredVersion) "The PSScriptAnalyzer module version $saActualVersion is outdated, please update to $saRequiredVersion or later!"
     }
     else
     {

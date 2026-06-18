@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added: Support for faster dot-sourcing module loading and module debugging mode
 * Added: PowerShell module script (psm1) tests for module behavior, metadata and loader
 * Added: Additional checks for the module helper and function files
+* Added: Additional checks and version updates for the build dependency modules (Pester, PSScriptAnalyzer)
 
 ## 3.3.4 - 2026-02-14
 

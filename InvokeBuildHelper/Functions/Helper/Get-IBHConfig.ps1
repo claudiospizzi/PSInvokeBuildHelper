@@ -35,9 +35,11 @@ function Get-IBHConfig
         SolutionName        = Get-BuildSolutionName -BuildRoot $BuildRoot
 
         VerifyTask          = [PSCustomObject] @{
-            Enabled             = $true
-            InvokeBuildVersion  = '5.5.5'
-            ModulePackageUrl    = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
+            Enabled                     = $true
+            InvokeBuildVersion          = '5.14.23'
+            InvokeBuildHelperVersionUrl = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
+            PesterVersion               = '5.7.1'
+            ScriptAnalyzerVersion       = '1.25.0'
         }
 
         SchemaTask          = [PSCustomObject] @{
