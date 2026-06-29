@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 * Fixed: Fix the module schema test if the module has no helper files or a single helper file
+* Fixed: Fix file content check for files with only a single line
 
 ## 3.4.0 - 2026-06-18
 

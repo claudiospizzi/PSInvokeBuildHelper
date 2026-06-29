@@ -108,7 +108,7 @@ Describe 'Module Schema' {
             $failedLines = @()
 
             # Act
-            $content = Get-Content -Path $Path
+            $content = @(Get-Content -Path $Path)
             for ($i = 0; $i -lt $content.Count; $i++)
             {
                 if ($content[$i] -match '^\s*\t')
@@ -129,7 +129,7 @@ Describe 'Module Schema' {
             $failedLines = @()
 
             # Act
-            $content = Get-Content -Path $Path
+            $content = @(Get-Content -Path $Path)
             for ($i = 0; $i -lt $content.Count; $i++)
             {
                 if ($content[$i] -match '\s+$')
