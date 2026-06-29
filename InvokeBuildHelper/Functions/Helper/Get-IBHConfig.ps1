@@ -48,7 +48,7 @@ function Get-IBHConfig
         }
 
         AnalyzerTestTask    = [PSCustomObject] @{
-            ScriptAnalyzerRules = Get-ScriptAnalyzerRule # | Where-Object { $_.RuleName -notin 'PSReviewUnusedParameter' } // 09.12.2022 Removed
+            ScriptAnalyzerRules = @() # Having an empty array means that all rules are enabled.
             ExcludePath         = @()
         }
 

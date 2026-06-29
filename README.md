@@ -119,8 +119,8 @@ $IBHConfig.SchemaTask.TextFileExtension = '.gitignore', '.gitattributes', '.ps1'
 # Schema Task: Exclude files from the schema test by using wildcard filters (default)
 $IBHConfig.SchemaTask.ExcludePath = @()
 
-# Analyze Task: Rules to process by the PowerShell Script Analyzer (default)
-$IBHConfig.AnalyzerTestTask.ScriptAnalyzerRules = Get-ScriptAnalyzerRule
+# Analyze Task: Rules to process by the PowerShell Script Analyzer, empty means all available rules (default)
+$IBHConfig.AnalyzerTestTask.ScriptAnalyzerRules = @()
 
 # Analyze Task: Exclude files from the test by using wildcard filters (default)
 $IBHConfig.AnalyzerTestTask.ExcludePath = @()

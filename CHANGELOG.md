@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+* Changed: Update the default behavior for script analyzer rules to improve performance (empty rules means all rules are enabled)
 * Fixed: Fix the module schema test if the module has no helper files or a single helper file
 * Fixed: Fix file content check for files with only a single line
 

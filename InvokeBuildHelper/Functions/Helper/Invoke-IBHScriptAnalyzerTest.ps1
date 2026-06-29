@@ -34,6 +34,7 @@ function Invoke-IBHScriptAnalyzerTest
 
         # Script analyzer rules to test.
         [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
         [System.Object[]]
         $Rule,
 
@@ -48,6 +49,13 @@ function Invoke-IBHScriptAnalyzerTest
         [System.String]
         $OutputPath
     )
+
+    # Patch the rules if they are empty. Empty rules means that all rules are
+    # enabled. This is the default behavior of the script analyzer.
+    if ($Rule.Count -eq 0)
+    {
+        $Rule = Get-ScriptAnalyzerRule
+    }
 
     # Path to the script analyzer tests stored in this module
     $scriptAnalyzerTestFile = Resolve-Path -Path "$Script:PsModulePath\Scripts\ScriptAnalyzerTests.ps1" | Select-Object -ExpandProperty 'Path'
