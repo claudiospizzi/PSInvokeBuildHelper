@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 3.5.0 - 2026-06-30
 
 * Changed: Update the default behavior for script analyzer rules to improve performance (empty rules means all rules are enabled)
 * Fixed: Fix the module schema test if the module has no helper files or a single helper file
