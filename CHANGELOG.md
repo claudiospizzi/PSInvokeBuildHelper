@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+* Changed: Update the Pester version to the latest 5.8.0
+* Fixed: Revert version of PSScriptAnalyzer to 1.24.0 because of incompatibility with VS Code PowerShell extension
+
 ## 3.5.0 - 2026-06-30
 
 * Changed: Update the default behavior for script analyzer rules to improve performance (empty rules means all rules are enabled)

@@ -38,8 +38,8 @@ function Get-IBHConfig
             Enabled                     = $true
             InvokeBuildVersion          = '5.14.23'
             InvokeBuildHelperVersionUrl = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
-            PesterVersion               = '5.7.1'
-            ScriptAnalyzerVersion       = '1.25.0'
+            PesterVersion               = '5.8.0'
+            ScriptAnalyzerVersion       = '1.24.0'
         }
 
         SchemaTask          = [PSCustomObject] @{

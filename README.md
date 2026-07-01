@@ -108,10 +108,10 @@ $IBHConfig.VerifyTask.InvokeBuildVersion = '5.14.23'
 $IBHConfig.VerifyTask.InvokeBuildHelperVersionUrl = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='InvokeBuildHelper'"
 
 # Verify Task: Minimum version of the Pester module (default)
-$IBHConfig.VerifyTask.PesterVersion = '5.7.1'
+$IBHConfig.VerifyTask.PesterVersion = '5.8.0'
 
 # Verify Task: Minimum version of the PowerShell Script Analyzer module (default)
-$IBHConfig.VerifyTask.ScriptAnalyzerVersion = '1.25.0'
+$IBHConfig.VerifyTask.ScriptAnalyzerVersion = '1.24.0'
 
 # Schema Task: List of text file extension (default)
 $IBHConfig.SchemaTask.TextFileExtension = '.gitignore', '.gitattributes', '.ps1', '.psm1', '.psd1', '.ps1xml', '.txt', '.xml', '.cmd', '.json', '.md'
